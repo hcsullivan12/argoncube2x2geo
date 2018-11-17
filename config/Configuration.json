@@ -1,0 +1,10 @@
+{
+  "simulateOutputPath": "/home/hunter/projects/Majorana/output/simulateOutput.root",
+  "recoAnaTreePath":    "/home/hunter/projects/Majorana/output/recoAnaTree.root",
+  "nSiPMs":             8,
+  "sipmArea":           0.01,
+  "diskRadius":         14.5,
+  "diskThickness":      1.0,
+  "sourceSigma":        0.25,
+  "reconstruct":        false
+}
