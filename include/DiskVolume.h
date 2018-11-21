@@ -12,6 +12,7 @@
 #include "MaterialManager.h"
 
 #include "G4LogicalVolume.hh"
+#include "G4PVPlacement.hh"
 
 namespace majorana
 {
@@ -19,16 +20,20 @@ namespace majorana
 class DiskVolume 
 {
   public:
-    DiskVolume(MaterialManager* materialManager);
+    DiskVolume();
     ~DiskVolume();
 
-    void             ConstructVolume();
+    void             ConstructVolume(const unsigned&  nMPPCs, 
+                                     const float&     mppcArea,
+                                     const float&     diskRadius,
+                                     const float&     diskThickness,
+                                     MaterialManager* materialManager,
+                                     G4LogicalVolume* worldLogicalVol);
     G4LogicalVolume* LogicalVolume();
 
   private:
- 
-    MaterialManager*  m_materialManager;
-    G4LogicalVolume*  m_diskLogicalVolume;
+    G4VSolid*         m_diskSolid;
+    G4LogicalVolume*  m_diskLogicalVol;
 };
 }
 

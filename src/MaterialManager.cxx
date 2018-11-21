@@ -35,14 +35,16 @@ void MaterialManager::ConstructMaterials()
   DefineAir();
   DefineAcrylic();
 
- // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+ G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
 void MaterialManager::DefineAir()
 {
   G4NistManager* man = G4NistManager::Instance();
-  man->SetVerbose(1);
+  //man->SetVerbose(1);
   m_air = man->FindOrBuildMaterial("G4_AIR");
+  //G4String name;
+  //m_air = new G4Material(name="G4_Air", m_airTemp->Density(), m_airTemp.NEl()); 
 }
 
 void MaterialManager::DefineAcrylic()
@@ -93,7 +95,10 @@ void MaterialManager::DefineAcrylic()
 
 G4Material* MaterialManager::FindMaterial(const G4String& name)
 {
-
+  std::cout << "\n" << name<< "\n";
+  G4Material* material = G4Material::GetMaterial(name,true);
+  if (!material) std::cout << "Errrrooooooor\n";
+  return material;
 }
 
 }
