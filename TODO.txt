@@ -1,0 +1,5 @@
+mppc individual dimensions instead of area
+import G4SiPM libraries (future)
+
+materials, mppc surface properties
+

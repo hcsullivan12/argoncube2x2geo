@@ -42,10 +42,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* m_worldPhysicalVol;
     DiskVolume*        m_diskVolume;
     MaterialManager*   m_materialManager; 
-    unsigned           m_nMPPCs;
-    float              m_mppcArea;
-    float              m_diskRadius;
-    float              m_diskThickness;
 };
 }
 

@@ -26,6 +26,7 @@ class MaterialManager
   private:
     void DefineAir();
     void DefineAcrylic();
+    void DefineMPPCSurface();
  
     std::vector<float> m_tpbEmissionE;
     std::vector<float> m_tpbEmissionSpect; 

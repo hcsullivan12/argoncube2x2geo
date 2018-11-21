@@ -10,6 +10,7 @@
 #define DISKVOLUME_H
 
 #include "MaterialManager.h"
+#include "MPPCVolume.h"
 
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -20,20 +21,25 @@ namespace majorana
 class DiskVolume 
 {
   public:
-    DiskVolume();
+    DiskVolume(const unsigned& nMPPCs,                                   
+               const G4double& mppcArea,
+               const G4double& diskRadius,
+               const G4double& diskThickness);
     ~DiskVolume();
 
-    void             ConstructVolume(const unsigned&  nMPPCs, 
-                                     const float&     mppcArea,
-                                     const float&     diskRadius,
-                                     const float&     diskThickness,
-                                     MaterialManager* materialManager,
-                                     G4LogicalVolume* worldLogicalVol);
-    G4LogicalVolume* LogicalVolume();
+    void ConstructVolume(MaterialManager* materialManager,
+                         G4LogicalVolume* worldLogicalVol);
 
-  private:
-    G4VSolid*         m_diskSolid;
-    G4LogicalVolume*  m_diskLogicalVol;
+    const G4double Radius()    const { return m_diskRadius; };
+    const G4double Thickness() const { return m_diskThickness; }; 
+
+  private: 
+    G4double                m_diskRadius;
+    G4double                m_diskThickness;
+    unsigned                m_nMPPCs;
+    G4VSolid*               m_diskSolid;
+    G4LogicalVolume*        m_diskLogicalVol;
+    std::vector<MPPCVolume> m_mppcVolVec;
 };
 }
 

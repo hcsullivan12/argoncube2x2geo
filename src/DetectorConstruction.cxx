@@ -14,12 +14,12 @@ namespace majorana
 DetectorConstruction::DetectorConstruction(const Configuration& config)
 : G4VUserDetectorConstruction()
 {
-  m_nMPPCs          = config.NMPPCs();
-  m_mppcArea        = config.MPPCArea();
-  m_diskRadius      = config.DiskRadius();
-  m_diskThickness   = config.DiskThickness();
+  // Pass configuration to our other volumes
+  m_diskVolume = new DiskVolume(config.NMPPCs(), 
+                                config.MPPCArea(), 
+                                config.DiskRadius(), 
+                                config.DiskThickness());
   m_materialManager = NULL;
-  m_diskVolume      = NULL;
 }
 
 DetectorConstruction::~DetectorConstruction()
@@ -49,14 +49,15 @@ void DetectorConstruction::InitializeDetector()
   // World
   // -----------
   // TODO: config parameters
-  m_worldSolid       = new G4Box("World", m_diskRadius*4, m_diskRadius*4, m_diskThickness*4);
+  G4double diskRadius    = m_diskVolume->Radius();
+  G4double diskThickness = m_diskVolume->Thickness(); 
+  m_worldSolid       = new G4Box("World", diskRadius*4*cm, diskRadius*4*cm, diskThickness*4*cm);
   m_worldLogicalVol  = new G4LogicalVolume(m_worldSolid, m_materialManager->FindMaterial("G4_AIR"), "World");
   m_worldPhysicalVol = new G4PVPlacement(0, G4ThreeVector(), m_worldLogicalVol, "World", 0, false, 0);
 
   // -----------
   // Disk
   // -----------
-  m_diskVolume = new DiskVolume();
-  m_diskVolume->ConstructVolume(m_nMPPCs, m_mppcArea, m_diskRadius, m_diskThickness, m_materialManager, m_worldLogicalVol);
+  m_diskVolume->ConstructVolume(m_materialManager, m_worldLogicalVol);
 }
 }

@@ -34,6 +34,7 @@ void MaterialManager::ConstructMaterials()
   // Seperate the implentation here
   DefineAir();
   DefineAcrylic();
+  DefineMPPCSurface();
 
  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
@@ -43,6 +44,7 @@ void MaterialManager::DefineAir()
   G4NistManager* man = G4NistManager::Instance();
   //man->SetVerbose(1);
   m_air = man->FindOrBuildMaterial("G4_AIR");
+  G4Material* m_al  = man->FindOrBuildMaterial("G4_Al");
   //G4String name;
   //m_air = new G4Material(name="G4_Air", m_airTemp->Density(), m_airTemp.NEl()); 
 }
@@ -97,6 +99,31 @@ G4Material* MaterialManager::FindMaterial(const G4String& name)
 {
   G4Material* material = G4Material::GetMaterial(name, true);
   return material;
+}
+
+void MaterialManager::DefineMPPCSurface()
+{
+  /*// PhotonDet Surface Properties
+  G4OpticalSurface* mppcDetSurface = new G4OpticalSurface("MPPCDetSurface",
+                                                           glisur,
+                                                           ground,
+                                                           dielectric_metal,
+                                                           fMPPCPolish);
+  G4MaterialPropertiesTable* mppcDetSurfaceProperty =
+                                                new G4MaterialPropertiesTable();
+  G4double p_mppc[] = {2.00*eV, 3.47*eV};
+  const G4int nbins = sizeof(p_mppc)/sizeof(G4double);
+  G4double refl_mppc[] = {fMPPCReflectivity,fMPPCReflectivity};
+  assert(sizeof(refl_mppc) == sizeof(p_mppc));
+  G4double effi_mppc[] = {1, 1};
+  assert(sizeof(effi_mppc) == sizeof(p_mppc));
+ 
+  photonDetSurfaceProperty->AddProperty("REFLECTIVITY",p_mppc, refl_mppc, nbins);
+  photonDetSurfaceProperty->AddProperty("EFFICIENCY",  p_mppc, effi_mppc, nbins);
+
+  photonDetSurface->SetMaterialPropertiesTable(photonDetSurfaceProperty);
+  new G4LogicalSkinSurface("PhotonDetSurface",logicPhotonDet,photonDetSurface);
+*/
 }
 
 }
