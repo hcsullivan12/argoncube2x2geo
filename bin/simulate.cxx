@@ -33,24 +33,20 @@ int main(int argc, char **argv)
 
 void HandleG4(const majorana::Configuration& config)
 {
-  // Step 1) Detector construction
-//  DetectorConstruction* detectorConstruction = new DetectorConstruction();
-
-  // Step 2) Physics list construction
-
-  // Step 3 Action initialization 
-
-/*  // Run manager initialization
+  // Run manager initialization
   G4RunManager* runManager = new G4RunManager;
-  runManager->SetUserInitialization(new ExG4DetectorConstruction01);
-  runManager->SetUserInitialization(new ExG4PhysicsList00);
-  runManager->SetUserInitialization(new ExG4ActionInitialization01);
-  runManager->Initialize();
+  // Step 1) Detector construction
+  runManager->SetUserInitialization(new majorana::DetectorConstruction(config));
+  // Step 2) Physics list construction
+  //runManager->SetUserInitialization(new ExG4PhysicsList00);
+  // Step 3 Action initialization 
+  //runManager->SetUserInitialization(new ExG4ActionInitialization01);
+  
+  //runManager->Initialize();
 
-  // Loop over events
+  /*// Loop over events
   unsigned nEvents = config.NEvents();
   runManager->BeamOn(nEvents);
-
-  delete detectorConstruction;
-  delete runManager;*/
+  */
+  delete runManager;
 }

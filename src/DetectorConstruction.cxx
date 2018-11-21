@@ -11,9 +11,16 @@
 namespace majorana
 {
 
-DetectorConstruction::DetectorConstruction()
+DetectorConstruction::DetectorConstruction(const Configuration& config)
 : G4VUserDetectorConstruction()
-{}
+{
+  m_nMPPCs          = config.NMPPCs();
+  m_mppcArea        = config.MPPCArea();
+  m_diskRadius      = config.DiskRadius();
+  m_diskThickness   = config.DiskThickness(); 
+  m_materialManager = NULL;
+  m_diskVolume      = NULL;
+}
 
 DetectorConstruction::~DetectorConstruction()
 {

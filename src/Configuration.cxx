@@ -55,8 +55,8 @@ void Configuration::ReadJSONFile()
   m_inputPath          = GetJSONMember("inputPath", rapidjson::kStringType).GetString();
   m_mode               = GetJSONMember("mode", rapidjson::kNumberType).GetUint();
   m_nEvents            = GetJSONMember("nEvents", rapidjson::kNumberType).GetUint();
-  m_nSiPMs             = GetJSONMember("nSiPMs", rapidjson::kNumberType).GetUint();
-  m_sipmArea           = GetJSONMember("sipmArea", rapidjson::kNumberType).GetDouble();
+  m_nMPPCs             = GetJSONMember("nMPPCs", rapidjson::kNumberType).GetUint();
+  m_mppcArea           = GetJSONMember("mppcArea", rapidjson::kNumberType).GetDouble();
   m_diskRadius         = GetJSONMember("diskRadius", rapidjson::kNumberType).GetDouble();
   m_diskThickness      = GetJSONMember("diskThickness", rapidjson::kNumberType).GetDouble();
   m_sourceSigma        = GetJSONMember("sourceSigma", rapidjson::kNumberType).GetDouble(); 
@@ -127,8 +127,8 @@ const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memb
 void Configuration::CheckConfiguration()
 {
   // Make sure the configuration makes sense
-  if (m_nSiPMs     <= 0) { std::cerr << "ERROR. Number of SiPMs < 0." << std::endl; exit(1); }
-  if (m_sipmArea   <= 0) { std::cerr << "ERROR. SiPM areas < 0."      << std::endl; exit(1); }
+  if (m_nMPPCs     <= 0) { std::cerr << "ERROR. Number of MPPCs < 0." << std::endl; exit(1); }
+  if (m_mppcArea   <= 0) { std::cerr << "ERROR. MPPC areas < 0."      << std::endl; exit(1); }
   if (m_diskRadius <= 0) { std::cerr << "ERROR. Disk radius < 0." << std::endl; exit(1); }
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
   if (m_nEvents < 0)     { std::cerr << "ERROR. Number of events < 0." << std::endl; exit(1); }
@@ -149,8 +149,8 @@ void Configuration::PrintConfiguration()
             << "Mode               " << m_mode               << std::endl;
   if (m_mode == 1) { std::cout << "InputPath          "  << m_inputPath << std::endl; } 
   else             { std::cout << "nEvents            "  << m_nEvents   << std::endl; }
-  std::cout << "NumerOfSiPMs       " << m_nSiPMs             << std::endl
-            << "SipmArea           " << m_sipmArea           << " cm2" << std::endl
+  std::cout << "NumerOfMPPCs       " << m_nMPPCs             << std::endl
+            << "SipmArea           " << m_mppcArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
             << "DiskThickness      " << m_diskThickness      << " cm"  << std::endl
             << "SourceSigma        " << m_sourceSigma        << " cm"  << std::endl

@@ -310,6 +310,7 @@ CMakeFiles/simulate.dir/src/Configuration.cxx.o
  /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/stream.h
  /home/hunter/projects/Majorana/src/Configuration.cxx
 CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o
+ ../include/Configuration.h
  ../include/DetectorConstruction.h
  ../include/DiskVolume.h
  ../include/MaterialManager.h
@@ -398,6 +399,27 @@ CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o
  /home/hunter/Software/geant4.10.03-install/include/Geant4/templates.hh
  /home/hunter/Software/geant4.10.03-install/include/Geant4/tls.hh
  /home/hunter/Software/geant4.10.03-install/include/Geant4/windefs.hh
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/allocators.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/document.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/encodedstream.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/encodings.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/error/error.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/filereadstream.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/biginteger.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/diyfp.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/ieee754.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/meta.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/pow10.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/stack.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/strfunc.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/strtod.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/internal/swap.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/memorystream.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/msinttypes/inttypes.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/msinttypes/stdint.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/rapidjson.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/reader.h
+ /home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include/rapidjson/stream.h
  /home/hunter/projects/Majorana/src/DetectorConstruction.cxx
 CMakeFiles/simulate.dir/src/DiskVolume.cxx.o
  ../include/DiskVolume.h

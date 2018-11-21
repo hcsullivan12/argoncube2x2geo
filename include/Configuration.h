@@ -33,6 +33,11 @@ class Configuration
     };
 
     void Initialize(const std::string& configPath);
+
+    unsigned NMPPCs()        const { return m_nMPPCs; };
+    float    MPPCArea()      const { return m_mppcArea; };
+    float    DiskRadius()    const { return m_diskRadius; };
+    float    DiskThickness() const { return m_diskThickness; };
     
   private:
     void ReadJSONFile();
@@ -52,8 +57,8 @@ class Configuration
     std::string                      m_inputPath;
     unsigned                         m_mode;
     unsigned                         m_nEvents;
-    unsigned                         m_nSiPMs;
-    float                            m_sipmArea;
+    unsigned                         m_nMPPCs;
+    float                            m_mppcArea;
     float                            m_diskRadius;
     float                            m_diskThickness;
     float                            m_sourceSigma;

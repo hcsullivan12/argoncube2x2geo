@@ -9,6 +9,7 @@
 #ifndef DETECTORCONSTRUCTION_H
 #define DETECTORCONSTRUCTION_H
 
+#include "Configuration.h"
 #include "MaterialManager.h"
 #include "DiskVolume.h"
 
@@ -27,7 +28,7 @@ namespace majorana
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    DetectorConstruction();
+    DetectorConstruction(const Configuration& config);
     virtual ~DetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
@@ -39,10 +40,12 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VSolid*          m_worldSolid;       
     G4LogicalVolume*   m_worldLogicalVol; 
     G4VPhysicalVolume* m_worldPhysicalVol;
-   
     DiskVolume*        m_diskVolume;
-
-    MaterialManager*   m_materialManager;
+    MaterialManager*   m_materialManager; 
+    unsigned           m_nMPPCs;
+    float              m_mppcArea;
+    float              m_diskRadius;
+    float              m_diskThickness;
 };
 }
 
