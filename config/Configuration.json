@@ -1,6 +1,9 @@
 {
   "simulateOutputPath": "/home/hunter/projects/Majorana/output/simulateOutput.root",
   "recoAnaTreePath":    "/home/hunter/projects/Majorana/output/recoAnaTree.root",
+  "inputPath":          "/home/hunter/projects/Majorana/config/LightSourceSteering.txt",
+  "mode":               0,
+  "nEvents":            10,
   "nSiPMs":             8,
   "sipmArea":           0.01,
   "diskRadius":         14.5,

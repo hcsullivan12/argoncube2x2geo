@@ -19,17 +19,21 @@
 
 namespace majorana
 {
+
 class Configuration
 {
   public:
     Configuration();
     ~Configuration();
 
-    void Initialize();
-    void SetConfigPath(const std::string& path)                    { m_configPath = path; };
-    void SetInputPath(const std::string& path)                     { m_inputPath  = path; };
-    void SetMode(const std::string& mode, const unsigned& nEvents) { m_mode = mode; m_nEvents = nEvents; };
+    enum ModeType
+    {
+      kRANDOMMODE = 0,
+      kINPUTMODE  = 1
+    };
 
+    void Initialize(const std::string& configPath);
+    
   private:
     void ReadJSONFile();
     const rapidjson::Value& GetJSONMember(const std::string&     memberName,
@@ -46,7 +50,7 @@ class Configuration
     std::string                      m_simulateOutputPath;
     std::string                      m_recoAnaTreePath;
     std::string                      m_inputPath;
-    std::string                      m_mode;
+    unsigned                         m_mode;
     unsigned                         m_nEvents;
     unsigned                         m_nSiPMs;
     float                            m_sipmArea;

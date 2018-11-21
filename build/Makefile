@@ -177,6 +177,87 @@ src/Configuration.cxx.s:
 	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/Configuration.cxx.s
 .PHONY : src/Configuration.cxx.s
 
+src/DetectorConstruction.o: src/DetectorConstruction.cxx.o
+
+.PHONY : src/DetectorConstruction.o
+
+# target to build an object file
+src/DetectorConstruction.cxx.o:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o
+.PHONY : src/DetectorConstruction.cxx.o
+
+src/DetectorConstruction.i: src/DetectorConstruction.cxx.i
+
+.PHONY : src/DetectorConstruction.i
+
+# target to preprocess a source file
+src/DetectorConstruction.cxx.i:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.i
+.PHONY : src/DetectorConstruction.cxx.i
+
+src/DetectorConstruction.s: src/DetectorConstruction.cxx.s
+
+.PHONY : src/DetectorConstruction.s
+
+# target to generate assembly for a file
+src/DetectorConstruction.cxx.s:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.s
+.PHONY : src/DetectorConstruction.cxx.s
+
+src/DiskVolume.o: src/DiskVolume.cxx.o
+
+.PHONY : src/DiskVolume.o
+
+# target to build an object file
+src/DiskVolume.cxx.o:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DiskVolume.cxx.o
+.PHONY : src/DiskVolume.cxx.o
+
+src/DiskVolume.i: src/DiskVolume.cxx.i
+
+.PHONY : src/DiskVolume.i
+
+# target to preprocess a source file
+src/DiskVolume.cxx.i:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DiskVolume.cxx.i
+.PHONY : src/DiskVolume.cxx.i
+
+src/DiskVolume.s: src/DiskVolume.cxx.s
+
+.PHONY : src/DiskVolume.s
+
+# target to generate assembly for a file
+src/DiskVolume.cxx.s:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DiskVolume.cxx.s
+.PHONY : src/DiskVolume.cxx.s
+
+src/MaterialManager.o: src/MaterialManager.cxx.o
+
+.PHONY : src/MaterialManager.o
+
+# target to build an object file
+src/MaterialManager.cxx.o:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/MaterialManager.cxx.o
+.PHONY : src/MaterialManager.cxx.o
+
+src/MaterialManager.i: src/MaterialManager.cxx.i
+
+.PHONY : src/MaterialManager.i
+
+# target to preprocess a source file
+src/MaterialManager.cxx.i:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/MaterialManager.cxx.i
+.PHONY : src/MaterialManager.cxx.i
+
+src/MaterialManager.s: src/MaterialManager.cxx.s
+
+.PHONY : src/MaterialManager.s
+
+# target to generate assembly for a file
+src/MaterialManager.cxx.s:
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/MaterialManager.cxx.s
+.PHONY : src/MaterialManager.cxx.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +273,15 @@ help:
 	@echo "... src/Configuration.o"
 	@echo "... src/Configuration.i"
 	@echo "... src/Configuration.s"
+	@echo "... src/DetectorConstruction.o"
+	@echo "... src/DetectorConstruction.i"
+	@echo "... src/DetectorConstruction.s"
+	@echo "... src/DiskVolume.o"
+	@echo "... src/DiskVolume.i"
+	@echo "... src/DiskVolume.s"
+	@echo "... src/MaterialManager.o"
+	@echo "... src/MaterialManager.i"
+	@echo "... src/MaterialManager.s"
 .PHONY : help
 
 

@@ -6,6 +6,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/hunter/projects/Majorana/bin/simulate.cxx" "/home/hunter/projects/Majorana/build/CMakeFiles/simulate.dir/bin/simulate.cxx.o"
   "/home/hunter/projects/Majorana/src/Configuration.cxx" "/home/hunter/projects/Majorana/build/CMakeFiles/simulate.dir/src/Configuration.cxx.o"
+  "/home/hunter/projects/Majorana/src/DetectorConstruction.cxx" "/home/hunter/projects/Majorana/build/CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o"
+  "/home/hunter/projects/Majorana/src/DiskVolume.cxx" "/home/hunter/projects/Majorana/build/CMakeFiles/simulate.dir/src/DiskVolume.cxx.o"
+  "/home/hunter/projects/Majorana/src/MaterialManager.cxx" "/home/hunter/projects/Majorana/build/CMakeFiles/simulate.dir/src/MaterialManager.cxx.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

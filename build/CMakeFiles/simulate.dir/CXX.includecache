@@ -22,6 +22,34 @@ rapidjson/filereadstream.h
 rapidjson/rapidjson.h
 ../include/rapidjson/rapidjson.h
 
+../include/DetectorConstruction.h
+MaterialManager.h
+../include/MaterialManager.h
+DiskVolume.h
+../include/DiskVolume.h
+G4VUserDetectorConstruction.hh
+../include/G4VUserDetectorConstruction.hh
+G4LogicalVolume.hh
+../include/G4LogicalVolume.hh
+G4PVPlacement.hh
+../include/G4PVPlacement.hh
+G4VPhysicalVolume.hh
+../include/G4VPhysicalVolume.hh
+G4Material.hh
+../include/G4Material.hh
+G4Box.hh
+../include/G4Box.hh
+
+../include/DiskVolume.h
+MaterialManager.h
+../include/MaterialManager.h
+G4LogicalVolume.hh
+../include/G4LogicalVolume.hh
+
+../include/MaterialManager.h
+G4Material.hh
+../include/G4Material.hh
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
 iosfwd
 -
@@ -516,6 +544,22 @@ G4BlockingList.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4BlockingList.icc
 
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Box.hh
+G4UBox.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4UBox.hh
+G4CSGSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4CSGSolid.hh
+G4Polyhedron.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Polyhedron.hh
+G4Box.icc
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Box.icc
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Box.icc
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4CSGSolid.hh
+G4VSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4VSolid.hh
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4ClassificationOfNewTrack.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4DCofThisEvent.hh
@@ -928,6 +972,50 @@ G4Navigator.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4Navigator.icc
 
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4NistElementBuilder.hh
+vector
+-
+CLHEP/Units/PhysicalConstants.h
+-
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+G4Element.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Element.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4NistManager.hh
+vector
+-
+CLHEP/Units/PhysicalConstants.h
+-
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+G4Material.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Material.hh
+G4NistElementBuilder.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4NistElementBuilder.hh
+G4NistMaterialBuilder.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4NistMaterialBuilder.hh
+G4Pow.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Pow.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4NistMaterialBuilder.hh
+vector
+-
+CLHEP/Units/PhysicalConstants.h
+-
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+G4Material.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Material.hh
+G4Threading.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Threading.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Normal3D.hh
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+CLHEP/Geometry/Normal3D.h
+-
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4NormalNavigation.hh
 iomanip
 -
@@ -965,6 +1053,12 @@ pwdefs.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/pwdefs.hh
 G4AutoLock.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4AutoLock.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4PVPlacement.hh
+G4VPhysicalVolume.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4VPhysicalVolume.hh
+G4Transform3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Transform3D.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4ParameterisedNavigation.hh
 G4Types.hh
@@ -1101,6 +1195,30 @@ G4PhysicsVector.icc
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4PhysicsVector.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4PhysicsVectorType.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Point3D.hh
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+CLHEP/Geometry/Point3D.h
+-
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Polyhedron.hh
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+HepPolyhedron.h
+/home/hunter/Software/geant4.10.03-install/include/Geant4/HepPolyhedron.h
+G4Visible.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Visible.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Pow.hh
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+G4Log.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Log.hh
+G4Exp.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Exp.hh
+G4DataVector.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4DataVector.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4PrimaryParticle.hh
 globals.hh
@@ -1444,6 +1562,10 @@ G4String.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4String.icc
 
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4SystemOfUnits.hh
+CLHEP/Units/SystemOfUnits.h
+-
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4Threading.hh
 G4Types.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4Types.hh
@@ -1598,6 +1720,14 @@ complex
 tls.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/tls.hh
 
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4UBox.hh
+G4USolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4USolid.hh
+UBox.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/UBox.hh
+G4Polyhedron.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Polyhedron.hh
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4UIcommand.hh
 G4UIparameter.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4UIparameter.hh
@@ -1647,6 +1777,12 @@ G4UItokenNum.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4UItokenNum.hh
 globals.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4USolid.hh
+G4VSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4VSolid.hh
+VUSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/VUSolid.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4UserStackingAction.hh
 G4ClassificationOfNewTrack.hh
@@ -1794,6 +1930,12 @@ map
 G4ThreeVector.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4ThreeVector.hh
 
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4VUserDetectorConstruction.hh
+vector
+-
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4VUserEventInformation.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4VUserTrackInformation.hh
@@ -1801,6 +1943,16 @@ globals.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4VVolumeMaterialScanner.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Visible.hh
+globals.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/globals.hh
+iostream
+-
+G4Visible.icc
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Visible.icc
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Visible.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4VoxelNavigation.hh
 geomdefs.hh
@@ -1841,6 +1993,16 @@ G4Types.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4Types.hh
 iostream
 -
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/HepPolyhedron.h
+G4Types.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Types.hh
+G4Point3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Point3D.hh
+G4Normal3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Normal3D.hh
+G4Transform3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Transform3D.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/Randomize.hh
 CLHEP/Random/Randomize.h
@@ -2111,6 +2273,8 @@ string
 -
 Configuration.h
 /home/hunter/projects/Majorana/bin/Configuration.h
+DetectorConstruction.h
+/home/hunter/projects/Majorana/bin/DetectorConstruction.h
 G4RunManager.hh
 /home/hunter/projects/Majorana/bin/G4RunManager.hh
 G4UImanager.hh
@@ -2123,4 +2287,22 @@ iomanip
 -
 math.h
 -
+
+/home/hunter/projects/Majorana/src/DetectorConstruction.cxx
+DetectorConstruction.h
+/home/hunter/projects/Majorana/src/DetectorConstruction.h
+
+/home/hunter/projects/Majorana/src/DiskVolume.cxx
+DiskVolume.h
+/home/hunter/projects/Majorana/src/DiskVolume.h
+G4SystemOfUnits.hh
+/home/hunter/projects/Majorana/src/G4SystemOfUnits.hh
+
+/home/hunter/projects/Majorana/src/MaterialManager.cxx
+MaterialManager.h
+/home/hunter/projects/Majorana/src/MaterialManager.h
+G4NistManager.hh
+/home/hunter/projects/Majorana/src/G4NistManager.hh
+G4SystemOfUnits.hh
+/home/hunter/projects/Majorana/src/G4SystemOfUnits.hh
 

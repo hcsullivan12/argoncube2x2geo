@@ -23,8 +23,9 @@ Configuration::Configuration()
 Configuration::~Configuration()
 {}
 
-void Configuration::Initialize()
+void Configuration::Initialize(const std::string& configPath)
 {
+  m_configPath = configPath;
   // Read json file
   FILE *configFile = fopen(m_configPath.c_str(), "r");
   char readBuffer[65536];
@@ -51,6 +52,9 @@ void Configuration::ReadJSONFile()
 {
   m_simulateOutputPath = GetJSONMember("simulateOutputPath", rapidjson::kStringType).GetString();
   m_recoAnaTreePath    = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
+  m_inputPath          = GetJSONMember("inputPath", rapidjson::kStringType).GetString();
+  m_mode               = GetJSONMember("mode", rapidjson::kNumberType).GetUint();
+  m_nEvents            = GetJSONMember("nEvents", rapidjson::kNumberType).GetUint();
   m_nSiPMs             = GetJSONMember("nSiPMs", rapidjson::kNumberType).GetUint();
   m_sipmArea           = GetJSONMember("sipmArea", rapidjson::kNumberType).GetDouble();
   m_diskRadius         = GetJSONMember("diskRadius", rapidjson::kNumberType).GetDouble();
@@ -128,6 +132,8 @@ void Configuration::CheckConfiguration()
   if (m_diskRadius <= 0) { std::cerr << "ERROR. Disk radius < 0." << std::endl; exit(1); }
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
   if (m_nEvents < 0)     { std::cerr << "ERROR. Number of events < 0." << std::endl; exit(1); }
+  if (m_mode > 1)        { std::cerr << "ERROR. Input mode usage: 0 - random positions, 1 - input text file." 
+                                     << std::endl; exit(1); }
 }
 
 void Configuration::PrintConfiguration()
@@ -141,8 +147,8 @@ void Configuration::PrintConfiguration()
   std::cout << "Majorana Configuration:\n";
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
             << "Mode               " << m_mode               << std::endl;
-  if (m_mode == "input") { std::cout << "InputPath          "  << m_inputPath << std::endl; } 
-  else                   { std::cout << "nEvents            "  << m_nEvents   << std::endl; }
+  if (m_mode == 1) { std::cout << "InputPath          "  << m_inputPath << std::endl; } 
+  else             { std::cout << "nEvents            "  << m_nEvents   << std::endl; }
   std::cout << "NumerOfSiPMs       " << m_nSiPMs             << std::endl
             << "SipmArea           " << m_sipmArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl

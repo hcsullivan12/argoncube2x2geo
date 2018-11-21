@@ -105,16 +105,94 @@ CMakeFiles/simulate.dir/src/Configuration.cxx.o.provides: CMakeFiles/simulate.di
 CMakeFiles/simulate.dir/src/Configuration.cxx.o.provides.build: CMakeFiles/simulate.dir/src/Configuration.cxx.o
 
 
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o: CMakeFiles/simulate.dir/flags.make
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o: ../src/DetectorConstruction.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/Majorana/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o -c /home/hunter/projects/Majorana/src/DetectorConstruction.cxx
+
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/Majorana/src/DetectorConstruction.cxx > CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.i
+
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/Majorana/src/DetectorConstruction.cxx -o CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.s
+
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.requires:
+
+.PHONY : CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.requires
+
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.provides: CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.requires
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.provides.build
+.PHONY : CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.provides
+
+CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.provides.build: CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o
+
+
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.o: CMakeFiles/simulate.dir/flags.make
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.o: ../src/DiskVolume.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/Majorana/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/simulate.dir/src/DiskVolume.cxx.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulate.dir/src/DiskVolume.cxx.o -c /home/hunter/projects/Majorana/src/DiskVolume.cxx
+
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulate.dir/src/DiskVolume.cxx.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/Majorana/src/DiskVolume.cxx > CMakeFiles/simulate.dir/src/DiskVolume.cxx.i
+
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulate.dir/src/DiskVolume.cxx.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/Majorana/src/DiskVolume.cxx -o CMakeFiles/simulate.dir/src/DiskVolume.cxx.s
+
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.requires:
+
+.PHONY : CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.requires
+
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.provides: CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.requires
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.provides.build
+.PHONY : CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.provides
+
+CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.provides.build: CMakeFiles/simulate.dir/src/DiskVolume.cxx.o
+
+
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.o: CMakeFiles/simulate.dir/flags.make
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.o: ../src/MaterialManager.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/Majorana/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/simulate.dir/src/MaterialManager.cxx.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulate.dir/src/MaterialManager.cxx.o -c /home/hunter/projects/Majorana/src/MaterialManager.cxx
+
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulate.dir/src/MaterialManager.cxx.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/Majorana/src/MaterialManager.cxx > CMakeFiles/simulate.dir/src/MaterialManager.cxx.i
+
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulate.dir/src/MaterialManager.cxx.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/Majorana/src/MaterialManager.cxx -o CMakeFiles/simulate.dir/src/MaterialManager.cxx.s
+
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.requires:
+
+.PHONY : CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.requires
+
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.provides: CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.requires
+	$(MAKE) -f CMakeFiles/simulate.dir/build.make CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.provides.build
+.PHONY : CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.provides
+
+CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.provides.build: CMakeFiles/simulate.dir/src/MaterialManager.cxx.o
+
+
 # Object files for target simulate
 simulate_OBJECTS = \
 "CMakeFiles/simulate.dir/bin/simulate.cxx.o" \
-"CMakeFiles/simulate.dir/src/Configuration.cxx.o"
+"CMakeFiles/simulate.dir/src/Configuration.cxx.o" \
+"CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o" \
+"CMakeFiles/simulate.dir/src/DiskVolume.cxx.o" \
+"CMakeFiles/simulate.dir/src/MaterialManager.cxx.o"
 
 # External object files for target simulate
 simulate_EXTERNAL_OBJECTS =
 
 simulate: CMakeFiles/simulate.dir/bin/simulate.cxx.o
 simulate: CMakeFiles/simulate.dir/src/Configuration.cxx.o
+simulate: CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o
+simulate: CMakeFiles/simulate.dir/src/DiskVolume.cxx.o
+simulate: CMakeFiles/simulate.dir/src/MaterialManager.cxx.o
 simulate: CMakeFiles/simulate.dir/build.make
 simulate: /home/hunter/Software/root-6.14.00-install/lib/libCore.so
 simulate: /home/hunter/Software/root-6.14.00-install/lib/libImt.so
@@ -164,7 +242,7 @@ simulate: /home/hunter/Software/geant4.10.03-install/lib/libG4intercoms.so
 simulate: /home/hunter/Software/geant4.10.03-install/lib/libG4global.so
 simulate: /home/hunter/Software/geant4.10.03-install/lib/libG4clhep.so
 simulate: CMakeFiles/simulate.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hunter/projects/Majorana/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable simulate"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hunter/projects/Majorana/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable simulate"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/simulate.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -174,6 +252,9 @@ CMakeFiles/simulate.dir/build: simulate
 
 CMakeFiles/simulate.dir/requires: CMakeFiles/simulate.dir/bin/simulate.cxx.o.requires
 CMakeFiles/simulate.dir/requires: CMakeFiles/simulate.dir/src/Configuration.cxx.o.requires
+CMakeFiles/simulate.dir/requires: CMakeFiles/simulate.dir/src/DetectorConstruction.cxx.o.requires
+CMakeFiles/simulate.dir/requires: CMakeFiles/simulate.dir/src/DiskVolume.cxx.o.requires
+CMakeFiles/simulate.dir/requires: CMakeFiles/simulate.dir/src/MaterialManager.cxx.o.requires
 
 .PHONY : CMakeFiles/simulate.dir/requires
 
