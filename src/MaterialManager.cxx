@@ -95,9 +95,7 @@ void MaterialManager::DefineAcrylic()
 
 G4Material* MaterialManager::FindMaterial(const G4String& name)
 {
-  std::cout << "\n" << name<< "\n";
-  G4Material* material = G4Material::GetMaterial(name,true);
-  if (!material) std::cout << "Errrrooooooor\n";
+  G4Material* material = G4Material::GetMaterial(name, true);
   return material;
 }
 

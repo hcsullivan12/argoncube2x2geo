@@ -7,7 +7,12 @@ set(CMAKE_CXX_STANDARD 11)
 
 # Geant4 dependencies
 list(APPEND CMAKE_MODULE_PATH $ENV{GEANTDIR})
-find_package(Geant4 REQUIRED)
+option(WITH_GEANT4_UIVIS "Build with Geant4 UI and Vis drivers" ON)
+if(WITH_GEANT4_UIVIS)
+  find_package(Geant4 REQUIRED ui_all vis_all)
+else()
+  find_package(Geant4 REQUIRED)
+endif()
 include_directories(${Geant4_INCLUDE_DIRS})
 add_definitions(${Geant4_DEFINITIONS})
 

@@ -11,6 +11,7 @@
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 #include "FTFP_BERT.hh"
+#include "G4UIExecutive.hh"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -70,28 +71,27 @@ void InitializeG4(const majorana::Configuration& config)
   UI->ApplyCommand("/run/verbose 0");
   UI->ApplyCommand("/event/verbose 0");
   UI->ApplyCommand("/tracking/verbose 0");
+ 
+  // Loop over events
+  //unsigned nEvents = config.NEvents();
+  runManager->BeamOn(1);
 
   #ifdef G4VIS_USE
   G4VisManager* visManager = NULL;
   if (showVis) 
   {
-    std::cout << "HEre\n";
     visManager = new G4VisExecutive();
     visManager->Initialize();
-   	UI->ApplyCommand("/control/execute ../vis.mac");
+    UI->ApplyCommand("/control/execute ../vis.mac");
   }
   #endif
-
-  // Loop over events
-  //unsigned nEvents = config.NEvents();
-  runManager->BeamOn(1);
 
   std::cout << "Press enter to quit.\n";
   std::cin.get();
   
+  if (runManager) delete runManager;
   #ifdef G4VIS_USE
   if (visManager) delete visManager;
   #endif
-  if (runManager) delete runManager;
 }
 
