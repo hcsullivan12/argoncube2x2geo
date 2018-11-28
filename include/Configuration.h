@@ -67,7 +67,7 @@ class Configuration
     std::string m_steeringFilePath;
     std::string m_visMacroPath;
     unsigned    m_sourceMode;
-    unsigned    m_nEvents;
+    unsigned    m_nPrimaries;
     unsigned    m_nMPPCs;
     float       m_mppcArea;
     float       m_diskRadius;
@@ -77,7 +77,6 @@ class Configuration
     float       m_sourcePeakESigma;
     bool        m_reconstruct;
     bool        m_showVis;
-    unsigned    m_nPrimaries;
 };
 }
 

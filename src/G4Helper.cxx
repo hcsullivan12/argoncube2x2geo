@@ -145,7 +145,7 @@ void G4Helper::HandleVisualization()
   {
     m_visManager = new G4VisExecutive();
     m_visManager->Initialize();
-    std::string command = "/control/execute" + m_visMacroPath;
+    std::string command = "/control/execute " + m_visMacroPath;
     m_uiManager->ApplyCommand(command);
   }
   #endif

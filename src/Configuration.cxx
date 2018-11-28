@@ -55,7 +55,7 @@ void Configuration::ReadJSONFile()
   m_steeringFilePath   = GetJSONMember("steeringFilePath", rapidjson::kStringType).GetString();
   m_visMacroPath       = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
   m_sourceMode         = GetJSONMember("sourceMode", rapidjson::kNumberType).GetUint();
-  m_nEvents            = GetJSONMember("nEvents", rapidjson::kNumberType).GetUint();
+  m_nPrimaries         = GetJSONMember("nPrimaries", rapidjson::kNumberType).GetUint();
   m_nMPPCs             = GetJSONMember("nMPPCs", rapidjson::kNumberType).GetUint();
   m_mppcArea           = GetJSONMember("mppcArea", rapidjson::kNumberType).GetDouble();
   m_diskRadius         = GetJSONMember("diskRadius", rapidjson::kNumberType).GetDouble();
@@ -134,7 +134,7 @@ void Configuration::CheckConfiguration()
   if (m_mppcArea   <= 0) { std::cerr << "ERROR. MPPC areas < 0."      << std::endl; exit(1); }
   if (m_diskRadius <= 0) { std::cerr << "ERROR. Disk radius < 0." << std::endl; exit(1); }
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
-  if (m_nEvents < 0)     { std::cerr << "ERROR. Number of events < 0." << std::endl; exit(1); }
+  if (m_nPrimaries < 0)     { std::cerr << "ERROR. Number of events < 0." << std::endl; exit(1); }
   if (m_sourceMode > 1)  { std::cerr << "ERROR. Input mode usage: 0 - random positions, 1 - input text file." 
                                      << std::endl; exit(1); }
 }
@@ -151,7 +151,7 @@ void Configuration::PrintConfiguration()
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
             << "Mode               " << m_sourceMode         << std::endl;
   if (m_sourceMode == 1) { std::cout << "SteeringFilePath    "  << m_steeringFilePath << std::endl; } 
-  else             { std::cout << "nEvents            "  << m_nEvents   << std::endl; }
+  else             { std::cout << "nPrimaries            "  << m_nPrimaries   << std::endl; }
   std::cout << "NumerOfMPPCs       " << m_nMPPCs             << std::endl
             << "SipmArea           " << m_mppcArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
