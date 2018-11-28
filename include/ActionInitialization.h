@@ -11,6 +11,7 @@
 #define ACTIONINITIALIZATION_H 
 
 #include "PrimaryGeneratorAction.h"
+#include "Configuration.h"
  
 #include "G4VUserActionInitialization.hh"
 
@@ -20,11 +21,15 @@ namespace majorana
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:
-    ActionInitialization();
+    ActionInitialization(const Configuration& config);
     virtual ~ActionInitialization();
 
-    //virtual void BuildForMaster() const;
     virtual void Build() const;
+
+    PrimaryGeneratorAction* GeneratorAction() const { return m_generatorAction; };
+
+  private:
+    PrimaryGeneratorAction*  m_generatorAction;
 };
 
 }

@@ -20,9 +20,6 @@
 #include "G4Material.hh"
 #include "G4Box.hh"
 
-//class G4VPhysicalVolume;
-//class G4LogicalVolume;
-
 namespace majorana
 {
 class DetectorConstruction : public G4VUserDetectorConstruction
@@ -32,6 +29,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual ~DetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
+   
+    const DiskVolume* DiskGeometry() const { return m_diskVolume; };
 
   private:
     void InitializeMaterials();

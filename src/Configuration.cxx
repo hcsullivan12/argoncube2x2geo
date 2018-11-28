@@ -52,14 +52,17 @@ void Configuration::ReadJSONFile()
 {
   m_simulateOutputPath = GetJSONMember("simulateOutputPath", rapidjson::kStringType).GetString();
   m_recoAnaTreePath    = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
-  m_inputPath          = GetJSONMember("inputPath", rapidjson::kStringType).GetString();
-  m_mode               = GetJSONMember("mode", rapidjson::kNumberType).GetUint();
+  m_steeringFilePath   = GetJSONMember("steeringFilePath", rapidjson::kStringType).GetString();
+  m_visMacroPath       = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
+  m_sourceMode         = GetJSONMember("sourceMode", rapidjson::kNumberType).GetUint();
   m_nEvents            = GetJSONMember("nEvents", rapidjson::kNumberType).GetUint();
   m_nMPPCs             = GetJSONMember("nMPPCs", rapidjson::kNumberType).GetUint();
   m_mppcArea           = GetJSONMember("mppcArea", rapidjson::kNumberType).GetDouble();
   m_diskRadius         = GetJSONMember("diskRadius", rapidjson::kNumberType).GetDouble();
   m_diskThickness      = GetJSONMember("diskThickness", rapidjson::kNumberType).GetDouble();
-  m_sourceSigma        = GetJSONMember("sourceSigma", rapidjson::kNumberType).GetDouble(); 
+  m_sourcePosSigma     = GetJSONMember("sourcePosSigma", rapidjson::kNumberType).GetDouble(); 
+  m_sourcePeakE        = GetJSONMember("sourcePeakE", rapidjson::kNumberType).GetDouble(); 
+  m_sourcePeakESigma   = GetJSONMember("sourcePeakESigma", rapidjson::kNumberType).GetDouble(); 
   m_reconstruct        = GetJSONMember("reconstruct", rapidjson::kFalseType).GetBool();  
 }
 
@@ -132,7 +135,7 @@ void Configuration::CheckConfiguration()
   if (m_diskRadius <= 0) { std::cerr << "ERROR. Disk radius < 0." << std::endl; exit(1); }
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
   if (m_nEvents < 0)     { std::cerr << "ERROR. Number of events < 0." << std::endl; exit(1); }
-  if (m_mode > 1)        { std::cerr << "ERROR. Input mode usage: 0 - random positions, 1 - input text file." 
+  if (m_sourceMode > 1)  { std::cerr << "ERROR. Input mode usage: 0 - random positions, 1 - input text file." 
                                      << std::endl; exit(1); }
 }
 
@@ -146,14 +149,16 @@ void Configuration::PrintConfiguration()
   std::cout                                                                    << std::endl;
   std::cout << "Majorana Configuration:\n";
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
-            << "Mode               " << m_mode               << std::endl;
-  if (m_mode == 1) { std::cout << "InputPath          "  << m_inputPath << std::endl; } 
+            << "Mode               " << m_sourceMode         << std::endl;
+  if (m_sourceMode == 1) { std::cout << "SteeringFilePath    "  << m_steeringFilePath << std::endl; } 
   else             { std::cout << "nEvents            "  << m_nEvents   << std::endl; }
   std::cout << "NumerOfMPPCs       " << m_nMPPCs             << std::endl
             << "SipmArea           " << m_mppcArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
             << "DiskThickness      " << m_diskThickness      << " cm"  << std::endl
-            << "SourceSigma        " << m_sourceSigma        << " cm"  << std::endl
+            << "SourcePosSigma     " << m_sourcePosSigma     << " cm"  << std::endl
+            << "SourcePeakE        " << m_sourcePeakE        << " eV"  << std::endl
+            << "SourcePeakESigma   " << m_sourcePeakESigma   << " eV"  << std::endl
             << "Reconstruct        "; 
   if (m_reconstruct) { std::cout << "true\n"; std::cout << "RecoAnaTreePath    " << m_recoAnaTreePath << std::endl; } 
   else                 std::cout << "false\n";

@@ -36,7 +36,7 @@ void MaterialManager::ConstructMaterials()
   DefineAcrylic();
   DefineMPPCSurface();
 
- G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+  // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
 void MaterialManager::DefineAir()

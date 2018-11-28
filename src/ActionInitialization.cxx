@@ -11,16 +11,19 @@
 namespace majorana
 {
 
-ActionInitialization::ActionInitialization()
- : G4VUserActionInitialization()
-{}
+ActionInitialization::ActionInitialization(const Configuration& config)
+ : G4VUserActionInitialization(),
+   m_generatorAction(NULL)
+{
+  m_generatorAction = new PrimaryGeneratorAction(config);
+}
 
 ActionInitialization::~ActionInitialization()
 {}
 
 void ActionInitialization::Build() const
 {
-  SetUserAction(new PrimaryGeneratorAction);
+  SetUserAction(m_generatorAction);
 }
 
 }

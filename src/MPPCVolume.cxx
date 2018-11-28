@@ -38,7 +38,6 @@ void MPPCVolume::ConstructVolume(const G4String&  name,
   // Offset 
   r = r + (m_mppcSideLength/2.0);
   ConvertToCartesian(x, y, r, thetaDeg);
-  G4cout << "r = " << r << "  x = " << x << "   m_mppcSideLength/2 = " << m_mppcSideLength/2 << std::endl; 
   // Construct mppc volume
   G4String nameLV  = name + "LV";
   m_mppcSolid      = new G4Box(name, m_mppcSideLength*cm, m_mppcSideLength*cm, (m_mppcSideLength/2.0)*cm);

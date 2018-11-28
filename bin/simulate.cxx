@@ -4,24 +4,12 @@
 
 // Majorana includes
 #include "Configuration.h"
-#include "DetectorConstruction.h"
-#include "ActionInitialization.h"
-
-// Geant4 includes
-#include "G4RunManager.hh"
-#include "G4UImanager.hh"
-#include "FTFP_BERT.hh"
-#include "G4UIExecutive.hh"
-
-#ifdef G4VIS_USE
-#include "G4VisExecutive.hh"
-#endif
+#include "G4Helper.h"
 
 // Visualization 
 static bool showVis = false;
 
 // Prototypes
-void InitializeG4(const majorana::Configuration& config);
 void HandleArgs(int argc, char **argv);
 
 int main(int argc, char **argv)
@@ -31,8 +19,12 @@ int main(int argc, char **argv)
   // Initialize configuration
   majorana::Configuration config;
   config.Initialize(std::string(argv[1]));
+  // Pass visualization
+  config.SetVisualization(showVis);
   // Handle G4
-  InitializeG4(config);
+  majorana::G4Helper g4Helper(config);
+  g4Helper.StartG4();
+  g4Helper.Clean();
 
   return 0;
 }
@@ -53,45 +45,4 @@ void HandleArgs(int argc, char **argv)
   }
 }
 
-void InitializeG4(const majorana::Configuration& config)
-{
-  // Run manager initialization
-  G4RunManager* runManager = new G4RunManager;
-  // Step 1) Detector construction
-  runManager->SetUserInitialization(new majorana::DetectorConstruction(config));
-  // Step 2) Physics list construction
-  runManager->SetUserInitialization(new FTFP_BERT(0));
-  // Step 3 Action initialization 
-  runManager->SetUserInitialization(new majorana::ActionInitialization);
-  
-  runManager->Initialize();
-  
-  // get the pointer to the UI manager and set verbosities
-  G4UImanager* UI = G4UImanager::GetUIpointer();
-  UI->ApplyCommand("/run/verbose 0");
-  UI->ApplyCommand("/event/verbose 0");
-  UI->ApplyCommand("/tracking/verbose 0");
- 
-  // Loop over events
-  //unsigned nEvents = config.NEvents();
-  runManager->BeamOn(1);
-
-  #ifdef G4VIS_USE
-  G4VisManager* visManager = NULL;
-  if (showVis) 
-  {
-    visManager = new G4VisExecutive();
-    visManager->Initialize();
-    UI->ApplyCommand("/control/execute ../vis.mac");
-  }
-  #endif
-
-  std::cout << "Press enter to quit.\n";
-  std::cin.get();
-  
-  if (runManager) delete runManager;
-  #ifdef G4VIS_USE
-  if (visManager) delete visManager;
-  #endif
-}
 

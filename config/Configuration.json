@@ -1,13 +1,16 @@
 {
   "simulateOutputPath": "/home/hunter/projects/Majorana/output/simulateOutput.root",
   "recoAnaTreePath":    "/home/hunter/projects/Majorana/output/recoAnaTree.root",
-  "inputPath":          "/home/hunter/projects/Majorana/config/LightSourceSteering.txt",
-  "mode":               0,
+  "steeringFilePath":   "/home/hunter/projects/Majorana/config/LightSourceSteering.txt",
+  "visMacroPath":       "/home/hunter/projects/Majorana/vis.mac",
+  "sourceMode":         1,
   "nEvents":            10,
+  "sourcePeakE":        2.95,  
+  "sourcePeakESigma":   0.42,   
   "nMPPCs":             8,
   "mppcArea":           0.01,
   "diskRadius":         14.5,
   "diskThickness":      1.0,
-  "sourceSigma":        0.25,
+  "sourcePosSigma":     0.25,
   "reconstruct":        false
 }

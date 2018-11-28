@@ -8,86 +8,93 @@
 
 #include "PrimaryGeneratorAction.h"
 
-#include "G4LogicalVolumeStore.hh"
-#include "G4LogicalVolume.hh"
-#include "G4Box.hh"
-#include "G4RunManager.hh"
-#include "G4ParticleGun.hh"
-#include "G4ParticleTable.hh"
-#include "G4ParticleDefinition.hh"
-#include "G4SystemOfUnits.hh"
-#include "Randomize.hh"
+namespace majorana {
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-PrimaryGeneratorAction::PrimaryGeneratorAction()
+PrimaryGeneratorAction::PrimaryGeneratorAction(const Configuration& config)
 : G4VUserPrimaryGeneratorAction(),
-  fParticleGun(0), 
-  fEnvelopeBox(0)
+  m_nPrimaries(config.NPrimaries()),
+  m_sourcePosSigma(config.SourcePosSigma()),
+  m_sourcePeakE(config.SourcePeakE()),
+  m_sourcePeakESigma(config.SourcePeakESigma())
 {
-  G4int n_particle = 1;
-  fParticleGun  = new G4ParticleGun(n_particle);
-
-  // default particle kinematic
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle
-    = particleTable->FindParticle(particleName="gamma");
-  fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(6.*MeV);
+  m_particleTable = 0;
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
+{}
+
+void PrimaryGeneratorAction::Reset(const G4float& r,
+                                   const G4float& thetaDeg,
+                                   const G4float& z)
 {
-  delete fParticleGun;
+  m_sourcePosition.clear();
+  G4float x = r*std::cos(thetaDeg*twopi/180);
+  G4float y = r*std::sin(thetaDeg*twopi/180);
+  m_sourcePosition.push_back(r);
+  m_sourcePosition.push_back(thetaDeg);
+  m_sourcePosition.push_back(z);
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-  //this function is called at the begining of ecah event
-  //
+  // Initialize gaussian generator
+  time_t seed = time( NULL );
+  CLHEP::HepJamesRandom randomEngine(static_cast<long>(seed));
+  CLHEP::RandGaussQ gauss(randomEngine);
+  CLHEP::RandFlat   flat(randomEngine);
 
-  // In order to avoid dependence of PrimaryGeneratorAction
-  // on DetectorConstruction class we get Envelope volume
-  // from G4LogicalVolumeStore.
-  
-  G4double envSizeXY = 0;
-  G4double envSizeZ = 0;
-
-  if (!fEnvelopeBox)
+  /*// Loop over the primaries  
+  for (unsigned primary = 0; primary < m_nPrimaries; primary++)
   {
-    G4LogicalVolume* envLV
-      = G4LogicalVolumeStore::GetInstance()->GetVolume("Envelope");
-    if ( envLV ) fEnvelopeBox = dynamic_cast<G4Box*>(envLV->GetSolid());
-  }
+    // Smear position of this photon
+    G4float x = gauss.fire(0, m_sourcePosSigma)*m_sourcePosition[0]*cm;
+    G4float y = gauss.fire(0, m_sourcePosSigma)*m_sourcePosition[1]*cm;
+    G4float z = m_sourcePosition[2]*cm;
+    // Sample the momentum, input is in eV, convert to GeV
+    float p = (gauss.fire(m_sourcePeakE, m_sourcePeakESigma)/pow(10, 9));
+    // Keep generating until pZ < 0
+    float pX(0), pY(0), pZ(1);
+    while (pZ >= 0)
+    {
+      float cosTheta = 2*flat.fire() - 1;
+      float sinTheta = pow(1-pow(cosTheta,2),0.5);
+      float phi      = 2*M_PI*flat.fire();
 
-  if ( fEnvelopeBox ) {
-    envSizeXY = fEnvelopeBox->GetXHalfLength()*2.;
-    envSizeZ = fEnvelopeBox->GetZHalfLength()*2.;
-  }  
-  else  {
-    G4ExceptionDescription msg;
-    msg << "Envelope volume of box shape not found.\n"; 
-    msg << "Perhaps you have changed geometry.\n";
-    msg << "The gun will be place at the center.";
-    G4Exception("B1PrimaryGeneratorAction::GeneratePrimaries()",
-     "MyCode0002",JustWarning,msg);
-  }
+      pX = p*sinTheta*cos(phi);
+      pY = p*sinTheta*sin(phi);
+      pZ = p*cosTheta;
+    }
+    
+    // For the polarization vector, sample a new random direction
+    // and cross it with the momentum direction
+    float u1 = flat.fire();
+    float u2 = flat.fire();
+    float u3 = flat.fire();
+    TVector3 momentum(pX, pY, pZ);
+    TVector3 temp(u1, u2, u3);
+    TVector3 polarization = momentum.Cross(polarization);
+    float mag = polarization*polarization;
+    polarization = polarization*(1/mag);
 
-  G4double size = 0.8; 
-  G4double x0 = size * envSizeXY * (G4UniformRand()-0.5);
-  G4double y0 = size * envSizeXY * (G4UniformRand()-0.5);
-  G4double z0 = -0.5 * envSizeZ;
-  
-  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+    // Add this vertex
+    G4PrimaryVertex* vertex = new G4PrimaryVertex(x, y, z, 0);
+    event->AddPrimaryVertex(vertex);
 
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+    if (m_particleTable == 0)
+    {
+      m_particleTable = G4ParticleTable::GetParticleTable();
+    }
+
+    G4ParticleDefinition* particleDefinition = m_particleTable->FindParticle("opticalphoton");
+    G4PrimaryParticle* g4Particle = new G4PrimaryParticle(particleDefinition,
+                                                          pX*GeV,
+                                                          pY*GeV,
+                                                          pZ*GeV);
+    g4Particle->SetCharge(0);
+    g4Particle->SetPolarization(polarization[0],
+                                polarization[1],
+                                polarization[2]);
+    vertex->SetPrimary(g4Particle);
+  }*/
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+}
