@@ -115,11 +115,10 @@ void G4Helper::StartG4()
 
 void G4Helper::HandleVerbosities()
 {
-  m_uiManager->ApplyCommand("/run/verbose 0");
-  m_uiManager->ApplyCommand("/event/verbose 0");
-  m_uiManager->ApplyCommand("/tracking/verbose 1");
-  G4HadronicProcessStore* g = G4HadronicProcessStore::Instance();
-  g->SetVerbose(0);
+  m_uiManager->ApplyCommand("/run/verbose 0");      // max = 2
+  m_uiManager->ApplyCommand("/event/verbose 0");    // max = 2
+  m_uiManager->ApplyCommand("/tracking/verbose 0"); // max = 4
+  G4HadronicProcessStore::Instance()->SetVerbose(0);
   m_physicsList->GetOpticalPhysics()->GetBoundaryProcess()->SetVerboseLevel(0);
 }
 
@@ -145,7 +144,7 @@ void G4Helper::HandleVisualization()
   if (m_showVis) 
   {
     m_visManager = new G4VisExecutive();
-    m_visManager->SetVerboseLevel(0);
+    m_visManager->SetVerboseLevel(0); // max = 6
     m_visManager->Initialize();
     std::string command = "/control/execute " + m_visMacroPath;
     m_uiManager->ApplyCommand(command);

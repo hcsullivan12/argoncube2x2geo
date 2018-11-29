@@ -44,7 +44,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   CLHEP::RandFlat   flat(randomEngine);
 
   // Loop over the primaries  
-  std::cout << m_nPrimaries << std::endl;
   for (unsigned primary = 0; primary < m_nPrimaries; primary++)
   {
     // Smear position of this photon

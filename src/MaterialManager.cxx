@@ -14,6 +14,18 @@
 namespace majorana
 {
 
+MaterialManager* MaterialManager::instance = 0;
+
+MaterialManager* MaterialManager::Instance()
+{
+  if (instance == 0) 
+  {
+    static MaterialManager manager;
+    instance = &manager;
+  }
+  return instance;
+}
+
 MaterialManager::MaterialManager()
 {}
 
@@ -34,16 +46,9 @@ void MaterialManager::ConstructMaterials()
   // Seperate the implentation here
   DefineAir();
   DefineAcrylic();
-  DefineMPPCSurface();
+  DefineMPPCSurface();;
 
-  auto p1 = m_air->GetMaterialPropertiesTable()->GetProperty("REALRINDEX");
-  auto p2 = m_air->GetMaterialPropertiesTable()->GetProperty("IMAGINARYRINDEX");
-  p1->DumpValues();
-  std::cout << "here\n";
-  p2->DumpValues();
-  
-
-  // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
 void MaterialManager::DefineAir()

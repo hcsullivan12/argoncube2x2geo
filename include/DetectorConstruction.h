@@ -37,8 +37,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void InitializeDetector();
 
     G4VSolid*          m_worldSolid;       
-    G4LogicalVolume*   m_worldLogicalVol; 
-    G4VPhysicalVolume* m_worldPhysicalVol;
+    G4LogicalVolume*   m_worldLV; 
+    G4VPhysicalVolume* m_worldPV;
     DiskVolume*        m_diskVolume;
     MaterialManager*   m_materialManager; 
 };

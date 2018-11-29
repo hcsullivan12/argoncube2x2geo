@@ -17,13 +17,16 @@ namespace majorana
 class MaterialManager
 {
   public:
-    MaterialManager();
+    static MaterialManager* Instance();
     ~MaterialManager();
 
     void        ConstructMaterials();
     G4Material* FindMaterial(const G4String& name);
 
   private:
+    MaterialManager();
+    static MaterialManager* instance;
+
     void DefineAir();
     void DefineAcrylic();
     void DefineMPPCSurface();
