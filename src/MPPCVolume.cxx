@@ -48,10 +48,10 @@ void MPPCVolume::ConstructVolume(const G4String&  name,
   // Apply translation
   G4ThreeVector transVec(x*cm, y*cm, z*cm);
   // Vis effects
-  G4Colour color(0,1,0);
+  G4Colour color(1,0,0);
   G4VisAttributes* visAttributes = new G4VisAttributes(color);
   m_mppcLogicalVol->SetVisAttributes(visAttributes); 
-
+   
   G4PVPlacement* mppcPhysicalVol = new G4PVPlacement(zRot, transVec, m_mppcLogicalVol, name, worldLogicalVol, false, 0);
 }
 

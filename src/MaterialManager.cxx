@@ -36,6 +36,13 @@ void MaterialManager::ConstructMaterials()
   DefineAcrylic();
   DefineMPPCSurface();
 
+  auto p1 = m_air->GetMaterialPropertiesTable()->GetProperty("REALRINDEX");
+  auto p2 = m_air->GetMaterialPropertiesTable()->GetProperty("IMAGINARYRINDEX");
+  p1->DumpValues();
+  std::cout << "here\n";
+  p2->DumpValues();
+  
+
   // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
@@ -45,8 +52,27 @@ void MaterialManager::DefineAir()
   //man->SetVerbose(1);
   m_air = man->FindOrBuildMaterial("G4_AIR");
   G4Material* m_al  = man->FindOrBuildMaterial("G4_Al");
-  //G4String name;
-  //m_air = new G4Material(name="G4_Air", m_airTemp->Density(), m_airTemp.NEl()); 
+  
+  // Optical properties 
+  const G4int nEntries = m_tpbEmissionE.size();
+  G4double photonEnergy[nEntries];
+  G4double airRIndex[nEntries];
+  G4double airSpect[nEntries];
+  G4double airAbs[nEntries];
+  G4double airRIndexImg[nEntries];
+  for (int i = 0; i < nEntries; i++) 
+  {
+    photonEnergy[i]  = m_tpbEmissionE[i]*eV;
+    airRIndex[i] = 1.0;
+    airRIndexImg[i] = 0.0;
+  }
+
+  G4MaterialPropertiesTable *airMPT = new G4MaterialPropertiesTable();
+  airMPT->AddProperty("RINDEX", photonEnergy, airRIndex, nEntries);
+  airMPT->AddProperty("REALRINDEX", photonEnergy, airRIndex, nEntries);
+  airMPT->AddProperty("IMAGINARYRINDEX", photonEnergy, airRIndexImg, nEntries);
+
+  m_air->SetMaterialPropertiesTable(airMPT);
 }
 
 void MaterialManager::DefineAcrylic()
@@ -77,20 +103,24 @@ void MaterialManager::DefineAcrylic()
   const G4int nEntries = m_tpbEmissionE.size();
   G4double photonEnergy[nEntries];
   G4double acrylicRIndex[nEntries];
+  G4double acrylicRIndexImg[nEntries];
   G4double acrylicSpect[nEntries];
   G4double acrylicAbs[nEntries];
   for (int i = 0; i < nEntries; i++) 
   {
-    photonEnergy[i]  = m_tpbEmissionE[i]*eV;
-    acrylicRIndex[i] = 1.49;
-    acrylicSpect[i]  = m_tpbEmissionSpect[i]; 
-    acrylicAbs[i]    = 100*m;
+    photonEnergy[i]     = m_tpbEmissionE[i]*eV;
+    acrylicRIndex[i]    = 1.49;
+    acrylicRIndexImg[i] = 0.0;
+    acrylicSpect[i]     = m_tpbEmissionSpect[i]; 
+    acrylicAbs[i]       = 100*m;
   }
 
   G4MaterialPropertiesTable *acrylicMPT = new G4MaterialPropertiesTable();
-  acrylicMPT->AddProperty("RINDEX",        photonEnergy, acrylicRIndex, nEntries);
-  acrylicMPT->AddProperty("ABSLENGTH",     photonEnergy, acrylicAbs,    nEntries);
-  acrylicMPT->AddProperty("EMISSIONSPECT", photonEnergy, acrylicSpect,  nEntries);
+  acrylicMPT->AddProperty("RINDEX",          photonEnergy, acrylicRIndex,    nEntries);
+  acrylicMPT->AddProperty("REALRINDEX",      photonEnergy, acrylicRIndex,    nEntries);
+  acrylicMPT->AddProperty("IMIGINARYRINDEX", photonEnergy, acrylicRIndexImg, nEntries);
+  acrylicMPT->AddProperty("ABSLENGTH",       photonEnergy, acrylicAbs,       nEntries);
+  acrylicMPT->AddProperty("EMISSIONSPECT",   photonEnergy, acrylicSpect,     nEntries);
 
   m_acrylic->SetMaterialPropertiesTable(acrylicMPT);
 }

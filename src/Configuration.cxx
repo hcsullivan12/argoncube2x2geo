@@ -134,7 +134,7 @@ void Configuration::CheckConfiguration()
   if (m_mppcArea   <= 0) { std::cerr << "ERROR. MPPC areas < 0."      << std::endl; exit(1); }
   if (m_diskRadius <= 0) { std::cerr << "ERROR. Disk radius < 0." << std::endl; exit(1); }
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
-  if (m_nPrimaries < 0)     { std::cerr << "ERROR. Number of events < 0." << std::endl; exit(1); }
+  if (m_nPrimaries <= 0)    { std::cerr << "ERROR. Number of primaries <= 0." << std::endl; exit(1); }
   if (m_sourceMode > 1)  { std::cerr << "ERROR. Input mode usage: 0 - random positions, 1 - input text file." 
                                      << std::endl; exit(1); }
 }
@@ -150,9 +150,9 @@ void Configuration::PrintConfiguration()
   std::cout << "Majorana Configuration:\n";
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
             << "Mode               " << m_sourceMode         << std::endl;
-  if (m_sourceMode == 1) { std::cout << "SteeringFilePath    "  << m_steeringFilePath << std::endl; } 
-  else             { std::cout << "nPrimaries            "  << m_nPrimaries   << std::endl; }
-  std::cout << "NumerOfMPPCs       " << m_nMPPCs             << std::endl
+  if (m_sourceMode == 1) { std::cout << "SteeringFilePath   "  << m_steeringFilePath << std::endl; } 
+  std::cout << "NumberOfPrimaries  " << m_nPrimaries         << std::endl
+            << "NumberOfMPPCs      " << m_nMPPCs             << std::endl
             << "SipmArea           " << m_mppcArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
             << "DiskThickness      " << m_diskThickness      << " cm"  << std::endl

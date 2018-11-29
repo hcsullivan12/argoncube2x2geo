@@ -17,6 +17,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4Tubs.hh"
+#include "G4OpticalSurface.hh"
+#include "G4LogicalSkinSurface.hh"
 
 namespace majorana
 {
@@ -43,6 +45,7 @@ class DiskVolume
     G4VSolid*               m_diskSolid;
     G4LogicalVolume*        m_diskLogicalVol;
     std::vector<MPPCVolume> m_mppcVolVec;
+    G4OpticalSurface*       m_opticalSurface;
 };
 }
 

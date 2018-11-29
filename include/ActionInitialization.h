@@ -12,6 +12,7 @@
 
 #include "PrimaryGeneratorAction.h"
 #include "Configuration.h"
+#include "SteppingAction.h"
  
 #include "G4VUserActionInitialization.hh"
 
@@ -30,6 +31,7 @@ class ActionInitialization : public G4VUserActionInitialization
 
   private:
     PrimaryGeneratorAction*  m_generatorAction;
+    SteppingAction*          m_steppingAction;
 };
 
 }

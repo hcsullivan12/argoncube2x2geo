@@ -8,9 +8,6 @@
 
 #include "G4Helper.h"
 
-#include "G4StateManager.hh"
-#include "G4HadronicProcessStore.hh"
-
 namespace majorana
 {
 
@@ -20,6 +17,7 @@ G4Helper::G4Helper(const Configuration& config)
    m_detector(NULL),
    m_generatorAction(NULL),
    m_actionInitialization(NULL),
+   m_physicsList(NULL),
    m_showVis(config.ShowVis()),
    m_visMacroPath(config.VisMacroPath())
 {
@@ -58,7 +56,9 @@ G4Helper::G4Helper(const Configuration& config)
 
   // Update the run manager
   m_runManager->SetUserInitialization(m_detector);
-  m_runManager->SetUserInitialization(new FTFP_BERT(0));
+  // Initialize physics list
+  m_physicsList = new PhysicsList;
+  m_runManager->SetUserInitialization(m_physicsList);
   // Initialize action initialization 
   m_actionInitialization = new ActionInitialization(config);
   // Get the pointer to the generator action
@@ -68,19 +68,11 @@ G4Helper::G4Helper(const Configuration& config)
 }
 
 G4Helper::~G4Helper()
-{}
-
-void G4Helper::Clean()
 {
   //if (m_uiManager)  delete m_uiManager;
   #ifdef G4VIS_USE
   if (m_visManager) delete m_visManager;
-  #endif
-
-  /*G4StateManager* pStateManager = G4StateManager::GetStateManager();
-  std::cout << pStateManager->GetPreviousState() << std::endl;
-  std::cout << pStateManager->GetCurrentState()  << std::endl;*/
-
+  #endif 
   if (m_runManager) delete m_runManager;
 }
 
@@ -106,24 +98,33 @@ void G4Helper::ReadSteeringFile()
 }
 
 void G4Helper::StartG4()
-{    
-  // Get the pointer to the UI manager and set verbosities
-  m_uiManager->ApplyCommand("/run/verbose 2");
-  m_uiManager->ApplyCommand("/event/verbose 5");
-  m_uiManager->ApplyCommand("/tracking/verbose 5");
-  G4HadronicProcessStore* g = G4HadronicProcessStore::Instance();
-  g->SetVerbose(0);
- 
-  // Start main G4 loop
-  RunG4();
-
+{
+  // Set verbosities
+  HandleVerbosities();
+     
   // Handle visualization
   HandleVisualization();
+ 
+  // Start main G4 loop
+  std::cout << "\nPress enter to start running G4...\n";
+  std::cin.get();
+  RunG4();
+  std::cout << "\nDone! Press enter to exit...\n";
+  std::cin.get();
+}
+
+void G4Helper::HandleVerbosities()
+{
+  m_uiManager->ApplyCommand("/run/verbose 0");
+  m_uiManager->ApplyCommand("/event/verbose 0");
+  m_uiManager->ApplyCommand("/tracking/verbose 1");
+  G4HadronicProcessStore* g = G4HadronicProcessStore::Instance();
+  g->SetVerbose(0);
+  m_physicsList->GetOpticalPhysics()->GetBoundaryProcess()->SetVerboseLevel(0);
 }
 
 void G4Helper::RunG4()
 {
-  std::cout << "Running G4!!\n";
   // Loop over the events or positions
   unsigned nEvents = m_sourcePositions.size();
   for (unsigned e = 0; e < nEvents; e++)
@@ -144,14 +145,12 @@ void G4Helper::HandleVisualization()
   if (m_showVis) 
   {
     m_visManager = new G4VisExecutive();
+    m_visManager->SetVerboseLevel(0);
     m_visManager->Initialize();
     std::string command = "/control/execute " + m_visMacroPath;
     m_uiManager->ApplyCommand(command);
   }
   #endif
-
-  std::cout << "Press enter to quit.\n";
-  std::cin.get();
 }
 
 void G4Helper::ConstructDetector()

@@ -13,13 +13,14 @@
 #include "DetectorConstruction.h"
 #include "PrimaryGeneratorAction.h"
 #include "ActionInitialization.h"
+#include "PhysicsList.h"
 
 // Geant4 includes
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
-#include "FTFP_BERT.hh"
 #include "G4UIExecutive.hh"
-
+#include "G4StateManager.hh"
+#include "G4HadronicProcessStore.hh"
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
 #endif
@@ -37,7 +38,6 @@ class G4Helper
     using SourcePositions = std::vector<std::vector<float>>;
 
     void StartG4();
-    void Clean();
 
   private:
     void ConstructDetector();
@@ -46,6 +46,7 @@ class G4Helper
     void HandleVisualization();
     void ReadSteeringFile();
     void RunG4();
+    void HandleVerbosities();
 
     G4RunManager*           m_runManager;
     G4UImanager*            m_uiManager;
@@ -53,6 +54,7 @@ class G4Helper
     ActionInitialization*   m_actionInitialization;
     PrimaryGeneratorAction* m_generatorAction;
     DetectorConstruction*   m_detector;
+    PhysicsList*            m_physicsList;
     SourcePositions         m_sourcePositions;
     unsigned                m_sourceMode;
     std::string             m_steeringFilePath;

@@ -44,13 +44,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   CLHEP::RandFlat   flat(randomEngine);
 
   // Loop over the primaries  
+  std::cout << m_nPrimaries << std::endl;
   for (unsigned primary = 0; primary < m_nPrimaries; primary++)
   {
     // Smear position of this photon
     G4float x = gauss.fire(m_sourcePosition[0], m_sourcePosSigma);
     G4float y = gauss.fire(m_sourcePosition[1], m_sourcePosSigma);
     G4float z = m_sourcePosition[2];
-    std::cout << x << " " << y << " " << z << "  " << m_sourcePosSigma << std::endl;
     // Sample the momentum
     float p = gauss.fire(m_sourcePeakE, m_sourcePeakESigma);
     // Keep generating until pZ < 0
@@ -77,9 +77,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
     float mag = polarization*polarization;
     polarization = polarization*std::sqrt(1/mag);
 
-    // Convert p to GeV
-    momentum = momentum*(1/pow(10,9));
-
     // Add this vertex
     G4PrimaryVertex* vertex = new G4PrimaryVertex(x*cm, y*cm, z*cm, 0);
     event->AddPrimaryVertex(vertex);
@@ -91,9 +88,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 
     G4ParticleDefinition* particleDefinition = m_particleTable->FindParticle("opticalphoton");
     G4PrimaryParticle* g4Particle = new G4PrimaryParticle(particleDefinition,
-                                                          momentum[0]*GeV,
-                                                          momentum[1]*GeV,
-                                                          momentum[2]*GeV);
+                                                          momentum[0]*eV,
+                                                          momentum[1]*eV,
+                                                          momentum[2]*eV);
     g4Particle->SetCharge(0);
     g4Particle->SetPolarization(polarization[0],
                                 polarization[1],

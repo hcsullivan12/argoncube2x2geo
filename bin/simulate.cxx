@@ -24,7 +24,6 @@ int main(int argc, char **argv)
   // Handle G4
   majorana::G4Helper g4Helper(config);
   g4Helper.StartG4();
-  g4Helper.Clean();
 
   return 0;
 }
