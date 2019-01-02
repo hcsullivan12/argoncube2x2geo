@@ -10,6 +10,7 @@
 
 #include "G4Color.hh"
 #include "G4VisAttributes.hh"
+#include "G4SDManager.hh"
 
 namespace majorana
 {
@@ -17,7 +18,7 @@ namespace majorana
 DetectorConstruction::DetectorConstruction(const Configuration& config)
 : G4VUserDetectorConstruction(),
   m_materialManager(NULL),
-  m_diskVolume(NULL),
+  m_wheelVolume(NULL),
   m_worldSolid(NULL),
   m_worldLV(NULL),
   m_worldPV(NULL)
@@ -26,15 +27,15 @@ DetectorConstruction::DetectorConstruction(const Configuration& config)
   m_materialManager = MaterialManager::Instance();
 
   // Pass configuration to our other volumes
-  m_diskVolume = new DiskVolume(config.NMPPCs(), 
-                                config.MPPCArea(), 
-                                config.DiskRadius(), 
-                                config.DiskThickness());
+  m_wheelVolume = new WheelVolume(config.NMPPCs(),
+                                  config.MPPCArea(),
+                                  config.DiskRadius(), 
+                                  config.DiskThickness());
 }
 
 DetectorConstruction::~DetectorConstruction()
 {
-  if (m_diskVolume) delete m_diskVolume;
+  if (m_wheelVolume) delete m_wheelVolume;
 }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
@@ -63,14 +64,14 @@ void DetectorConstruction::InitializeMaterials()
 
 void DetectorConstruction::InitializeDetector()
 {
-  if (!m_diskVolume) 
+  if (!m_wheelVolume) 
   {
     G4cerr << "DetectorConstruction::InitializeDetector() Error! Disk volume not initialized!\n";
   }
 
   //**** World
-  G4double diskRadius    = m_diskVolume->Radius();
-  G4double diskThickness = m_diskVolume->Thickness();
+  G4double diskRadius    = m_wheelVolume->Radius();
+  G4double diskThickness = m_wheelVolume->Thickness();
   m_worldSolid = new G4Box("WorldSolid", 
                            diskRadius*4*cm, 
                            diskRadius*4*cm, 
@@ -91,25 +92,24 @@ void DetectorConstruction::InitializeDetector()
   worldVA->SetForceWireframe(true);
   m_worldLV->SetVisAttributes(worldVA); 
 
-  //**** Disk
-  m_diskVolume->ConstructVolume(m_worldPV, m_worldLV);
+  //**** Wheel
+  m_wheelVolume->ConstructVolume(m_worldPV, m_worldLV);
 }
 
-void DetectorConstruction::ConstructSDandField()
+/*void DetectorConstruction::ConstructSDandField()
 {
-  if (!m_diskVolume) return;
+  if (!m_wheelVolume) return;
  
   // MPPC SD
-  if (m_mppcSD.Get()) 
+  if (!m_mppcSD.Get()) 
   {
-    G4cout << "Construction mppcSD" << G4endl;
+    G4cout << "Construction mppcSD..." << G4endl;
     MPPCSD* mppcSD = new MPPCSD("mppcSD");
     m_mppcSD.Put(mppcSD);
-    mppcSD->InitPMTs(m_nMPPCs); //let mppcSD know # of mppcs
-    mppcSD->SetMPPCPositions(m_diskVolume->GetMPPCPositions());
+    mppcSD->SetMPPCPositions(m_wheelVolume->MPPCPositions());
   }
   
   G4SDManager::GetSDMpointer()->AddNewDetector(m_mppcSD.Get());
-  SetSensitiveDetector(m_diskVolume->MPPCLV(), m_mppcSD.Get());
-}
+  SetSensitiveDetector(m_wheelVolume->MPPCLV(), m_mppcSD.Get());
+}*/
 }

@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
 void HandleArgs(int argc, char **argv)
 {
-  if (argc < 2 || argc > 4) 
+  if (argc < 2 || argc > 4 || argc == 3) 
   {
     std::cout << "\nUsage: ./simulate PATH_TO_CONFIG <Options>\n";
     std::cout << "Options:\n"

@@ -11,7 +11,7 @@
 
 #include "Configuration.h"
 #include "MaterialManager.h"
-#include "DiskVolume.h"
+#include "WheelVolume.h"
 #include "MPPCSD.h"
 
 #include "G4VUserDetectorConstruction.hh"
@@ -31,9 +31,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual ~DetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
-    virtual void               ConstructSDandField();
+    //virtual void               ConstructSDandField();
    
-    const DiskVolume* DiskGeometry() const { return m_diskVolume; };
+    const WheelVolume* WheelGeometry() const { return m_wheelVolume; };
 
   private:
     void InitializeMaterials();
@@ -42,9 +42,12 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VSolid*          m_worldSolid;       
     G4LogicalVolume*   m_worldLV; 
     G4VPhysicalVolume* m_worldPV;
-    DiskVolume*        m_diskVolume;
+    WheelVolume*       m_wheelVolume;
     MaterialManager*   m_materialManager;
     G4Cache<MPPCSD*>   m_mppcSD;    
+
+    unsigned           m_nMPPCs;
+    float              m_mppcArea;
 };
 }
 

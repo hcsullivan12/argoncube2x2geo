@@ -1,13 +1,13 @@
 // 
-// File: DiskVolume.h
+// File: WheelVolume.h
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to construct disk volume.
+// Discription: Class to construct wheel volume.
 //
 
-#ifndef DISKVOLUME_H
-#define DISKVOLUME_H
+#ifndef WHEELVOLUME_H
+#define WHEELVOLUME_H
 
 #include "MaterialManager.h"
 
@@ -23,20 +23,21 @@
 namespace majorana
 {
 
-class DiskVolume 
+class WheelVolume 
 {
   public:
-    DiskVolume(const unsigned& nMPPCs,                                   
+    WheelVolume(const unsigned& nMPPCs,                                   
                const G4double& mppcArea,
                const G4double& diskRadius,
                const G4double& diskThickness);
-    ~DiskVolume();
+    ~WheelVolume();
 
     void ConstructVolume(G4VPhysicalVolume* worldPV,
                          G4LogicalVolume*   worldLV);
 
     const G4double   Radius()    const { return m_diskRadius; };
     const G4double   Thickness() const { return m_diskThickness; }; 
+    const std::vector<G4ThreeVector> MPPCPositions() const { return m_mppcPositions; };
     G4LogicalVolume* MPPCLV()    const { return m_mppcLV; };
 
   private: 
@@ -55,8 +56,6 @@ class DiskVolume
       y = r*std::sin(thetaDeg*pi/180);
     };
 
-
-
     G4double           m_diskRadius;
     G4double           m_diskThickness;
     unsigned           m_nMPPCs;
@@ -65,9 +64,12 @@ class DiskVolume
     G4PVPlacement*     m_diskPV;
     G4VSolid*          m_mppcSolid;
     G4LogicalVolume*   m_mppcLV;
+    G4VSolid*          m_couplingSolid;
+    G4LogicalVolume*   m_couplingLV;
     G4OpticalSurface*  m_opticalSurface;
     G4double           m_mppcArea;
-    G4double           m_mppcSideLength;
+    G4double           m_mppcHalfL;
+    std::vector<G4ThreeVector> m_mppcPositions;
 
 };
 }
