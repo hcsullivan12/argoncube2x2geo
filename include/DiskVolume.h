@@ -32,14 +32,15 @@ class DiskVolume
                const G4double& diskThickness);
     ~DiskVolume();
 
-    void ConstructVolume(MaterialManager* materialManager,
-                         G4LogicalVolume* worldLV);
+    void ConstructVolume(G4VPhysicalVolume* worldPV,
+                         G4LogicalVolume*   worldLV);
 
-    const G4double Radius()    const { return m_diskRadius; };
-    const G4double Thickness() const { return m_diskThickness; }; 
+    const G4double   Radius()    const { return m_diskRadius; };
+    const G4double   Thickness() const { return m_diskThickness; }; 
+    G4LogicalVolume* MPPCLV()    const { return m_mppcLV; };
 
   private: 
-    void HandleSurfaces();
+    void HandleSurfaces(G4VPhysicalVolume* worldPV);
     void HandleVisAttributes();
     void PlaceMPPC(G4LogicalVolume* worldLV,
                    const G4double&  r,
@@ -61,9 +62,9 @@ class DiskVolume
     unsigned           m_nMPPCs;
     G4VSolid*          m_diskSolid;
     G4LogicalVolume*   m_diskLV;
+    G4PVPlacement*     m_diskPV;
     G4VSolid*          m_mppcSolid;
     G4LogicalVolume*   m_mppcLV;
-   // std::vector<MPPCVolume> m_mppcVoVec;
     G4OpticalSurface*  m_opticalSurface;
     G4double           m_mppcArea;
     G4double           m_mppcSideLength;

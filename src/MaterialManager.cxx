@@ -27,6 +27,9 @@ MaterialManager* MaterialManager::Instance()
 }
 
 MaterialManager::MaterialManager()
+ : m_air(NULL),
+   m_si(NULL),
+   m_acrylic(NULL)
 {}
 
 MaterialManager::~MaterialManager()
@@ -45,19 +48,52 @@ void MaterialManager::ConstructMaterials()
                         0.0296, 0.011, 0.0,    0.0, 0.0};
   // Seperate the implentation here
   DefineAir();
+  DefineMPPCMaterial();
   DefineAcrylic();
   DefineMPPCSurface();;
 
-  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+  //G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+}
+
+void MaterialManager::DefineMPPCMaterial()
+{
+  G4NistManager* man  = G4NistManager::Instance();
+  G4Material*    m_si = man->FindOrBuildMaterial("G4_Si");
+
+  // Optical properties 
+  // For now, just assume 0% reflectivity (all absorbed) 
+  // and 100 % effeciency
+  const G4int nEntries = m_tpbEmissionE.size();
+  G4double photonEnergy[nEntries];
+  G4double siRef[nEntries];
+  G4double siEff[nEntries];
+  //G4double siRIndex[nEntries];
+  //G4double siAbs[nEntries];
+  //G4double siRIndexImg[nEntries];
+  for (int i = 0; i < nEntries; i++) 
+  {
+    photonEnergy[i] = m_tpbEmissionE[i]*eV;
+    siRef[i]        = 0.0;
+    siEff[i]        = 1.0;
+    //siRIndex[i] = 1.0;
+    //siRIndexImg[i] = 0.0;
+  }
+
+  G4MaterialPropertiesTable *siMPT = new G4MaterialPropertiesTable();
+  siMPT->AddProperty("REFLECTIVITY",      photonEnergy, siRef,       nEntries);
+  siMPT->AddProperty("EFFICIENCY",        photonEnergy, siEff,       nEntries);
+  //siMPT->AddProperty("RINDEX",          photonEnergy, siRIndex,    nEntries);
+  //siMPT->AddProperty("REALRINDEX",      photonEnergy, siRIndex,    nEntries);
+  //siMPT->AddProperty("IMAGINARYRINDEX", photonEnergy, siRIndexImg, nEntries);
+
+  m_si->SetMaterialPropertiesTable(siMPT);
 }
 
 void MaterialManager::DefineAir()
-{
+{ 
   G4NistManager* man = G4NistManager::Instance();
-  //man->SetVerbose(1);
   m_air = man->FindOrBuildMaterial("G4_AIR");
-  G4Material* m_al  = man->FindOrBuildMaterial("G4_Al");
-  
+ 
   // Optical properties 
   const G4int nEntries = m_tpbEmissionE.size();
   G4double photonEnergy[nEntries];
@@ -65,18 +101,22 @@ void MaterialManager::DefineAir()
   G4double airSpect[nEntries];
   G4double airAbs[nEntries];
   G4double airRIndexImg[nEntries];
+  G4double airRefl[nEntries];
   for (int i = 0; i < nEntries; i++) 
   {
-    photonEnergy[i]  = m_tpbEmissionE[i]*eV;
-    airRIndex[i] = 1.0;
+    photonEnergy[i] = m_tpbEmissionE[i]*eV;
+    airRIndex[i]    = 1.0;
     airRIndexImg[i] = 0.0;
+    airRefl[i]       = 0.97;
   }
 
   G4MaterialPropertiesTable *airMPT = new G4MaterialPropertiesTable();
   airMPT->AddProperty("RINDEX", photonEnergy, airRIndex, nEntries);
   airMPT->AddProperty("REALRINDEX", photonEnergy, airRIndex, nEntries);
   airMPT->AddProperty("IMAGINARYRINDEX", photonEnergy, airRIndexImg, nEntries);
-
+  // For border surface
+  // Assuming 97% reflectivity
+  airMPT->AddProperty("REFLECTIVITY", photonEnergy, airRefl, nEntries);
   m_air->SetMaterialPropertiesTable(airMPT);
 }
 
@@ -123,7 +163,7 @@ void MaterialManager::DefineAcrylic()
   G4MaterialPropertiesTable *acrylicMPT = new G4MaterialPropertiesTable();
   acrylicMPT->AddProperty("RINDEX",          photonEnergy, acrylicRIndex,    nEntries);
   acrylicMPT->AddProperty("REALRINDEX",      photonEnergy, acrylicRIndex,    nEntries);
-  acrylicMPT->AddProperty("IMIGINARYRINDEX", photonEnergy, acrylicRIndexImg, nEntries);
+  acrylicMPT->AddProperty("IMAGINARYRINDEX", photonEnergy, acrylicRIndexImg, nEntries);
   acrylicMPT->AddProperty("ABSLENGTH",       photonEnergy, acrylicAbs,       nEntries);
   acrylicMPT->AddProperty("EMISSIONSPECT",   photonEnergy, acrylicSpect,     nEntries);
 

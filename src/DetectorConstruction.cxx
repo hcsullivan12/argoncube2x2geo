@@ -92,6 +92,24 @@ void DetectorConstruction::InitializeDetector()
   m_worldLV->SetVisAttributes(worldVA); 
 
   //**** Disk
-  m_diskVolume->ConstructVolume(m_materialManager, m_worldLV);
+  m_diskVolume->ConstructVolume(m_worldPV, m_worldLV);
+}
+
+void DetectorConstruction::ConstructSDandField()
+{
+  if (!m_diskVolume) return;
+ 
+  // MPPC SD
+  if (m_mppcSD.Get()) 
+  {
+    G4cout << "Construction mppcSD" << G4endl;
+    MPPCSD* mppcSD = new MPPCSD("mppcSD");
+    m_mppcSD.Put(mppcSD);
+    mppcSD->InitPMTs(m_nMPPCs); //let mppcSD know # of mppcs
+    mppcSD->SetMPPCPositions(m_diskVolume->GetMPPCPositions());
+  }
+  
+  G4SDManager::GetSDMpointer()->AddNewDetector(m_mppcSD.Get());
+  SetSensitiveDetector(m_diskVolume->MPPCLV(), m_mppcSD.Get());
 }
 }

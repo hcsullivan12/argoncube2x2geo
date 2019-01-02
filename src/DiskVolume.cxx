@@ -10,6 +10,7 @@
 
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"
+#include "G4LogicalBorderSurface.hh"
 
 namespace majorana
 {
@@ -22,22 +23,21 @@ DiskVolume::DiskVolume(const unsigned& nMPPCs,
    m_diskThickness(diskThickness),
    m_nMPPCs(nMPPCs),
    m_mppcArea(mppcArea),
-   m_opticalSurface(NULL),
    m_diskSolid(NULL),
    m_diskLV(NULL),
+   m_diskPV(NULL),
    m_mppcSolid(NULL),
    m_mppcLV(NULL)
-{
-  // Initialize mppc array
- // m_mppcVolVec.resize(nMPPCs, MPPCVolume(mppcArea));
-}
+{}
 
 DiskVolume::~DiskVolume()
 {}
 
-void DiskVolume::ConstructVolume(MaterialManager* materialManager,
-                                 G4LogicalVolume* worldLV)
+void DiskVolume::ConstructVolume(G4VPhysicalVolume* worldPV,
+                                 G4LogicalVolume*   worldLV)
 {
+  MaterialManager* materialManager = MaterialManager::Instance();
+
   // Construct disk volume
   m_diskSolid      = new G4Tubs("DiskSolid", 
                                  0, 
@@ -49,13 +49,13 @@ void DiskVolume::ConstructVolume(MaterialManager* materialManager,
                                  materialManager->FindMaterial("Acrylic"), 
                                 "DiskLV");  
   G4ThreeVector transVec(0,0,(m_diskThickness/2.0)*cm);
-  G4PVPlacement* diskPV = new G4PVPlacement(0, 
-                                            transVec, 
-                                            m_diskLV, 
-                                           "Disk", 
-                                            worldLV, 
-                                            false, 
-                                            0);
+  m_diskPV = new G4PVPlacement(0, 
+                               transVec, 
+                               m_diskLV, 
+                              "Disk", 
+                               worldLV, 
+                               false, 
+                               0);
 
   // Construct mppcs
   m_mppcSideLength = std::sqrt(m_mppcArea);  
@@ -64,7 +64,7 @@ void DiskVolume::ConstructVolume(MaterialManager* materialManager,
                                m_mppcSideLength*cm, 
                                (m_mppcSideLength/2.0)*cm);
   m_mppcLV = new G4LogicalVolume(m_mppcSolid, 
-                                 materialManager->FindMaterial("G4_Al"), 
+                                 materialManager->FindMaterial("G4_Si"), 
                                  "mppcLV"); 
   // Place mppcs around the disk
   for (unsigned m = 1; m <= m_nMPPCs; m++)
@@ -78,9 +78,11 @@ void DiskVolume::ConstructVolume(MaterialManager* materialManager,
   }
 
   // Handle surfaces
- // HandleSurfaces();
+  HandleSurfaces(worldPV);
   // Handle vis effects
   HandleVisAttributes();
+
+  //G4LogicalBorderSurface::DumpInfo();
 }
 
 void DiskVolume::PlaceMPPC(G4LogicalVolume* worldLV,
@@ -96,34 +98,45 @@ void DiskVolume::PlaceMPPC(G4LogicalVolume* worldLV,
   zRot->rotateZ(thetaDeg*deg);  
   // Apply translation
   G4ThreeVector transVec(x*cm, y*cm, z*cm);
-    
+  std::string name = "mppcs/mppc" + std::to_string(m);    
   G4PVPlacement* mppcPV = new G4PVPlacement(zRot, 
                                             transVec, 
                                             m_mppcLV, 
-                                            "mppc", 
+                                            name, 
                                             worldLV, 
                                             false, 
                                             m);
 }
 
 
-void DiskVolume::HandleSurfaces()
+void DiskVolume::HandleSurfaces(G4VPhysicalVolume* worldPV)
 {
   MaterialManager* materialManager = MaterialManager::Instance();
 
-  // Boundary surface
+  //**** Simple mppc surface 
+  G4OpticalSurface* mppcOS = new G4OpticalSurface("mppcOS", 
+                                                  glisur,
+                                                  ground, 
+                                                  dielectric_dielectric);
+  G4MaterialPropertiesTable* mppcMPT = 
+     materialManager->FindMaterial("G4_Si")->GetMaterialPropertiesTable();
+  mppcOS->SetMaterialPropertiesTable(mppcMPT);
+  new G4LogicalSkinSurface("mppcSS", m_mppcLV, mppcOS);
+
+  //**** Air surface
   // TODO: Surface roughness
-  m_opticalSurface = new G4OpticalSurface("AirAcrylicOS",
-                                          glisur,
-                                          ground,
-                                          dielectric_dielectric,
-                                          0.0);
-  new G4LogicalSkinSurface("AirAcrylicBS",
-                            m_diskLV,
-                            m_opticalSurface);
-  // Set the air surface properties
-  G4MaterialPropertiesTable* surfaceProp = materialManager->FindMaterial("G4_AIR")->GetMaterialPropertiesTable();
-  m_opticalSurface->SetMaterialPropertiesTable(surfaceProp);
+  G4OpticalSurface* airOS = new G4OpticalSurface("airOS",
+                                                 glisur,
+                                                 ground,
+                                                 dielectric_dielectric,
+                                                 0.0);
+  G4MaterialPropertiesTable* surfaceProp = 
+    materialManager->FindMaterial("G4_AIR")->GetMaterialPropertiesTable();
+  airOS->SetMaterialPropertiesTable(surfaceProp);
+  new G4LogicalBorderSurface("airBS",
+                              m_diskPV,
+                              worldPV,
+                              airOS);
 }
 
 void DiskVolume::HandleVisAttributes()

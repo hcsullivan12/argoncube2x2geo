@@ -47,9 +47,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   for (unsigned primary = 0; primary < m_nPrimaries; primary++)
   {
     // Smear position of this photon
+    // Initial z will be slightly below top
     G4float x = gauss.fire(m_sourcePosition[0], m_sourcePosSigma);
     G4float y = gauss.fire(m_sourcePosition[1], m_sourcePosSigma);
-    G4float z = m_sourcePosition[2];
+    G4float z = m_sourcePosition[2] - 0.1;
     // Sample the momentum
     float p = gauss.fire(m_sourcePeakE, m_sourcePeakESigma);
     // Keep generating until pZ < 0
