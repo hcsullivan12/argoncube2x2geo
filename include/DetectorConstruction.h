@@ -31,7 +31,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual ~DetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
-    //virtual void               ConstructSDandField();
+    virtual void               ConstructSDandField();
    
     const WheelVolume* WheelGeometry() const { return m_wheelVolume; };
 

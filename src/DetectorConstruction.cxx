@@ -96,7 +96,7 @@ void DetectorConstruction::InitializeDetector()
   m_wheelVolume->ConstructVolume(m_worldPV, m_worldLV);
 }
 
-/*void DetectorConstruction::ConstructSDandField()
+void DetectorConstruction::ConstructSDandField()
 {
   if (!m_wheelVolume) return;
  
@@ -105,11 +105,11 @@ void DetectorConstruction::InitializeDetector()
   {
     G4cout << "Construction mppcSD..." << G4endl;
     MPPCSD* mppcSD = new MPPCSD("mppcSD");
-    m_mppcSD.Put(mppcSD);
     mppcSD->SetMPPCPositions(m_wheelVolume->MPPCPositions());
+    G4SDManager::GetSDMpointer()->AddNewDetector(mppcSD);
+    m_mppcSD.Put(mppcSD);
   }
   
-  G4SDManager::GetSDMpointer()->AddNewDetector(m_mppcSD.Get());
-  SetSensitiveDetector(m_wheelVolume->MPPCLV(), m_mppcSD.Get());
-}*/
+  SetSensitiveDetector("MPPCLV", m_mppcSD.Get(), true);
+}
 }

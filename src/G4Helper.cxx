@@ -119,7 +119,7 @@ void G4Helper::HandleVerbosities()
   m_uiManager->ApplyCommand("/event/verbose 0");    // max = 2
   m_uiManager->ApplyCommand("/tracking/verbose 0"); // max = 4
   G4HadronicProcessStore::Instance()->SetVerbose(0);
-  m_physicsList->GetOpticalPhysics()->GetBoundaryProcess()->SetVerboseLevel(1); // max 1
+  m_physicsList->GetOpticalPhysics()->GetBoundaryProcess()->SetVerboseLevel(0); // max 1
 }
 
 void G4Helper::RunG4()

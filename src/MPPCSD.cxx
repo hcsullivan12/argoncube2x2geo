@@ -44,7 +44,7 @@ G4bool MPPCSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
   G4VPhysicalVolume* physVol = aStep->GetPostStepPoint()->GetTouchable()->GetVolume(1);
 
  
-  std::cout << "HERERERE\n";
+  std::cout << "Detected! MPPC #" << mppcNumber << "\n";
  
   /*if(!LXeDetectorConstruction::GetSphereOn()){
     hit->SetDrawit(true);

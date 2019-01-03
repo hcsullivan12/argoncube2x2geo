@@ -28,8 +28,8 @@ void PrimaryGeneratorAction::Reset(const G4float& r,
                                    const G4float& z)
 {
   m_sourcePosition.clear();
-  G4float x = r*std::cos(thetaDeg*twopi/180);
-  G4float y = r*std::sin(thetaDeg*twopi/180);
+  G4float x = r*std::cos(thetaDeg*pi/180);
+  G4float y = r*std::sin(thetaDeg*pi/180);
   m_sourcePosition.push_back(x);
   m_sourcePosition.push_back(y);
   m_sourcePosition.push_back(z);
