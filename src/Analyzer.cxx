@@ -36,13 +36,16 @@ Analyzer::Analyzer(const std::string& simOutputPath)
 
 Analyzer::~Analyzer()
 {
- if (m_anaTree) delete m_anaTree;
+  TFile f(m_simulateOutputPath.c_str(), "UPDATE");
+  m_anaTree->Write();
+  f.Close();
+
+  if (m_anaTree) delete m_anaTree;
 }
 
 void Analyzer::Fill(const unsigned& e)
 {
   ResetVars();
-
   // Get the necessary information
   OpDetPhotonTable* photonTable = OpDetPhotonTable::Instance();
   if (!photonTable) return;
@@ -77,9 +80,6 @@ void Analyzer::Fill(const unsigned& e)
   }
   
   m_anaTree->Fill();
-  TFile f(m_simulateOutputPath.c_str(), "UPDATE");
-  m_anaTree->Write();
-  f.Close();
 }
 
 void Analyzer::ResetVars()

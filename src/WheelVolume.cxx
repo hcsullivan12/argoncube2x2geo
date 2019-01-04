@@ -123,7 +123,7 @@ void WheelVolume::HandleSurfaces(G4VPhysicalVolume* worldPV)
   // Air surface
   //****
   G4OpticalSurface* airSurface(NULL);
-  airSurface = new G4OpticalSurface("AirSurface", glisur, ground, dielectric_dielectric, 0.8);
+  airSurface = new G4OpticalSurface("AirSurface", glisur, ground, dielectric_dielectric, 0.9);
   new G4LogicalBorderSurface("DiskBorderSurfaceOut",
                              m_diskPV, worldPV, airSurface);
   new G4LogicalBorderSurface("DiskBorderSurfaceIn",

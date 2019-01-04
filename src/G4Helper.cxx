@@ -159,12 +159,11 @@ void G4Helper::RunG4()
     G4float r        = m_sourcePositions[e][0];
     G4float thetaDeg = m_sourcePositions[e][1]; 
     m_generatorAction->Reset(r, thetaDeg, m_detector->WheelGeometry()->Thickness());
-
+   
     // Start run!
     m_runManager->BeamOn(1);
     // Fill our tree
     analyzer.Fill(e);
-
     // Clear the photon table!
     // This will help reduce overhead
     OpDetPhotonTable* photonTable = OpDetPhotonTable::Instance();
