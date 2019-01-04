@@ -38,6 +38,7 @@ class WheelVolume
     const G4double   Radius()    const { return m_diskRadius; };
     const G4double   Thickness() const { return m_diskThickness; }; 
     const std::vector<G4ThreeVector> MPPCPositions() const { return m_mppcPositions; };
+    const unsigned   NMPPCs()    const { return m_nMPPCs; };
     G4LogicalVolume* MPPCLV()    const { return m_mppcLV; };
 
   private: 

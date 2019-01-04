@@ -32,17 +32,21 @@ namespace majorana
 class G4Helper 
 {
   public:
-    G4Helper(const Configuration& config);
+    static G4Helper* Instance();
+    static G4Helper* Instance(const Configuration& config);
+
     ~G4Helper();
 
     using SourcePositions = std::vector<std::vector<float>>;
 
     void StartG4();
+    ActionInitialization* GetActionInitialization() const { return m_actionInitialization; };
+    DetectorConstruction* GetDetectorConstruction() const { return m_detector; };
 
   private:
-    void ConstructDetector();
-    void InitializePhysics();
-    void SetPhysicsList();
+    G4Helper(const Configuration& config);
+    static G4Helper* instance;
+
     void HandleVisualization();
     void ReadSteeringFile();
     void RunG4();
@@ -60,6 +64,7 @@ class G4Helper
     std::string             m_steeringFilePath;
     bool                    m_showVis;
     std::string             m_visMacroPath;
+    std::string             m_simulateOutputPath;
 };
 }
 

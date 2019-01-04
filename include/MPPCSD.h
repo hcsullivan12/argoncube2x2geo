@@ -1,13 +1,13 @@
 #ifndef MPPCSD_HH
 #define MPPCSD_HH
 
-#include "G4DataVector.hh"
 #include "G4VSensitiveDetector.hh"
-
-#include <vector>
 
 class G4Step;
 class G4HCofThisEvent;
+
+namespace majorana
+{
 
 class MPPCSD : public G4VSensitiveDetector
 {
@@ -24,14 +24,8 @@ class MPPCSD : public G4VSensitiveDetector
     virtual void clear();
     void DrawAll();
     void PrintAll();
-  
-    void SetMPPCPositions(const std::vector<G4ThreeVector>& positions);
-
+ 
   private:
-
-    G4DataVector* m_mppcPositionsX;
-    G4DataVector* m_mppcPositionsY;
-    G4DataVector* m_mppcPositionsZ;
 };
-
+}
 #endif

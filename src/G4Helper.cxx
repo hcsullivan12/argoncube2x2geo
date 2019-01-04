@@ -7,9 +7,33 @@
 //
 
 #include "G4Helper.h"
+#include "Analyzer.h"
+#include "OpDetPhotonTable.h"
 
 namespace majorana
 {
+
+G4Helper* G4Helper::instance = 0;
+
+G4Helper* G4Helper::Instance()
+{
+  if (instance == 0)
+  {
+    G4cerr << "Error! G4Helper not instantiated!" << G4endl;
+    return NULL;
+  }
+  return instance;
+}
+
+G4Helper* G4Helper::Instance(const Configuration& config)
+{
+  if (instance == 0)
+  {
+    static G4Helper g4Helper(config);
+    instance = &g4Helper;
+  }
+  return instance;
+}
 
 G4Helper::G4Helper(const Configuration& config) 
  : m_runManager(NULL),
@@ -19,7 +43,8 @@ G4Helper::G4Helper(const Configuration& config)
    m_actionInitialization(NULL),
    m_physicsList(NULL),
    m_showVis(config.ShowVis()),
-   m_visMacroPath(config.VisMacroPath())
+   m_visMacroPath(config.VisMacroPath()),
+   m_simulateOutputPath(config.SimulateOutputPath())
 {
   // Initialize managers
   m_runManager = new G4RunManager;
@@ -52,7 +77,7 @@ G4Helper::G4Helper(const Configuration& config)
   // Construct detector
   m_detector = new DetectorConstruction(config);
   // Initialize physics
-  InitializePhysics();
+  //InitializePhysics();
 
   // Update the run manager
   m_runManager->SetUserInitialization(m_detector);
@@ -62,7 +87,7 @@ G4Helper::G4Helper(const Configuration& config)
   // Initialize action initialization 
   m_actionInitialization = new ActionInitialization(config);
   // Get the pointer to the generator action
-  m_generatorAction = m_actionInitialization->GeneratorAction();
+  m_generatorAction = m_actionInitialization->GetGeneratorAction();
   m_runManager->SetUserInitialization(m_actionInitialization);
   m_runManager->Initialize();
 }
@@ -106,11 +131,7 @@ void G4Helper::StartG4()
   HandleVisualization();
  
   // Start main G4 loop
-  std::cout << "\nPress enter to start running G4...\n";
-  std::cin.get();
   RunG4();
-  std::cout << "\nDone! Press enter to exit...\n";
-  std::cin.get();
 }
 
 void G4Helper::HandleVerbosities()
@@ -126,8 +147,14 @@ void G4Helper::RunG4()
 {
   // Loop over the events or positions
   unsigned nEvents = m_sourcePositions.size();
+  // Initialize our anaylzer
+  Analyzer analyzer(m_simulateOutputPath);
+ 
+  std::cout << "\nPress enter to start running G4...\n";
+  std::cin.get();
   for (unsigned e = 0; e < nEvents; e++)
   {
+    G4cout << "****  EVENT #" << e << "  ****" << G4endl;
     // Reset the generator
     G4float r        = m_sourcePositions[e][0];
     G4float thetaDeg = m_sourcePositions[e][1]; 
@@ -135,7 +162,16 @@ void G4Helper::RunG4()
 
     // Start run!
     m_runManager->BeamOn(1);
+    // Fill our tree
+    analyzer.Fill(e);
+
+    // Clear the photon table!
+    // This will help reduce overhead
+    OpDetPhotonTable* photonTable = OpDetPhotonTable::Instance();
+    photonTable->Clear();
   }
+  std::cout << "\nDone! Press enter to exit...\n";
+  std::cin.get();
 }
 
 void G4Helper::HandleVisualization()
@@ -150,18 +186,6 @@ void G4Helper::HandleVisualization()
     m_uiManager->ApplyCommand(command);
   }
   #endif
-}
-
-void G4Helper::ConstructDetector()
-{
-}
-
-void G4Helper::InitializePhysics()
-{
-}
-
-void G4Helper::SetPhysicsList()
-{
 }
 
 }

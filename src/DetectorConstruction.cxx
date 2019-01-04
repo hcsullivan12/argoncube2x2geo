@@ -103,9 +103,8 @@ void DetectorConstruction::ConstructSDandField()
   // MPPC SD
   if (!m_mppcSD.Get()) 
   {
-    G4cout << "Construction mppcSD..." << G4endl;
+    //G4cout << "Construction mppcSD..." << G4endl;
     MPPCSD* mppcSD = new MPPCSD("mppcSD");
-    mppcSD->SetMPPCPositions(m_wheelVolume->MPPCPositions());
     G4SDManager::GetSDMpointer()->AddNewDetector(mppcSD);
     m_mppcSD.Put(mppcSD);
   }

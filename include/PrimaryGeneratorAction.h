@@ -41,11 +41,15 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
                const float& thetaDeg,
                const float& z);
     void Append();
+    std::vector<float> GetSourcePositionRTZ() const { return m_sourcePositionRTZ; };
+    std::vector<float> GetSourcePositionXYZ() const { return m_sourcePositionXYZ; };
+    unsigned           GetNPrimaries()        const { return m_nPrimaries; };
 
   private:
     G4ParticleTable*   m_particleTable;
     unsigned           m_nPrimaries;
-    std::vector<float> m_sourcePosition;
+    std::vector<float> m_sourcePositionRTZ;
+    std::vector<float> m_sourcePositionXYZ;
     float              m_sourcePosSigma;
     float              m_sourcePeakE;
     float              m_sourcePeakESigma;

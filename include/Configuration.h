@@ -43,6 +43,7 @@ class Configuration
     bool        ShowVis()         const { return m_showVis; };
     std::string VisMacroPath()    const { return m_visMacroPath; };
     std::string SteeringFilePath() const { return m_steeringFilePath; };
+    std::string SimulateOutputPath() const { return m_simulateOutputPath; };
     unsigned    SourceMode()      const { return m_sourceMode; };
     unsigned    NPrimaries()      const { return m_nPrimaries; };
     float       SourcePosSigma()  const { return m_sourcePosSigma; };

@@ -4,7 +4,7 @@
   "steeringFilePath":   "/home/hunter/projects/Majorana/config/LightSourceSteering.txt",
   "visMacroPath":       "/home/hunter/projects/Majorana/vis.mac",
   "sourceMode":         1,
-  "nPrimaries":         1,
+  "nPrimaries":         100000,
   "sourcePeakE":        2.95,  
   "sourcePeakESigma":   0.42,   
   "nMPPCs":             8,

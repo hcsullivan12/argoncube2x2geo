@@ -22,8 +22,8 @@ int main(int argc, char **argv)
   // Pass visualization
   config.SetVisualization(showVis);
   // Handle G4
-  majorana::G4Helper g4Helper(config);
-  g4Helper.StartG4();
+  majorana::G4Helper* g4Helper = majorana::G4Helper::Instance(config);
+  g4Helper->StartG4();
 
   return 0;
 }

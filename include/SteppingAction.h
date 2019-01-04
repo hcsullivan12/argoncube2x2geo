@@ -6,8 +6,8 @@
 // Discription: Class for interface to stepping action.
 //
 
-#ifndef WLSSTEPPINGACTION_H
-#define WLSSTEPPINGACTION_H
+#ifndef STEPPINGACTION_H
+#define STEPPINGACTION_H
 
 #include "G4UserSteppingAction.hh"
 #include "G4Track.hh"

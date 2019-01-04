@@ -27,7 +27,7 @@ class ActionInitialization : public G4VUserActionInitialization
 
     virtual void Build() const;
 
-    PrimaryGeneratorAction* GeneratorAction() const { return m_generatorAction; };
+    PrimaryGeneratorAction* GetGeneratorAction() const { return m_generatorAction; };
 
   private:
     PrimaryGeneratorAction*  m_generatorAction;

@@ -27,12 +27,18 @@ void PrimaryGeneratorAction::Reset(const G4float& r,
                                    const G4float& thetaDeg,
                                    const G4float& z)
 {
-  m_sourcePosition.clear();
+  m_sourcePositionRTZ.clear();
+  m_sourcePositionXYZ.clear();
+
+  m_sourcePositionRTZ.push_back(r);
+  m_sourcePositionRTZ.push_back(thetaDeg);
+  m_sourcePositionRTZ.push_back(z);
+
   G4float x = r*std::cos(thetaDeg*pi/180);
   G4float y = r*std::sin(thetaDeg*pi/180);
-  m_sourcePosition.push_back(x);
-  m_sourcePosition.push_back(y);
-  m_sourcePosition.push_back(z);
+  m_sourcePositionXYZ.push_back(x);
+  m_sourcePositionXYZ.push_back(y);
+  m_sourcePositionXYZ.push_back(z);
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
@@ -48,9 +54,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   {
     // Smear position of this photon
     // Initial z will be slightly below top
-    G4float x = gauss.fire(m_sourcePosition[0], m_sourcePosSigma);
-    G4float y = gauss.fire(m_sourcePosition[1], m_sourcePosSigma);
-    G4float z = m_sourcePosition[2] - 0.1;
+    G4float x = gauss.fire(m_sourcePositionXYZ[0], m_sourcePosSigma);
+    G4float y = gauss.fire(m_sourcePositionXYZ[1], m_sourcePosSigma);
+    G4float z = m_sourcePositionXYZ[2] - 0.1;
     // Sample the momentum
     float p = gauss.fire(m_sourcePeakE, m_sourcePeakESigma);
     // Keep generating until pZ < 0
