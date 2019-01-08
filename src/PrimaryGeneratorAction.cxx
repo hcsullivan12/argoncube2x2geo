@@ -43,6 +43,9 @@ void PrimaryGeneratorAction::Reset(const G4float& r,
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
+  G4cout << "Source position is r = " 
+         << m_sourcePositionRTZ[0] << "  theta = " 
+         << m_sourcePositionRTZ[1] << std::endl;
   // Initialize gaussian generator
   time_t seed = time( NULL );
   CLHEP::HepJamesRandom randomEngine(static_cast<long>(seed));

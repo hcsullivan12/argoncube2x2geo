@@ -1,5 +1,5 @@
 void make_class() {
-    TFile *f = new TFile("/home/hunter/projects/Majorana/output/simulateOutput.root");
+    TFile *f = new TFile("/home/hunter/projects/Majorana/output/simulateOutput1000.root");
     TTree *t = (TTree*)f->Get("anatree");
-    t->MakeClass("ana");
+    t->MakeClass("centerAna1000");
 }

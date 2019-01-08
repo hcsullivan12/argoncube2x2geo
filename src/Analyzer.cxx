@@ -20,10 +20,12 @@ Analyzer::Analyzer(const std::string& simOutputPath)
 {
   // Reset variables
   ResetVars();
+
   // Initialize output file
   TFile f(m_simulateOutputPath.c_str(), "RECREATE");
   f.Close();
 
+  
   m_anaTree = new TTree("anatree", "analysis tree");
   m_anaTree->Branch("event",      &m_event, "event/I");
   m_anaTree->Branch("nMPPCs",     &m_nMPPCs, "nMPPCs/I");
@@ -32,6 +34,8 @@ Analyzer::Analyzer(const std::string& simOutputPath)
   m_anaTree->Branch("sourcePosXYZ", m_sourcePosXYZ, "sourcePosXYZ[3]/D");
   m_anaTree->Branch("sourcePosRTZ", m_sourcePosRTZ, "sourcePosRTZ[3]/D");
   m_anaTree->Branch("mppcToLY", m_mppcToLY, "mppcToLY[nMPPCs]/D");
+  m_anaTree->Branch("mppcToSourceR", m_mppcToSourceR, "mppcToSourceR[nMPPCs]/D");
+  m_anaTree->Branch("mppcToSourceT", m_mppcToSourceT, "mppcToSourceT[nMPPCs]/D");
 }
 
 Analyzer::~Analyzer()
@@ -77,6 +81,18 @@ void Analyzer::Fill(const unsigned& e)
     }
     m_mppcToLY[m-1] = photons;
     G4cout << "MPPC" << m << " detected " << photons << " photons" << G4endl;
+
+    // Calculate distances to each mppc
+    float r        = m_sourcePosRTZ[0];
+    float thetaDeg = m_sourcePosRTZ[1];
+    float betaDeg  = (m - 1)*360/m_nMPPCs;
+    float diffRad = (betaDeg - thetaDeg)*pi/180;
+
+    float R = std::sqrt(r*r + m_diskRadius*m_diskRadius - 2*r*m_diskRadius*std::cos(diffRad));
+    float alphaDeg = std::abs(TMath::ASin(r*std::sin(diffRad)/R)*180/pi);
+    
+    m_mppcToSourceR[m] = R;
+    m_mppcToSourceT[m] = alphaDeg;
   }
   
   m_anaTree->Fill();
@@ -92,7 +108,9 @@ void Analyzer::ResetVars()
   m_sourcePosRTZ[0] = -99999; m_sourcePosRTZ[1] = -99999; m_sourcePosRTZ[2] = -99999;
   for (unsigned k = 0; k < kMaxMPPCs; k++)
   {
-    m_mppcToLY[k] = -99999;
+    m_mppcToLY[k]      = -99999;
+    m_mppcToSourceR[k] = -99999;
+    m_mppcToSourceT[k] = -99999;
   }
 }
 

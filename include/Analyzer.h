@@ -34,6 +34,8 @@ class Analyzer
     double m_sourcePosXYZ[3];
     double m_sourcePosRTZ[3];
     double m_mppcToLY[kMaxMPPCs];
+    double m_mppcToSourceR[kMaxMPPCs];
+    double m_mppcToSourceT[kMaxMPPCs];
     std::string m_simulateOutputPath;
 };
 }
