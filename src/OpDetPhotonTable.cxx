@@ -7,6 +7,9 @@
 //
 
 #include "OpDetPhotonTable.h"
+#include "Configuration.h"
+
+#include "globals.hh"
 
 #include <iostream> 
 
@@ -35,6 +38,7 @@ OpDetPhotonTable* OpDetPhotonTable::Instance()
 OpDetPhotonTable::OpDetPhotonTable()
 {
   m_photonsDetected.clear();
+  Initialize();
 }
 
 OpDetPhotonTable::~OpDetPhotonTable()
@@ -47,6 +51,24 @@ void OpDetPhotonTable::AddPhoton(const unsigned& opchannel, const Photon& photon
     m_photonsDetected.emplace(opchannel, std::vector<Photon>());
   }
   m_photonsDetected.find(opchannel)->second.push_back(photon);
+}
+
+void OpDetPhotonTable::Print()
+{
+  for (const auto& k : m_photonsDetected)
+  {
+    G4cout << "MPPC" << k.first << " detected " << k.second.size() << " photons" << G4endl;
+  }
+}
+
+void OpDetPhotonTable::Initialize()
+{
+  Configuration* config = Configuration::Instance();
+  std::vector<Photon> vec;
+  for (unsigned m = 1; m <= config->NMPPCs(); m++)
+  {
+    m_photonsDetected.emplace(m, vec);
+  }
 }
 
 }

@@ -15,7 +15,7 @@
 namespace majorana
 {
 
-DetectorConstruction::DetectorConstruction(const Configuration& config)
+DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
   m_materialManager(NULL),
   m_wheelVolume(NULL),
@@ -27,10 +27,11 @@ DetectorConstruction::DetectorConstruction(const Configuration& config)
   m_materialManager = MaterialManager::Instance();
 
   // Pass configuration to our other volumes
-  m_wheelVolume = new WheelVolume(config.NMPPCs(),
-                                  config.MPPCArea(),
-                                  config.DiskRadius(), 
-                                  config.DiskThickness());
+  Configuration* config = Configuration::Instance();
+  m_wheelVolume = new WheelVolume(config->NMPPCs(),
+                                  config->MPPCArea(),
+                                  config->DiskRadius(), 
+                                  config->DiskThickness());
 }
 
 DetectorConstruction::~DetectorConstruction()

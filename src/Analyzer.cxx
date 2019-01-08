@@ -72,6 +72,7 @@ void Analyzer::Fill(const unsigned& e)
   m_sourcePosRTZ[2] = rtzVec[2];
   
   auto photonsDetected = photonTable->GetPhotonsDetected();
+  photonTable->Print();
   for (unsigned m = 1; m <= m_nMPPCs; m++)
   {
     int photons(0);
@@ -80,7 +81,6 @@ void Analyzer::Fill(const unsigned& e)
       photons = photonsDetected.find(m)->second.size();
     }
     m_mppcToLY[m-1] = photons;
-    G4cout << "MPPC" << m << " detected " << photons << " photons" << G4endl;
 
     // Calculate distances to each mppc
     float r        = m_sourcePosRTZ[0];

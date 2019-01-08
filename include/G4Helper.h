@@ -33,8 +33,6 @@ class G4Helper
 {
   public:
     static G4Helper* Instance();
-    static G4Helper* Instance(const Configuration& config);
-
     ~G4Helper();
 
     using SourcePositions = std::vector<std::vector<float>>;
@@ -44,7 +42,7 @@ class G4Helper
     DetectorConstruction* GetDetectorConstruction() const { return m_detector; };
 
   private:
-    G4Helper(const Configuration& config);
+    G4Helper();
     static G4Helper* instance;
 
     void HandleVisualization();
