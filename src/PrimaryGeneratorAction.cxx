@@ -10,14 +10,16 @@
 
 namespace majorana {
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(const Configuration& config)
-: G4VUserPrimaryGeneratorAction(),
-  m_nPrimaries(config.NPrimaries()),
-  m_sourcePosSigma(config.SourcePosSigma()),
-  m_sourcePeakE(config.SourcePeakE()),
-  m_sourcePeakESigma(config.SourcePeakESigma())
+PrimaryGeneratorAction::PrimaryGeneratorAction()
+: G4VUserPrimaryGeneratorAction()
 {
   m_particleTable = 0;
+
+  Configuration* config = Configuration::Instance();
+  m_nPrimaries       = config->NPrimaries();
+  m_sourcePosSigma   = config->SourcePosSigma();
+  m_sourcePeakE      = config->SourcePeakE();
+  m_sourcePeakESigma = config->SourcePeakESigma();
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -43,6 +45,9 @@ void PrimaryGeneratorAction::Reset(const G4float& r,
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
+  G4cout << "Source position is r = " 
+         << m_sourcePositionRTZ[0] << "  theta = " 
+         << m_sourcePositionRTZ[1] << std::endl;
   // Initialize gaussian generator
   time_t seed = time( NULL );
   CLHEP::HepJamesRandom randomEngine(static_cast<long>(seed));

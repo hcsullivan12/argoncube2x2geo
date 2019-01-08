@@ -23,7 +23,7 @@ namespace majorana
 class Configuration
 {
   public:
-    Configuration();
+    static Configuration* Instance();
     ~Configuration();
 
     enum ModeType
@@ -51,6 +51,9 @@ class Configuration
     float       SourcePeakESigma() const { return m_sourcePeakESigma; };
     
   private:
+    Configuration();
+    static Configuration* instance;
+
     void ReadJSONFile();
     const rapidjson::Value& GetJSONMember(const std::string&     memberName,
                                           rapidjson::Type        memberType,

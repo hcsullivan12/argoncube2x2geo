@@ -32,7 +32,7 @@ namespace majorana {
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    PrimaryGeneratorAction(const Configuration& config);    
+    PrimaryGeneratorAction();    
     virtual ~PrimaryGeneratorAction();
 
     virtual void GeneratePrimaries(G4Event*);         
