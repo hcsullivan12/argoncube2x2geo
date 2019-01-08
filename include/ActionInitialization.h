@@ -22,7 +22,7 @@ namespace majorana
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:
-    ActionInitialization(const Configuration& config);
+    ActionInitialization();
     virtual ~ActionInitialization();
 
     virtual void Build() const;

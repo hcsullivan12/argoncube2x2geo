@@ -27,7 +27,7 @@ namespace majorana
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    DetectorConstruction(const Configuration& config);
+    DetectorConstruction();
     virtual ~DetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();

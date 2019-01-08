@@ -17,6 +17,19 @@
 
 namespace majorana
 {
+
+Configuration* Configuration::instance = 0;
+
+Configuration* Configuration::Instance()
+{
+  if (instance == 0)
+  {
+    static Configuration config;
+    instance = &config;
+  }
+  return instance;
+}
+
 Configuration::Configuration()
 {}
 

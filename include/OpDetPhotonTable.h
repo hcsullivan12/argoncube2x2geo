@@ -35,7 +35,9 @@ class OpDetPhotonTable
     ~OpDetPhotonTable();
 
     void AddPhoton(const unsigned& opchannel, const Photon& photon);
-    inline void Clear() { m_photonsDetected.clear(); };
+    inline void Reset() { m_photonsDetected.clear(); Initialize(); };
+    void Print();
+    void Initialize();
 
     const PhotonsDetected& GetPhotonsDetected() const { return m_photonsDetected; };
 

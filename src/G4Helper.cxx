@@ -19,45 +19,43 @@ G4Helper* G4Helper::Instance()
 {
   if (instance == 0)
   {
-    G4cerr << "Error! G4Helper not instantiated!" << G4endl;
-    return NULL;
-  }
-  return instance;
-}
-
-G4Helper* G4Helper::Instance(const Configuration& config)
-{
-  if (instance == 0)
-  {
-    static G4Helper g4Helper(config);
+    static G4Helper g4Helper;
     instance = &g4Helper;
   }
   return instance;
 }
 
-G4Helper::G4Helper(const Configuration& config) 
+G4Helper::G4Helper() 
  : m_runManager(NULL),
    m_visManager(NULL),
    m_detector(NULL),
    m_generatorAction(NULL),
    m_actionInitialization(NULL),
-   m_physicsList(NULL),
-   m_showVis(config.ShowVis()),
-   m_visMacroPath(config.VisMacroPath()),
-   m_simulateOutputPath(config.SimulateOutputPath())
+   m_physicsList(NULL)
 {
+  // Get config
+  Configuration* config = Configuration::Instance();
+  if (!config)
+  {
+    G4cout << "Error! Configuration not initialized!" << G4endl;
+    std::exit(1);
+  }
+  m_showVis            = config->ShowVis();
+  m_visMacroPath       = config->VisMacroPath();
+  m_simulateOutputPath = config->SimulateOutputPath();
+
   // Initialize managers
   m_runManager = new G4RunManager;
   m_uiManager  = G4UImanager::GetUIpointer();
   // Initialize configuration
   m_sourcePositions.clear();
-  m_sourceMode  = config.SourceMode();
+  m_sourceMode = config->SourceMode();
   
   // In source mode == 0, we will randomly pick a position in the detector
   // Otherwise, read from steering file
   if (m_sourceMode == 0)
   {
-    float r        = config.DiskRadius()*G4UniformRand();
+    float r        = config->DiskRadius()*G4UniformRand();
     float thetaDeg = twopi*G4UniformRand();
 
     std::vector<float> pos = {r, thetaDeg};
@@ -65,7 +63,7 @@ G4Helper::G4Helper(const Configuration& config)
   }
   else if (m_sourceMode == 1)
   {
-    m_steeringFilePath = config.SteeringFilePath();
+    m_steeringFilePath = config->SteeringFilePath();
     ReadSteeringFile();
   }
   else 
@@ -75,7 +73,7 @@ G4Helper::G4Helper(const Configuration& config)
   }
 
   // Construct detector
-  m_detector = new DetectorConstruction(config);
+  m_detector = new DetectorConstruction();
   // Initialize physics
   //InitializePhysics();
 
@@ -85,7 +83,7 @@ G4Helper::G4Helper(const Configuration& config)
   m_physicsList = new PhysicsList;
   m_runManager->SetUserInitialization(m_physicsList);
   // Initialize action initialization 
-  m_actionInitialization = new ActionInitialization(config);
+  m_actionInitialization = new ActionInitialization();
   // Get the pointer to the generator action
   m_generatorAction = m_actionInitialization->GetGeneratorAction();
   m_runManager->SetUserInitialization(m_actionInitialization);
@@ -147,6 +145,9 @@ void G4Helper::RunG4()
 {
   // Loop over the events or positions
   unsigned nEvents = m_sourcePositions.size();
+  // Initialize photon table
+  // This will help reduce overhead
+  OpDetPhotonTable* photonTable = OpDetPhotonTable::Instance();
   // Initialize our anaylzer
   Analyzer analyzer(m_simulateOutputPath);
  
@@ -161,13 +162,14 @@ void G4Helper::RunG4()
     m_generatorAction->Reset(r, thetaDeg, m_detector->WheelGeometry()->Thickness());
    
     // Start run!
+    //photonTable->Print();
     m_runManager->BeamOn(1);
     // Fill our tree
     analyzer.Fill(e);
     // Clear the photon table!
-    // This will help reduce overhead
-    OpDetPhotonTable* photonTable = OpDetPhotonTable::Instance();
-    photonTable->Clear();
+    //photonTable->Print();
+    photonTable->Reset();
+    //photonTable->Print();
   }
   std::cout << "\nDone! Press enter to exit...\n";
   std::cin.get();

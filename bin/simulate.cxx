@@ -17,12 +17,12 @@ int main(int argc, char **argv)
   // Handle runtime args
   HandleArgs(argc, argv); 
   // Initialize configuration
-  majorana::Configuration config;
-  config.Initialize(std::string(argv[1]));
+  majorana::Configuration* config = majorana::Configuration::Instance();
+  config->Initialize(std::string(argv[1]));
   // Pass visualization
-  config.SetVisualization(showVis);
+  config->SetVisualization(showVis);
   // Handle G4
-  majorana::G4Helper* g4Helper = majorana::G4Helper::Instance(config);
+  majorana::G4Helper* g4Helper = majorana::G4Helper::Instance();
   g4Helper->StartG4();
 
   return 0;

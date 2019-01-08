@@ -32,16 +32,31 @@ G4bool MPPCSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
   // If this isn't an optical photon, exit
   if(theTrack->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition()) return false;
  
-  //User replica number 1 since photocathode is a daughter volume
-  //to the pmt which was replicated
-  G4int mppcNumber           = aStep->GetPostStepPoint()->GetTouchable()->GetReplicaNumber(1);
-  G4VPhysicalVolume* physVol = aStep->GetPostStepPoint()->GetTouchable()->GetVolume(1);
+  // Get mppc ID
+  G4int mppcNumber           = aStep->GetPostStepPoint()->GetTouchable()->GetReplicaNumber();
+
+  /*auto pos = aStep->GetPostStepPoint()->GetPosition();
+  float r        = std::sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
+  float thetaDeg = TMath::ASin(std::abs(pos[1]/pos[0]))*180/pi;
+  if (pos[0] < 0 && pos[1] > 0) thetaDeg = 180 - thetaDeg;
+  if (pos[0] < 0 && pos[1] < 0) thetaDeg = 180 + thetaDeg;
+  if (pos[0] > 0 && pos[1] < 0) thetaDeg = 360 - thetaDeg;
+
+  std::cout << pos[0] << "  " << pos[1] << "  " <<  r/10.0 << " " << thetaDeg << "  " << mppcNumber << std::endl;*/
 
   // We want to store the information for this event
   G4Helper* g4Helper = G4Helper::Instance();
-  if (!g4Helper) return false;
+  if (!g4Helper) 
+  { 
+    G4cout << "\nG4Helper not initialized..." << G4endl;
+    return false;
+  }
   PrimaryGeneratorAction* genAction = g4Helper->GetActionInitialization()->GetGeneratorAction();
-  if (!genAction) return false;
+  if (!genAction) 
+  {
+    G4cout << "\nGenAction not initialized..." << G4endl;
+    return false;
+  }
 
   const std::vector<float> photonVertex = { genAction->GetSourcePositionRTZ()[0], 
                                             genAction->GetSourcePositionRTZ()[1],

@@ -11,12 +11,12 @@
 namespace majorana
 {
 
-ActionInitialization::ActionInitialization(const Configuration& config)
+ActionInitialization::ActionInitialization()
  : G4VUserActionInitialization(),
    m_generatorAction(NULL),
    m_steppingAction(NULL)
 {
-  m_generatorAction = new PrimaryGeneratorAction(config);
+  m_generatorAction = new PrimaryGeneratorAction();
   m_steppingAction  = new SteppingAction;
 }
 
