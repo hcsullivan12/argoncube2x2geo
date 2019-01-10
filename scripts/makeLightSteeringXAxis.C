@@ -3,13 +3,13 @@
 
 unsigned nVoxels    = 225; 
 // With voxelsX odd, we can add the origin
-unsigned voxelsX    = std::sqrt(nVoxels); 
+unsigned voxelsX    = 29; //std::sqrt(nVoxels); 
 unsigned voxelsY    = std::sqrt(nVoxels);
 float    diskRadius = 14.5;
-float    inc        = 2*diskRadius/voxelsX;
+float    inc        = 1;
 unsigned nEvents    = 50;
 
-void makeLightSteering()
+void makeLightSteeringXAxis()
 {
   std::string filename = "../config/LightSourceSteering.txt";
   std::ofstream file(filename.c_str());
@@ -21,20 +21,18 @@ void makeLightSteering()
   float x(-diskRadius + inc/2.0), y(0);
   for (unsigned v = 1; v <= voxelsX; v++)
   {
-    //std::cout << x << " " << y << std::endl;
+    std::cout << x << " " << y << std::endl;
     std::pair<float, float> p = std::make_pair(x, y);
     xAxisVoxelPos.push_back(p);
     x = x + inc;
   }
 
   // output top line
-  file << "x y n" << std::endl; 
+  file << "x y n voxelSize" << std::endl; 
 
   // Now shift
   unsigned voxelID(0);
   y = 0;
-  while (y < diskRadius)
-  {
     for (const auto p : xAxisVoxelPos)
     {
       float r = std::sqrt(p.first*p.first + (p.second+y)*(p.second+y));
@@ -42,32 +40,13 @@ void makeLightSteering()
       unsigned event = 1;
       while (event <= nEvents)
       {
-        file << p.first << " " << p.second+y << " " << 50000 << std::endl;
-        event++;
-      }
-      voxelID++;
-    }
-    y = y + inc;
-  }
-  y = inc;
-  while (y < diskRadius)
-  {
-    for (const auto p : xAxisVoxelPos)
-    {
-      float r = std::sqrt(p.first*p.first + (p.second-y)*(p.second-y));
-      if (r >= diskRadius) continue;
-      unsigned event = 1;
-      while (event <= nEvents)
-      {
-        file << p.first << " " << p.second-y << " " << 100000 << std::endl;
-        event++;
-      }
-      voxelID++;
-    }
-    y = y + inc;
-  }
-  std::cout << voxelID << std::endl;
+        if (p.first <  0) file << p.first << " 0 50000 1" << std::endl;
+        if (p.first >= 0) file << p.first << " 0 50000 1"   << std::endl;
  
+        event++;
+      }
+      voxelID++;
+    }
 
   /*  
 

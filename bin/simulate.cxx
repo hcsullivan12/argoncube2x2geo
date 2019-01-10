@@ -18,9 +18,9 @@ int main(int argc, char **argv)
   HandleArgs(argc, argv); 
   // Initialize configuration
   majorana::Configuration* config = majorana::Configuration::Instance();
-  config->Initialize(std::string(argv[1]));
   // Pass visualization
   config->SetVisualization(showVis);
+  config->Initialize(std::string(argv[1]));
   // Handle G4
   majorana::G4Helper* g4Helper = majorana::G4Helper::Instance();
   g4Helper->StartG4();
