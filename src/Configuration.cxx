@@ -63,18 +63,22 @@ void Configuration::Initialize(const std::string& configPath)
 
 void Configuration::ReadJSONFile()
 {
+  // Specific order 
   m_simulateOutputPath = GetJSONMember("simulateOutputPath", rapidjson::kStringType).GetString();
-  m_recoAnaTreePath    = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
   m_steeringFilePath   = GetJSONMember("steeringFilePath", rapidjson::kStringType).GetString();
-  m_visMacroPath       = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
+  m_sourceMode         = GetJSONMember("sourceMode", rapidjson::kStringType).GetString();
   m_nMPPCs             = GetJSONMember("nMPPCs", rapidjson::kNumberType).GetUint();
   m_mppcArea           = GetJSONMember("mppcArea", rapidjson::kNumberType).GetDouble();
   m_diskRadius         = GetJSONMember("diskRadius", rapidjson::kNumberType).GetDouble();
   m_diskThickness      = GetJSONMember("diskThickness", rapidjson::kNumberType).GetDouble();
-  m_sourcePosSigma     = GetJSONMember("sourcePosSigma", rapidjson::kNumberType).GetDouble(); 
   m_sourcePeakE        = GetJSONMember("sourcePeakE", rapidjson::kNumberType).GetDouble(); 
   m_sourcePeakESigma   = GetJSONMember("sourcePeakESigma", rapidjson::kNumberType).GetDouble(); 
-  m_reconstruct        = GetJSONMember("reconstruct", rapidjson::kFalseType).GetBool();  
+  m_reconstruct        = GetJSONMember("reconstruct", rapidjson::kFalseType).GetBool(); 
+
+  if (m_reconstruct)  m_recoAnaTreePath = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
+  if (m_showVis)      m_visMacroPath    = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
+  if (m_sourceMode == "point") m_sourcePosSigma = GetJSONMember("sourcePosSigma", rapidjson::kNumberType).GetDouble(); 
+  if (m_sourceMode == "voxel") m_voxelizationPath = GetJSONMember("voxelizationPath", rapidjson::kStringType).GetString(); 
 }
 
 const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memberName,
@@ -145,6 +149,8 @@ void Configuration::CheckConfiguration()
   if (m_mppcArea   <= 0) { std::cerr << "ERROR. MPPC areas < 0."      << std::endl; exit(1); }
   if (m_diskRadius <= 0) { std::cerr << "ERROR. Disk radius < 0." << std::endl; exit(1); }
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
+  if (m_sourceMode != "voxel" &&
+      m_sourceMode != "point") { std::cerr << "ERROR. Source mode listed as \'" << m_sourceMode << "\'." << std::endl; exit(1); }
 }
 
 void Configuration::PrintConfiguration()
@@ -158,6 +164,7 @@ void Configuration::PrintConfiguration()
   std::cout << "Majorana Configuration:\n";
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
             << "SteeringFilePath   " << m_steeringFilePath   << std::endl
+            << "SourceMode         " << m_sourceMode         << std::endl
             << "NumberOfMPPCs      " << m_nMPPCs             << std::endl
             << "SipmArea           " << m_mppcArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
