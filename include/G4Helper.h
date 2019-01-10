@@ -35,7 +35,7 @@ class G4Helper
     static G4Helper* Instance();
     ~G4Helper();
 
-    using SourcePositions = std::vector<std::vector<float>>;
+    using SteeringTable = std::vector<std::vector<float>>;
 
     void StartG4();
     ActionInitialization* GetActionInitialization() const { return m_actionInitialization; };
@@ -49,6 +49,19 @@ class G4Helper
     void ReadSteeringFile();
     void RunG4();
     void HandleVerbosities();
+    inline void ConvertToPolar(G4float& r, G4float& thetaDeg)
+    {
+      float x(r), y(thetaDeg);
+      std::cout << x << " " << y << std::endl;
+      r        = std::sqrt(x*x + y*y);
+      thetaDeg = TMath::ASin(std::abs(y/r))*180/pi;
+      std::cout << thetaDeg << std::endl;
+ 
+      // Handle theta convention
+      if (x < 0 && y > 0) thetaDeg = 180 - thetaDeg;
+      if (x < 0 && y < 0) thetaDeg = 180 + thetaDeg;
+      if (x > 0 && y < 0) thetaDeg = 360 - thetaDeg;
+    }
 
     G4RunManager*           m_runManager;
     G4UImanager*            m_uiManager;
@@ -57,8 +70,7 @@ class G4Helper
     PrimaryGeneratorAction* m_generatorAction;
     DetectorConstruction*   m_detector;
     PhysicsList*            m_physicsList;
-    SourcePositions         m_sourcePositions;
-    unsigned                m_sourceMode;
+    SteeringTable           m_steeringTable;
     std::string             m_steeringFilePath;
     bool                    m_showVis;
     std::string             m_visMacroPath;

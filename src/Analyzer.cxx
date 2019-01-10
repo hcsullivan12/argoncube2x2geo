@@ -91,8 +91,8 @@ void Analyzer::Fill(const unsigned& e)
     float R = std::sqrt(r*r + m_diskRadius*m_diskRadius - 2*r*m_diskRadius*std::cos(diffRad));
     float alphaDeg = std::abs(TMath::ASin(r*std::sin(diffRad)/R)*180/pi);
     
-    m_mppcToSourceR[m] = R;
-    m_mppcToSourceT[m] = alphaDeg;
+    m_mppcToSourceR[m-1] = R;
+    m_mppcToSourceT[m-1] = alphaDeg;
   }
   
   m_anaTree->Fill();

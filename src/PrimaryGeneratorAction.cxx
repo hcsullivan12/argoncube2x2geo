@@ -16,10 +16,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   m_particleTable = 0;
 
   Configuration* config = Configuration::Instance();
-  m_nPrimaries       = config->NPrimaries();
   m_sourcePosSigma   = config->SourcePosSigma();
   m_sourcePeakE      = config->SourcePeakE();
   m_sourcePeakESigma = config->SourcePeakESigma();
+  m_sourceMode       = config->SourceMode();
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -27,7 +27,11 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::Reset(const G4float& r,
                                    const G4float& thetaDeg,
-                                   const G4float& z)
+                                   const G4float& x,
+                                   const G4float& y,
+                                   const G4float& z,
+                                   const G4int&   n,
+                                   const G4float& voxelSize)
 {
   m_sourcePositionRTZ.clear();
   m_sourcePositionXYZ.clear();
@@ -35,19 +39,23 @@ void PrimaryGeneratorAction::Reset(const G4float& r,
   m_sourcePositionRTZ.push_back(r);
   m_sourcePositionRTZ.push_back(thetaDeg);
   m_sourcePositionRTZ.push_back(z);
-
-  G4float x = r*std::cos(thetaDeg*pi/180);
-  G4float y = r*std::sin(thetaDeg*pi/180);
   m_sourcePositionXYZ.push_back(x);
   m_sourcePositionXYZ.push_back(y);
   m_sourcePositionXYZ.push_back(z);
+  
+  m_nPrimaries = n;
+  m_voxelSize  = voxelSize; 
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-  G4cout << "Source position is r = " 
-         << m_sourcePositionRTZ[0] << "  theta = " 
-         << m_sourcePositionRTZ[1] << std::endl;
+  G4cout << "Source configuration: "
+         << "  nPrimaries = "        << m_nPrimaries
+         << "  r = "                 << m_sourcePositionRTZ[0] 
+         << "  theta = "             << m_sourcePositionRTZ[1] 
+         << "  x = "                 << m_sourcePositionXYZ[0] 
+         << "  y = "                 << m_sourcePositionXYZ[1]
+         << std::endl;
   // Initialize gaussian generator
   time_t seed = time( NULL );
   CLHEP::HepJamesRandom randomEngine(static_cast<long>(seed));
@@ -58,9 +66,25 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   for (unsigned primary = 0; primary < m_nPrimaries; primary++)
   {
     // Smear position of this photon
+    // If source mode is point, gaussian smear
+    // If source mode is voxel, uniform smear
     // Initial z will be slightly below top
-    G4float x = gauss.fire(m_sourcePositionXYZ[0], m_sourcePosSigma);
-    G4float y = gauss.fire(m_sourcePositionXYZ[1], m_sourcePosSigma);
+    G4float x(0), y(0);
+    if (m_sourceMode == "point")
+    {
+      x = gauss.fire(m_sourcePositionXYZ[0], m_sourcePosSigma);
+      y = gauss.fire(m_sourcePositionXYZ[1], m_sourcePosSigma);
+    }
+    else
+    {
+      float a1 = m_sourcePositionXYZ[0] - m_voxelSize/2;
+      float b1 = m_sourcePositionXYZ[0] + m_voxelSize/2;
+      float a2 = m_sourcePositionXYZ[1] - m_voxelSize/2;
+      float b2 = m_sourcePositionXYZ[1] + m_voxelSize/2;
+
+      x = flat.fire(a1, b1);
+      y = flat.fire(a2, b2);
+    }
     G4float z = m_sourcePositionXYZ[2] - 0.1;
     // Sample the momentum
     float p = gauss.fire(m_sourcePeakE, m_sourcePeakESigma);
@@ -76,7 +100,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
       pY = p*sinTheta*sin(phi);
       pZ = p*cosTheta;
     }
-    
+   
     // For the polarization vector, sample a new random direction
     // and cross it with the momentum direction
     float u1 = flat.fire();
