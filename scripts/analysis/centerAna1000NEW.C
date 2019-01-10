@@ -18,7 +18,7 @@ void centerAna1000NEW::Loop()
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
-    std::cout << nPrimaries << std::endl;
+    //std::cout << nPrimaries << std::endl;
     // Initialize histos
     if (jentry == 0) 
     {
@@ -31,6 +31,7 @@ void centerAna1000NEW::Loop()
 
     for (unsigned m = 1; m <= nMPPCs; m++)
     {
+      std::cout << m << " " << mppcToSourceR[m-1] << "  " << mppcToSourceT[m-1] << std::endl;
       histos[m-1]->Fill(mppcToLY[m-1]);
     }
   }
@@ -54,7 +55,7 @@ void centerAna1000NEW::Loop()
 
     finalHisto->SetBinContent(m+1, fit.GetParameter(1));
     finalHisto->SetBinError(m+1, fit.GetParameter(2));
-    std::cout << fit.GetParameter(2) << std::endl;
+    //std::cout << fit.GetParameter(2) << std::endl;
   }
 
   finalHisto->SetMinimum(0);
