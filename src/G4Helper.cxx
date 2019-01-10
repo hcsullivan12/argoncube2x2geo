@@ -48,29 +48,9 @@ G4Helper::G4Helper()
   m_runManager = new G4RunManager;
   m_uiManager  = G4UImanager::GetUIpointer();
   // Initialize configuration
-  m_sourcePositions.clear();
-  m_sourceMode = config->SourceMode();
-  
-  // In source mode == 0, we will randomly pick a position in the detector
-  // Otherwise, read from steering file
-  if (m_sourceMode == 0)
-  {
-    float r        = config->DiskRadius()*G4UniformRand();
-    float thetaDeg = twopi*G4UniformRand();
-
-    std::vector<float> pos = {r, thetaDeg};
-    m_sourcePositions.push_back(pos);
-  }
-  else if (m_sourceMode == 1)
-  {
-    m_steeringFilePath = config->SteeringFilePath();
-    ReadSteeringFile();
-  }
-  else 
-  {
-    G4cerr << "PrimaryGeneratorAction::PrimaryGeneratorAction() Error! Source mode invalid!\n";
-    exit(1);
-  }
+  m_steeringTable.clear();
+  m_steeringFilePath = config->SteeringFilePath();
+  ReadSteeringFile(); 
 
   // Construct detector
   m_detector = new DetectorConstruction();
@@ -107,16 +87,52 @@ void G4Helper::ReadSteeringFile()
     G4cerr << "PrimaryGeneratorAction::ReadSteeringFile() Error! Cannot open steering file!\n";
     exit(1);
   }
-  
-  std::string rString, thetaString;
-  while (std::getline(f, rString, ' '))
+  G4cout << "Reading light steering file..." << G4endl;
+  // First read top line for r,theta mode or x,y mode
+  std::string string1, string2, string3;
+  std::getline(f, string1, ' ');
+  std::getline(f, string2, ' ');
+  std::getline(f, string3);
+  bool sourcePosXY;
+  if (string1 == "r" && string2 == "theta")  sourcePosXY = false;
+  else if (string1 == "x" && string2 == "y") sourcePosXY = true;
+  else 
   {
-    std::getline(f, thetaString);
-    float r        = std::stof(rString);
-    float thetaDeg = std::stof(thetaString);
+    G4cout << "Error! LightSteeringFile must have \"r theta n\" or \"x y n\" on top row." << G4endl;
+    exit(1);
+  }
+  
+  // Read the rest of the file
+  while (std::getline(f, string1, ' '))
+  {
+    std::getline(f, string2, ' ');
+    std::getline(f, string3);
+    float value1     = std::stof(string1);
+    float value2     = std::stof(string2);
+    float nPrimaries = std::stof(string3);
 
-    std::vector<G4float> pos = {r, thetaDeg};
-    m_sourcePositions.push_back(pos);
+    // We have primaries and some coordinates
+    if (sourcePosXY)
+    {
+      float x(value1), y(value2);
+      float r        = std::sqrt(x*x + y*y);
+      float thetaDeg = TMath::ASin(std::abs(y/r))*180/pi;
+      // Handle theta convention
+      if (x <  0 && y >= 0) thetaDeg = 180 - thetaDeg;
+      if (x <  0 && y <  0) thetaDeg = 180 + thetaDeg;
+      if (x >= 0 && y <  0) thetaDeg = 360 - thetaDeg;
+
+      std::vector<G4float> sourceVec = {r, thetaDeg, x, y, nPrimaries};
+      m_steeringTable.push_back(sourceVec);
+    }
+    else 
+    {
+      float r(value1), thetaDeg(value2);
+      float x = r*std::cos(thetaDeg*pi/180);
+      float y = r*std::sin(thetaDeg*pi/180);
+      std::vector<G4float> sourceVec = {r, thetaDeg, x, y, nPrimaries};
+      m_steeringTable.push_back(sourceVec);
+    }
   }
 }
 
@@ -144,7 +160,7 @@ void G4Helper::HandleVerbosities()
 void G4Helper::RunG4()
 {
   // Loop over the events or positions
-  unsigned nEvents = m_sourcePositions.size();
+  unsigned nEvents = m_steeringTable.size();
   // Initialize photon table
   // This will help reduce overhead
   OpDetPhotonTable* photonTable = OpDetPhotonTable::Instance();
@@ -157,10 +173,14 @@ void G4Helper::RunG4()
   {
     G4cout << "****  EVENT #" << e << "  ****" << G4endl;
     // Reset the generator
-    G4float r        = m_sourcePositions[e][0];
-    G4float thetaDeg = m_sourcePositions[e][1]; 
-    m_generatorAction->Reset(r, thetaDeg, m_detector->WheelGeometry()->Thickness());
-   
+    G4float r        = m_steeringTable[e][0];
+    G4float thetaDeg = m_steeringTable[e][1]; 
+    G4float x        = m_steeringTable[e][2];
+    G4float y        = m_steeringTable[e][3]; 
+    G4float z        = m_detector->WheelGeometry()->Thickness();
+    G4int   n        = m_steeringTable[e][4];
+    m_generatorAction->Reset(r, thetaDeg, x, y, z, n);
+  
     // Start run!
     //photonTable->Print();
     m_runManager->BeamOn(1);

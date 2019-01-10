@@ -37,9 +37,12 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     virtual void GeneratePrimaries(G4Event*);         
 
-    void Reset(const float& r,
-               const float& thetaDeg,
-               const float& z);
+    void Reset(const G4float& r,
+               const G4float& thetaDeg,
+               const G4float& x,
+               const G4float& y,
+               const G4float& z,
+               const G4int&   n);
     void Append();
     std::vector<float> GetSourcePositionRTZ() const { return m_sourcePositionRTZ; };
     std::vector<float> GetSourcePositionXYZ() const { return m_sourcePositionXYZ; };

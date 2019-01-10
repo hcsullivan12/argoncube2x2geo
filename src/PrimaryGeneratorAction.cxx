@@ -16,7 +16,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   m_particleTable = 0;
 
   Configuration* config = Configuration::Instance();
-  m_nPrimaries       = config->NPrimaries();
   m_sourcePosSigma   = config->SourcePosSigma();
   m_sourcePeakE      = config->SourcePeakE();
   m_sourcePeakESigma = config->SourcePeakESigma();
@@ -27,7 +26,10 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::Reset(const G4float& r,
                                    const G4float& thetaDeg,
-                                   const G4float& z)
+                                   const G4float& x,
+                                   const G4float& y,
+                                   const G4float& z,
+                                   const G4int&   n)
 {
   m_sourcePositionRTZ.clear();
   m_sourcePositionXYZ.clear();
@@ -35,19 +37,22 @@ void PrimaryGeneratorAction::Reset(const G4float& r,
   m_sourcePositionRTZ.push_back(r);
   m_sourcePositionRTZ.push_back(thetaDeg);
   m_sourcePositionRTZ.push_back(z);
-
-  G4float x = r*std::cos(thetaDeg*pi/180);
-  G4float y = r*std::sin(thetaDeg*pi/180);
   m_sourcePositionXYZ.push_back(x);
   m_sourcePositionXYZ.push_back(y);
   m_sourcePositionXYZ.push_back(z);
+  
+  m_nPrimaries = n;
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-  G4cout << "Source position is r = " 
-         << m_sourcePositionRTZ[0] << "  theta = " 
-         << m_sourcePositionRTZ[1] << std::endl;
+  G4cout << "Source configuration: "
+         << "  nPrimaries = "        << m_nPrimaries
+         << "  r = "                 << m_sourcePositionRTZ[0] 
+         << "  theta = "             << m_sourcePositionRTZ[1] 
+         << "  x = "                 << m_sourcePositionXYZ[0] 
+         << "  y = "                 << m_sourcePositionXYZ[1]
+         << std::endl;
   // Initialize gaussian generator
   time_t seed = time( NULL );
   CLHEP::HepJamesRandom randomEngine(static_cast<long>(seed));

@@ -9,7 +9,7 @@ float    diskRadius = 14.5;
 float    inc        = 2*diskRadius/voxelsX;
 unsigned nEvents    = 50;
 
-void makeLightSteering()
+void makeLightSteering2()
 {
   std::string filename = "../config/LightSourceSteering.txt";
   std::ofstream file(filename.c_str());
@@ -28,13 +28,11 @@ void makeLightSteering()
   }
 
   // output top line
-  file << "x y n" << std::endl; 
+  file << "r theta n" << std::endl; 
 
   // Now shift
   unsigned voxelID(0);
   y = 0;
-  while (y < diskRadius)
-  {
     for (const auto p : xAxisVoxelPos)
     {
       float r = std::sqrt(p.first*p.first + (p.second+y)*(p.second+y));
@@ -42,32 +40,13 @@ void makeLightSteering()
       unsigned event = 1;
       while (event <= nEvents)
       {
-        file << p.first << " " << p.second+y << " " << 50000 << std::endl;
-        event++;
-      }
-      voxelID++;
-    }
-    y = y + inc;
-  }
-  y = inc;
-  while (y < diskRadius)
-  {
-    for (const auto p : xAxisVoxelPos)
-    {
-      float r = std::sqrt(p.first*p.first + (p.second-y)*(p.second-y));
-      if (r >= diskRadius) continue;
-      unsigned event = 1;
-      while (event <= nEvents)
-      {
-        file << p.first << " " << p.second-y << " " << 100000 << std::endl;
-        event++;
-      }
-      voxelID++;
-    }
-    y = y + inc;
-  }
-  std::cout << voxelID << std::endl;
+        if (p.first <  0) file << std::abs(p.first) << " " << 180 << " " << 50000 << std::endl;
+        if (p.first >= 0) file << std::abs(p.first) << " " << 0 << " " << 50000 << std::endl;
  
+        event++;
+      }
+      voxelID++;
+    }
 
   /*  
 
