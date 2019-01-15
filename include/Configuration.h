@@ -25,15 +25,8 @@ class Configuration
   public:
     static Configuration* Instance();
     ~Configuration();
-
-    enum ModeType
-    {
-      kRANDOMMODE = 0,
-      kINPUTMODE  = 1
-    };
-
+ 
     void Initialize(const std::string& configPath);
-
     void SetVisualization(const bool& b) { m_showVis = b; };
 
     unsigned    NMPPCs()          const { return m_nMPPCs; };
@@ -49,6 +42,8 @@ class Configuration
     float       SourcePosSigma()  const { return m_sourcePosSigma; };
     float       SourcePeakE()      const { return m_sourcePeakE; };
     float       SourcePeakESigma() const { return m_sourcePeakESigma; };
+    float       SurfaceRoughness() const { return m_surfaceRoughness; };
+    float       SurfaceAbsorption() const { return m_surfaceAbsorption; };
     
   private:
     Configuration();
@@ -79,6 +74,8 @@ class Configuration
     float       m_sourcePosSigma;
     float       m_sourcePeakE;
     float       m_sourcePeakESigma;
+    float       m_surfaceRoughness;
+    float       m_surfaceAbsorption;
     bool        m_reconstruct;
     bool        m_showVis;
 };

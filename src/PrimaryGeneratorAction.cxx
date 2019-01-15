@@ -20,6 +20,12 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   m_sourcePeakE      = config->SourcePeakE();
   m_sourcePeakESigma = config->SourcePeakESigma();
   m_sourceMode       = config->SourceMode();
+
+  // Initialize rnd generator
+  time_t seed = time( NULL );
+  m_randomEngine.setSeed(static_cast<long>(seed)); 
+  std::cout << m_randomEngine.getSeed() << std::endl;
+
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -56,11 +62,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
          << "  x = "                 << m_sourcePositionXYZ[0] 
          << "  y = "                 << m_sourcePositionXYZ[1]
          << std::endl;
-  // Initialize gaussian generator
-  time_t seed = time( NULL );
-  CLHEP::HepJamesRandom randomEngine(static_cast<long>(seed));
-  CLHEP::RandGaussQ gauss(randomEngine);
-  CLHEP::RandFlat   flat(randomEngine);
+  
+  CLHEP::RandGaussQ gauss(m_randomEngine);
+  CLHEP::RandFlat   flat(m_randomEngine);
 
   // Loop over the primaries  
   for (unsigned primary = 0; primary < m_nPrimaries; primary++)

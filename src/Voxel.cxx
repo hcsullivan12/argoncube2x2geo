@@ -21,7 +21,9 @@ Voxel::Voxel(const unsigned& voxelID,
    m_y(y), 
    m_r(r), 
    m_theta(theta)
-{}
+{
+  m_referenceTable.clear();
+}
 
 Voxel::~Voxel()
 {}

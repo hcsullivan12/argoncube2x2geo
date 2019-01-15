@@ -7,10 +7,12 @@
   "sourceMode":         "voxel",
   "sourcePeakE":        2.95,  
   "sourcePeakESigma":   0.42,   
-  "nMPPCs":             4,
+  "sourcePosSigma":     0.25,
+  "surfaceRoughness":   0.8,
+  "surfaceAbsorption":  0.03,
+  "nMPPCs":             16,
   "mppcArea":           0.01,
   "diskRadius":         14.5,
   "diskThickness":      1.0,
-  "sourcePosSigma":     0.25,
   "reconstruct":        false
 }

@@ -50,13 +50,7 @@ G4Helper::G4Helper()
   m_runManager = new G4RunManager;
   m_uiManager  = G4UImanager::GetUIpointer();
 
-  // Initialize source configuration
-  if (config->SourceMode() == "voxel")
-  {
-    // Initialize voxels so we can make the reference table
-    VoxelTable* voxelTable = VoxelTable::Instance();
-    voxelTable->Initialize(config->VoxelizationPath());
-  }
+  // Load the steering file 
   m_steeringTable.clear();
   m_steeringFilePath = config->SteeringFilePath();
   ReadSteeringFile(); 
@@ -265,10 +259,17 @@ void G4Helper::RunG4()
     // Fill our tree
     analyzer.Fill(e);
     // Reconstruct?
-    //if (Configuration::Instance()->Reconstruct())
-    //{
-    //  Reconstructor reconstructor;
-    //}
+    if (Configuration::Instance()->Reconstruct())
+    {
+      if (!VoxelTable::Instance())
+      {
+        G4cerr << "Error! VoxelTable not initialized! Canceling reconstruction." << G4endl;
+      }
+      else 
+      {
+        //  Reconstructor reconstructor;
+      }
+    }
     // Clear the photon table!
     photonTable->Reset();
   }

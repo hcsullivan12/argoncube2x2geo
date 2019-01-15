@@ -74,6 +74,8 @@ void Configuration::ReadJSONFile()
   m_sourcePeakE        = GetJSONMember("sourcePeakE", rapidjson::kNumberType).GetDouble(); 
   m_sourcePeakESigma   = GetJSONMember("sourcePeakESigma", rapidjson::kNumberType).GetDouble(); 
   m_reconstruct        = GetJSONMember("reconstruct", rapidjson::kFalseType).GetBool(); 
+  m_surfaceRoughness   = GetJSONMember("surfaceRoughness", rapidjson::kNumberType).GetDouble(); 
+  m_surfaceAbsorption  = GetJSONMember("surfaceAbsorption", rapidjson::kNumberType).GetDouble(); 
 
   if (m_reconstruct)  m_recoAnaTreePath = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
   if (m_showVis)      m_visMacroPath    = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
@@ -151,6 +153,8 @@ void Configuration::CheckConfiguration()
   if (m_diskThickness <= 0) { std::cerr << "ERROR. Disk thickness < 0." << std::endl; exit(1); }
   if (m_sourceMode != "voxel" &&
       m_sourceMode != "point") { std::cerr << "ERROR. Source mode listed as \'" << m_sourceMode << "\'." << std::endl; exit(1); }
+  if (m_surfaceRoughness < 0 || m_surfaceRoughness > 1) { std::cerr << "ERROR. 0 < Surface roughness < 1." << std::endl; exit(1); }
+  if (m_surfaceAbsorption < 0 || m_surfaceAbsorption > 1) { std::cerr << "ERROR. 0 < Surface absorption < 1." << std::endl; exit(1); }
 }
 
 void Configuration::PrintConfiguration()
@@ -165,13 +169,15 @@ void Configuration::PrintConfiguration()
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
             << "SteeringFilePath   " << m_steeringFilePath   << std::endl
             << "SourceMode         " << m_sourceMode         << std::endl
+            << "SourcePosSigma     " << m_sourcePosSigma     << " cm"  << std::endl
+            << "SourcePeakE        " << m_sourcePeakE        << " eV"  << std::endl
+            << "SourcePeakESigma   " << m_sourcePeakESigma   << " eV"  << std::endl
+            << "SurfaceRoughness   " << m_surfaceRoughness   << std::endl
+            << "SurfaceAbsorption  " << m_surfaceAbsorption  << std::endl
             << "NumberOfMPPCs      " << m_nMPPCs             << std::endl
             << "SipmArea           " << m_mppcArea           << " cm2" << std::endl
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
             << "DiskThickness      " << m_diskThickness      << " cm"  << std::endl
-            << "SourcePosSigma     " << m_sourcePosSigma     << " cm"  << std::endl
-            << "SourcePeakE        " << m_sourcePeakE        << " eV"  << std::endl
-            << "SourcePeakESigma   " << m_sourcePeakESigma   << " eV"  << std::endl
             << "Reconstruct        "; 
   if (m_reconstruct) { std::cout << "true\n"; std::cout << "RecoAnaTreePath    " << m_recoAnaTreePath << std::endl; } 
   else                 std::cout << "false\n";
