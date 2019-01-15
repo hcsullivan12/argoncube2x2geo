@@ -232,16 +232,16 @@ void G4Helper::RunG4()
     {
       // Get the voxel table
       VoxelTable* voxelTable = VoxelTable::Instance();
-      Voxel voxel = voxelTable->GetVoxel(m_steeringTable[e][0]);
+      const Voxel* voxel     = voxelTable->GetVoxel(m_steeringTable[e][0]);
 
-      r         = voxel.R();
-      thetaDeg  = voxel.Theta();
-      x         = voxel.X();
-      y         = voxel.Y();
+      r         = voxel->R();
+      thetaDeg  = voxel->Theta();
+      x         = voxel->X();
+      y         = voxel->Y();
       z         = m_detector->WheelGeometry()->Thickness();
       n         = m_steeringTable[e][1];
-      voxelSize = voxel.Size(); 
-      std::cout << "voxelID = " << voxel.ID() << std::endl;
+      voxelSize = voxel->Size(); 
+      std::cout << "voxelID = " << voxel->ID() << std::endl;
     }
     else 
     {

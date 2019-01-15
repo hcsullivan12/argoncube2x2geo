@@ -9,6 +9,8 @@
 #ifndef VOXEL_H
 #define VOXEL_H
 
+#include <map>
+
 namespace majorana
 {
 
