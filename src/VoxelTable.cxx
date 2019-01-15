@@ -34,16 +34,6 @@ VoxelTable::VoxelTable()
   m_voxelList.clear();
 }
 
-const Voxel& VoxelTable::GetVoxel(const unsigned& id) 
-{
-  auto it = std::find_if(m_voxelList.begin(), m_voxelList.end(), [id](const Voxel& voxel){ return voxel.ID() == id; }); 
-  if (it == m_voxelList.end())
-  {
-    G4cout << "Voxel::GetVoxel() Error. Voxel #" << id << " not initialized!" << G4endl;
-  }
-  return *it;
-}
-
 Voxel* VoxelTable::GetVoxel(const unsigned& id) 
 {
   auto it = std::find_if(m_voxelList.begin(), m_voxelList.end(), [id](const Voxel& voxel){ return voxel.ID() == id; }); 
@@ -51,7 +41,7 @@ Voxel* VoxelTable::GetVoxel(const unsigned& id)
   {
     G4cout << "Voxel::GetVoxel() Error. Voxel #" << id << " not initialized!" << G4endl;
   }
-  return it;
+  return &*it;
 }
 
 
@@ -102,6 +92,7 @@ void VoxelTable::LoadReferenceTable(const std::string& path)
     Voxel* voxel = GetVoxel(voxelID);
     voxel->AddReference(mppcID, prob); 
   }
+  f.close();
 }
 
 void VoxelTable::Initialize(const std::string& voxelizationPath)
@@ -154,6 +145,7 @@ void VoxelTable::Initialize(const std::string& voxelizationPath)
     Voxel v(voxelID, x, y, r, thetaDeg);
     m_voxelList.emplace_back(v);
   }
+  f.close();
 
   // Compute size 
   float min = std::numeric_limits<float>::max(); 

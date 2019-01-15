@@ -34,11 +34,13 @@ class Configuration
     float       DiskRadius()      const { return m_diskRadius; };
     float       DiskThickness()   const { return m_diskThickness; };
     bool        ShowVis()         const { return m_showVis; };
+    bool        Reconstruct()     const { return m_reconstruct; };
     std::string VisMacroPath()    const { return m_visMacroPath; };
     std::string SteeringFilePath() const { return m_steeringFilePath; };
     std::string SimulateOutputPath() const { return m_simulateOutputPath; };
     std::string SourceMode()         const { return m_sourceMode; };
     std::string VoxelizationPath()   const { return m_voxelizationPath; };
+    std::string OpReferenceTablePath() const { return m_opReferenceTablePath; };
     float       SourcePosSigma()  const { return m_sourcePosSigma; };
     float       SourcePeakE()      const { return m_sourcePeakE; };
     float       SourcePeakESigma() const { return m_sourcePeakESigma; };
@@ -67,6 +69,7 @@ class Configuration
     std::string m_voxelizationPath;
     std::string m_visMacroPath;
     std::string m_sourceMode;
+    std::string m_opReferenceTablePath;
     unsigned    m_nMPPCs;
     float       m_mppcArea;
     float       m_diskRadius;

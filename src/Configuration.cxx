@@ -77,7 +77,11 @@ void Configuration::ReadJSONFile()
   m_surfaceRoughness   = GetJSONMember("surfaceRoughness", rapidjson::kNumberType).GetDouble(); 
   m_surfaceAbsorption  = GetJSONMember("surfaceAbsorption", rapidjson::kNumberType).GetDouble(); 
 
-  if (m_reconstruct)  m_recoAnaTreePath = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
+  if (m_reconstruct)  
+  {
+    m_recoAnaTreePath = GetJSONMember("recoAnaTreePath", rapidjson::kStringType).GetString();
+    m_opReferenceTablePath = GetJSONMember("opReferenceTablePath", rapidjson::kStringType).GetString();
+  }
   if (m_showVis)      m_visMacroPath    = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
   if (m_sourceMode == "point") m_sourcePosSigma = GetJSONMember("sourcePosSigma", rapidjson::kNumberType).GetDouble(); 
   if (m_sourceMode == "voxel") m_voxelizationPath = GetJSONMember("voxelizationPath", rapidjson::kStringType).GetString(); 
@@ -179,10 +183,14 @@ void Configuration::PrintConfiguration()
             << "DiskRadius         " << m_diskRadius         << " cm"  << std::endl
             << "DiskThickness      " << m_diskThickness      << " cm"  << std::endl
             << "Reconstruct        "; 
-  if (m_reconstruct) { std::cout << "true\n"; std::cout << "RecoAnaTreePath    " << m_recoAnaTreePath << std::endl; } 
-  else                 std::cout << "false\n";
+  if (m_reconstruct) 
+  { 
+    std::cout << "true\n"; 
+    std::cout << "RecoAnaTreePath    " << m_recoAnaTreePath << std::endl; 
+    std::cout << "OpReferenceTablePath " << m_opReferenceTablePath << std::endl;
+  }
+  else std::cout << "false\n";
   std::cout << std::setfill('-') << std::setw(60) << "-" << std::setfill(' ')  << std::endl;
-
 }  
 }
 

@@ -5,6 +5,7 @@
 // Majorana includes
 #include "Configuration.h"
 #include "G4Helper.h"
+#include "VoxelTable.h"
 
 // Visualization 
 static bool showVis = false;
@@ -25,7 +26,7 @@ int main(int argc, char **argv)
   if (config->SourceMode() == "voxel")
   {
     // Initialize voxels so we can make the reference table
-    VoxelTable* voxelTable = VoxelTable::Instance();
+    majorana::VoxelTable* voxelTable = majorana::VoxelTable::Instance();
     voxelTable->Initialize(config->VoxelizationPath());
   }
   // If we're wanting to reconstruct in point mode, it's 
@@ -33,9 +34,9 @@ int main(int argc, char **argv)
   // in voxel table 
   if (config->SourceMode() == "point" && config->Reconstruct())
   {
-    VoxelTable* voxelTable = VoxelTable::Instance();
+    majorana::VoxelTable* voxelTable = majorana::VoxelTable::Instance();
     voxelTable->Initialize(config->VoxelizationPath());
-    voxelTable->LoadReferenceTable(config->ReferenceTablePath());
+    voxelTable->LoadReferenceTable(config->OpReferenceTablePath());
   }
   // Start G4
   majorana::G4Helper* g4Helper = majorana::G4Helper::Instance();
