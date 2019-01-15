@@ -27,6 +27,9 @@ class SteppingAction : public G4UserSteppingAction
   
   private: 
     G4OpBoundaryProcess* m_opProcess; 
+    CLHEP::HepJamesRandom m_randomEngine;
+    unsigned dead;
+    unsigned steps;
 };
 }
 #endif

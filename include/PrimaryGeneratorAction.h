@@ -59,6 +59,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     float              m_sourcePeakESigma;
     float              m_voxelSize;
     std::string        m_sourceMode;
+    CLHEP::HepJamesRandom m_randomEngine;
 };
 
 }

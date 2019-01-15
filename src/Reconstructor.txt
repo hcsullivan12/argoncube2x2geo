@@ -8,61 +8,36 @@
 
 #include "Reconstructor.h"
 
-namespace wheel 
+namespace majorana
 {
 
-Reconstructor::Reconstructor()
-{}
+Reconstructor::Reconstructor(const std::map<unsigned, unsigned>& data,
+                             const std::list<Voxel>& voxelList)
+: m_data(data),
+  m_voxelList(voxelList)
+{
+  m_voxelEstimates.clear();
+}
 
 Reconstructor::~Reconstructor()
 {}
 
-void Reconstructor::Initialize(const Configuration& config)
+void Reconstructor::Reconstruct()
 {
-}
+  // The procedure:
+  //
+  //   1) Make initial estimates for voxel intensities
+  //   2) Make next prediction
+  //   3) Check for convergence
+  //        *if yes, save, return
+  //        *if not, initial estimates = current estimates -> 2)
+  //
 
-void Reconstructor::InitVoxelList()
-{
-  // Since we will be coupling this with G4,
-  // the voxel configuration must be read in.
-  std::ifstream f(m_steeringFilePath.c_str());
-  if (!f.is_open())
-  {
-    std::cerr << "Reconstructor::InitVoxelList() Error! Cannot open voxelization file!\n";
-    exit(1);
-  }
-  G4cout << "Reading voxelization file..." << G4endl;
-  // First read top line for r,theta mode or x,y mode
-  std::string string1, string2, string3, string4;
-
-
-} 
-
-void Reconstructor::Reconstruct(unsigned& N0)
-{
-  // The idea here is to first get a rough estimate of the MLE parameters by
-  // a simple grid search (this will be modified based on the application to
-  // optimize computation time). Then we will try to apply the Newton-Raphson 
-  // method to refine the estimate. 
-
-  // Start the timer for this trigger
-  clock_t start = clock();
-
-  if (N0 == 0) { std::cout << "No photons detected!\n"; return; }
- 
-  std::cout << "\nRunning MLE...\n";
-  std::cout << "\nTotal = " << N0 << std::endl;
-
-  // Start main loop
-  // We will cover the entire parameter space, at the expense of computation time
-  // Once N0 is calculated, we'll use Newton-Raphson to better approximate x, y, and N0
-  unsigned max = N0;
-  N0 = 5*N0;
-  while (N0 <= 20*max) 
-  {
-    Handle(N0);
-    N0 = N0+20;
-  }
+  // 1)
+  Initialize();
+  // 2)
+  unsigned iteration(0);
+  Estimate(iteration);
  
   // We should have the ml now
   std::cout << "Max log likelihood = " << m_mlLogLikelihood << std::endl
@@ -71,43 +46,98 @@ void Reconstructor::Reconstruct(unsigned& N0)
             << "Radius             = " << m_mlRadius        << " cm\n"
             << "Theta              = " << m_mlTheta         << " deg\n" 
             << "N0                 = " << m_mlN0            << " photons\n";
-
-  // Refine the estimation
-  unsigned iterator(0);
-  std::cout << "\nApplying NR estimate...\n";
-  NREstimate(iterator);
-
-  std::cout << "Max log likelihood = " << m_mlLogLikelihood << std::endl
-            << "X                  = " << m_mlX             << " cm\n"
-            << "Y                  = " << m_mlY             << " cm\n"
-            << "Radius             = " << m_mlRadius        << " cm\n"
-            << "Theta              = " << m_mlTheta         << " deg\n"
-            << "N0                 = " << m_mlN0            << " photons\n";
- 
-  clock_t end = clock();
-  double duration = ((double) (end - start)) / CLOCKS_PER_SEC;
-  std::cout << "\nRun time of " << duration << " s" << std::endl;
 }
 
-void Reconstructor::Handle(const unsigned& N0)
+void Reconstructor::Initialize()
 {
+
+}
+
+void Reconstructor::Estimate(unsigned& iteration)
+{
+  iteration++;
+
+  for (auto& voxel : m_voxelList)
+  {
+    // voxelID
+    unsigned voxelID = voxel.ID();
+    float    theEst  = voxel.Intensity(); 
+    std::map<unsigned, float> opRefTable = voxel.ReferenceTable(); 
+
+    // Apply the money formula
+    float nextEst = MoneyFormula(voxelID, theEst, opRefTable);
+    m_voxelEstimates.emplace(voxelID, nextEst);
+  }
+
+  // 3) 
+  bool didConverge = CheckConvergance();
+  if (!didConverge) 
+  {
+    Reset();
+    Estimate(iteration);
+  }
+}
+
+void Reconstructor::Reset()
+{
+  // Update the intensities
+  for (auto& v : m_voxelList)
+  {
+    unsigned id = v.ID();
+    float nextEst = m_voxelEstimates.find(id)->second;
+    v.SetIntensity(nextEst);
+  }
+  m_voxelEstimates.clear();
+}
+
+float Reconstructor::MoneyFormula(const unsigned& voxelID, 
+                                  const float&    theEst,
+                                  std::map<unsigned, unsigned>& opRefTable)
+{
+  // Looping over detectors
+  float sum(0);
+  float totalP(0);
+  for (const auto& d : data)
+  {
+    // n p.e. and ref table
+    unsigned n = d.second;
+    float p(0);
+    auto it = opRefTable.find(d.first);
+    if (it == opRefTable.end())
+    {
+      std::cerr << "Uh oh! Could not find MPPC" << d.first << " in reference table! << std::endl;
+    }
+    else p = it->second;
+
+    // Add to totalP
+    totalP = totalP + p;
+
+    // Apply sum in denominator
+    float denomSum = DenominatorSum(d.first);    
+    sum = sum + n*p/denomSum;
+  }
+
+  return theEst*sum/totalP;
+}
+
+float Reconstructor::DenominatorSum(const unsigned& mppcID)
+{
+  // Loop over voxels
   for (const auto& voxel : m_voxelList)
   {
-    // Log likelihood for this parameter set
-    double logLikelihood = ComputeLogLikelihood(voxel.X(), voxel.Y(), N0);
-
-//    std::cout << logLikelihood << std::endl;
-
-    if (logLikelihood > m_mlLogLikelihood) 
+    float theEst = voxel.Intensity();
+    float p(0);
+    auto  it = voxel.ReferenceTable()->find(mppcID);
+    if (it == opRefTable.end())
     {
-      m_mlLogLikelihood = logLikelihood; 
-      m_mlN0            = N0; 
-      m_mlX             = voxel.X(); 
-      m_mlY             = voxel.Y(); 
-      m_mlRadius        = voxel.R(); 
-      m_mlTheta         = voxel.Theta(); 
-    } 
+      std::cerr << "Uh oh! Could not find MPPC" 
+                << mppcID << " in reference table! << std::endl;
+    }
+    else p = thisIt->second;
+
+    denomSum = denomSum + theEst*p;
   }
+  return denomSum;
 }
 
 double Reconstructor::ComputeLogLikelihood(const float& x, const float& y, const unsigned& N0)
@@ -152,237 +182,6 @@ void Reconstructor::ConvertToPolar(float& r, float& thetaDeg, const float& x, co
   if (x < 0 && y > 0) thetaDeg = 180 - thetaDeg;
   if (x < 0 && y < 0) thetaDeg = 180 + thetaDeg;
   if (x > 0 && y < 0) thetaDeg = 360 - thetaDeg;
-}
-
-float Reconstructor::ComputeLambda(const float& r, const float& thetaDeg, const unsigned& N0, const unsigned& sipm)
-{ 
-  // Assumptions:
-  //    1) Only bulk absorption 
-  //    2) Detection effeciency of sipms is 100%
-  //
-  // The equation I'll be using is...
-  // 
-  // I(r,theta) = (I_0/r_m)*cos(alpha)*exp(-r_m/attenuationLength)
-  //
-  //    1) 1/r_m term comes from this being a 2D wave from point-like source
-  //    2) cos(alpha) comes from the projection onto the sipm normal axis
-  //    3) Exponential term comes from bulk absorption
-  
-  // Compute angle between sipm normal and v = (x,y), and distance from (x,y) to sipm
-  float radToDeg     = 180/TMath::Pi();
-    
-  float angleXYandSiPMRad = ((sipm - 1)*m_beta - thetaDeg)*(1/radToDeg);
-  float sipmToXYSquared   = r*r + m_diskRadius*m_diskRadius - 2*r*m_diskRadius*TMath::Cos(angleXYandSiPMRad);
-    
-  // Safety here
-  if (sipmToXYSquared < 0) { std::cout << "Error! Square root of negative number!\n"; return 0; } 
-  float sipmToXY = std::sqrt(sipmToXYSquared);
-
-  // Get the angle between sipmToXY and the normal for this sipm
-  // Put a protection here
-  float cosAngleSiPMToXYandSiPM(1);
-  if (sipmToXY != 0) cosAngleSiPMToXYandSiPM = (-r*r + sipmToXYSquared + m_diskRadius*m_diskRadius)/(2*sipmToXY*m_diskRadius);
- 
-  float weight = N0*cosAngleSiPMToXYandSiPM*TMath::Exp(-sipmToXY/m_attenuationLength)/sipmToXY;
-  return weight;
-}
-
-void Reconstructor::NREstimate(unsigned& iterator)
-{
-  // Make our initial guess
-  // This will be:
-  // 
-  // r     = R/2
-  // theta = angleOfSiPM
-  // N0    = 10*m_maxCounts 
-   
-  float angleOfSiPMDeg = (m_maxSiPM - 1)*m_beta;
- 
-  float guessX     = (m_diskRadius/2.0)*TMath::Cos(angleOfSiPMDeg*TMath::Pi()/180);
-  float guessY     = (m_diskRadius/2.0)*TMath::Sin(angleOfSiPMDeg*TMath::Pi()/180);
-  float guessN0    = m_mlN0;
-  float guessMLogL = ComputeLogLikelihood(guessX, guessY, guessN0); 
-
-  NREstimate(guessX, guessY, guessN0, guessMLogL, iterator);
-}
-
-void Reconstructor::NREstimate(float&    guessX, 
-                               float&    guessY, 
-                               float&    guessN0, 
-                               float&    guessMLogL, 
-                               unsigned& iterator)
-{
-  // Make sure we haven't done this too many times
-  iterator++;
-  if (iterator > m_maxIterations) 
-  {
-    std::cout << "NOTE: Attempted " << m_maxIterations << " iterations!" << std::endl;
-    return;
-  }
-
-  // We will apply the Newton-Raphson method to
-  // maximize likelihood.
-  //
-  // We will use:
-  //
-  // V_n+1 = V_n - [l''(V_n)]^-1 * l'(V_n)
-  //
-
-  // We first need to estimate our derivatives
-  // As h --> 0...
-  // We need two here 
-  const float h = 0.1;
-  const float h1 = 0.5; 
-
-  // dl/dx
-  double l1   = ComputeLogLikelihood(guessX+h, guessY, guessN0);
-  double dldx = (l1 - guessMLogL)/h;
-
-  // dl/dy
-  double l2   = ComputeLogLikelihood(guessX, guessY+h, guessN0);
-  double dldy = (l2 - guessMLogL)/h;
-
-  // dl/dN0
-  double l3    = ComputeLogLikelihood(guessX, guessY, guessN0+h);
-  double dldN0 = (l3 - guessMLogL)/h;
-
-  // d2l/dx2
-  double l4 = ComputeLogLikelihood(guessX+h, guessY, guessN0);
-  double l5 = ComputeLogLikelihood(guessX-h, guessY, guessN0);
-  double d2ldx2 = (l4 - 2*guessMLogL + l5)/(h*h);
-
-  // d2l/dy2
-  double l6 = ComputeLogLikelihood(guessX, guessY+h, guessN0);
-  double l7 = ComputeLogLikelihood(guessX, guessY-h, guessN0);
-  double d2ldy2 = (l6 - 2*guessMLogL + l7)/(h*h);
-
-  // d2l/dN02
-  double l8 = ComputeLogLikelihood(guessX, guessY, guessN0+h1);
-  double l9 = ComputeLogLikelihood(guessX, guessY, guessN0-h1);
-  double d2ldN02 = (l8 - 2*guessMLogL + l9)/(h1*h1);
-
-  // d2l/dxdy
-  double l10 = ComputeLogLikelihood(guessX+h, guessY+h, guessN0);
-  double l11 = ComputeLogLikelihood(guessX+h, guessY-h, guessN0);
-  double l12 = ComputeLogLikelihood(guessX-h, guessY+h, guessN0);
-  double l13 = ComputeLogLikelihood(guessX-h, guessY-h, guessN0);
-  double d2ldxdy = (l10 - l11 - l12 + l13)/(4*h*h);
-
-  // d2l/dxdN0
-  double l14 = ComputeLogLikelihood(guessX+h, guessY, guessN0+h1);
-  double l15 = ComputeLogLikelihood(guessX+h, guessY, guessN0-h1);
-  double l16 = ComputeLogLikelihood(guessX-h, guessY, guessN0+h1);
-  double l17 = ComputeLogLikelihood(guessX-h, guessY, guessN0-h1);
-  double d2ldxdN0 = (l14 - l15 - l16 + l17)/(4*h*h1);
-
-  // d2l/dydN0
-  double l18 = ComputeLogLikelihood(guessX, guessY+h, guessN0+h1);
-  double l19 = ComputeLogLikelihood(guessX, guessY+h, guessN0-h1);
-  double l20 = ComputeLogLikelihood(guessX, guessY-h, guessN0+h1);
-  double l21 = ComputeLogLikelihood(guessX, guessY-h, guessN0-h1);
-  double d2ldydN0 = (l18 - l19 - l20 + l21)/(4*h1*h1);
-
-  // Now we can form the Hessian matrix 
-  TMatrixD gradVec(3,1);
-  TArrayD  gradArr(3);
-  gradArr[0] = dldx; 
-  gradArr[1] = dldy; 
-  gradArr[2] = dldN0;
-  gradVec.SetMatrixArray(gradArr.GetArray());
-
-  TMatrixD hessianMatrix(3,3);
-  TArrayD  hessianArr(9);
-  hessianArr[0] = d2ldx2;
-  hessianArr[1] = d2ldxdy;
-  hessianArr[2] = d2ldxdN0;
-  hessianArr[3] = d2ldxdy;
-  hessianArr[4] = d2ldy2;
-  hessianArr[5] = d2ldydN0;
-  hessianArr[6] = d2ldxdN0;
-  hessianArr[7] = d2ldydN0;
-  hessianArr[8] = d2ldN02;
-  hessianMatrix.SetMatrixArray(hessianArr.GetArray());
- 
-  TDecompSVD svd(hessianMatrix);
-  auto inverseHessianMatrix = hessianMatrix;
-  svd.Invert(inverseHessianMatrix);
-
-  // Multiply inverse Hessian and vector
-  auto m = inverseHessianMatrix*gradVec;
-
-  // What's are new guesses?
-  float newGuessX     = guessX  - m[0][0];
-  float newGuessY     = guessY  - m[1][0];
-  float newGuessN0    = guessN0 - m[2][0];
-  float newGuessMLogL = ComputeLogLikelihood(newGuessX, newGuessY, newGuessN0);
-
-  float newGuessR(0), newGuessT(0);
-  ConvertToPolar(newGuessR, newGuessT, newGuessX, newGuessY);
-  
-  // Make sure r is not > disk radius
-  if (newGuessR >= m_diskRadius) { std::cout << "\n!!!!Caution: Estimate went out of bounds!!!!\n\n"; return; }
-  
-  // Check if mag(gradLogL) < tolerance
-  float magGrad = std::sqrt(gradVec[0][0]*gradVec[0][0] + gradVec[1][0]*gradVec[1][0] + gradVec[2][0]*gradVec[2][0]);
-  if (magGrad < 0.01)
-  {
-    // We need to apply second derivative test here
-    float D1 = d2ldx2;
-    float D2 = d2ldx2*d2ldy2 - d2ldxdy*d2ldxdy;
-    float D3 = hessianMatrix.Determinant();
-
-    // Also check signs of second derivatives
-    if (D1 < 0 && D2 > 0 && D3 < 0)
-    {
-      // Update
-      m_mlX             = newGuessX;
-      m_mlY             = newGuessY;
-      m_mlN0            = newGuessN0;
-      ConvertToPolar(m_mlRadius, m_mlTheta, m_mlX, m_mlY);
-      m_mlLogLikelihood = newGuessMLogL;
-      return; 
-    }
-  }
-  // Otherwise, keep searching
-  NREstimate(newGuessX, newGuessY, newGuessN0, newGuessMLogL, iterator);
-}
-
-unsigned Reconstructor::InitData(SiPMToTriggerMap& sipmToTriggerMap, const SiPMInfoMap& sipmInfoMap, const unsigned& trigger)
-{ 
-  // Which sipm saw the largest number of photons?
-  unsigned maxSiPM;
-  unsigned max(0);
-  // Will will use this as a lower bound for N0
-  unsigned total(0);
-
-  // Loop over all the hits and set the n of photons
-  for (auto& sipm : sipmToTriggerMap)
-  {
-    // Get the gain and bdown for this sipm
-    const float& thisGain = sipmInfoMap.find(sipm.first)->second.gain;
-    const float& thisBD   = sipmInfoMap.find(sipm.first)->second.breakdown;
-    // Total number for this sipm
-    unsigned sipmCounts(0);
-    for (auto& hit : sipm.second[0])
-    {
-      //std::cout << hit.hitHeight << "  " << hit.bias << "  " << thisBD << "\n";
-      hit.nPhotons = std::round(hit.hitAmplitude/thisGain);    //( thisGain*( hit.bias - thisBD ) ));   // hit.bias - thisBD
-      sipmCounts += hit.nPhotons;
-      //std::cout << hit.nPhotons << std::endl;
-    }
-    if (sipmCounts > max) { max = sipmCounts; maxSiPM = sipm.first; }
-
-    // Store counts in data container
-    m_data.emplace(sipm.first, sipmCounts);
-    total += sipmCounts;
-    std::cout << "SiPM " << sipm.first << " --> " << sipmCounts << " p.e.   " << sipm.second[0][0].waveformInt << "\n";
-  }
-
-  // For use later on
-  m_maxCounts = max;
-  m_maxSiPM   = maxSiPM;
-
-  return total;
 }
 
 void Reconstructor::MakePlot(const unsigned& trigger)

@@ -28,7 +28,7 @@ void makeLightSteeringXAxis()
   }
 
   // output top line
-  file << "x y n voxelSize" << std::endl; 
+  file << "x y n" << std::endl; 
 
   // Now shift
   unsigned voxelID(0);
@@ -40,8 +40,8 @@ void makeLightSteeringXAxis()
       unsigned event = 1;
       while (event <= nEvents)
       {
-        if (p.first <  0) file << p.first << " 0 50000 1" << std::endl;
-        if (p.first >= 0) file << p.first << " 0 50000 1"   << std::endl;
+        if (p.first <  0) file << p.first << " 0 50000" << std::endl;
+        if (p.first >= 0) file << p.first << " 0 50000"   << std::endl;
  
         event++;
       }
