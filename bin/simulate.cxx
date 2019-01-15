@@ -21,7 +21,23 @@ int main(int argc, char **argv)
   // Pass visualization
   config->SetVisualization(showVis);
   config->Initialize(std::string(argv[1]));
-  // Handle G4
+  // Initialize source configuration
+  if (config->SourceMode() == "voxel")
+  {
+    // Initialize voxels so we can make the reference table
+    VoxelTable* voxelTable = VoxelTable::Instance();
+    voxelTable->Initialize(config->VoxelizationPath());
+  }
+  // If we're wanting to reconstruct in point mode, it's 
+  // easier if we still initialize voxels to load reference table
+  // in voxel table 
+  if (config->SourceMode() == "point" && config->Reconstruct())
+  {
+    VoxelTable* voxelTable = VoxelTable::Instance();
+    voxelTable->Initialize(config->VoxelizationPath());
+    voxelTable->LoadReferenceTable(config->ReferenceTablePath());
+  }
+  // Start G4
   majorana::G4Helper* g4Helper = majorana::G4Helper::Instance();
   g4Helper->StartG4();
 

@@ -2,7 +2,7 @@
 This project holds the Geant4 simulation code for the SiPM wheel.
 
 ## Physics
-An isotropic TPB emission generator simulates a slightly diffuse point-like source incident on an acrylic disk. The photons undergo total internal reflection until they are either detected by a sorrounding SiPM or refracted. 
+An isotropic TPB emission generator simulates a slightly diffuse point-like source incident on an acrylic disk. The photons undergo total internal reflection until they are either detected by a surrounding SiPM or refracted. 
 
 ## Configuration
 The simulation uses the LightSourceSteering.txt file for placement of the emission generator. 

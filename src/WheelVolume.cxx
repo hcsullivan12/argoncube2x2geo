@@ -7,6 +7,7 @@
 //
 
 #include "WheelVolume.h"
+#include "Configuration.h"
 
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"
@@ -118,12 +119,14 @@ void WheelVolume::PlaceMPPC(G4LogicalVolume* worldLV,
 void WheelVolume::HandleSurfaces(G4VPhysicalVolume* worldPV)
 {
   MaterialManager* materialManager = MaterialManager::Instance();
+  Configuration*   config          = Configuration::Instance();
 
   //**** 
   // Air surface
   //****
   G4OpticalSurface* airSurface(NULL);
-  airSurface = new G4OpticalSurface("AirSurface", glisur, ground, dielectric_dielectric, 0.9);
+  float roughness = config->SurfaceRoughness();
+  airSurface = new G4OpticalSurface("AirSurface", glisur, ground, dielectric_dielectric, roughness);
   new G4LogicalBorderSurface("DiskBorderSurfaceOut",
                              m_diskPV, worldPV, airSurface);
   new G4LogicalBorderSurface("DiskBorderSurfaceIn",

@@ -27,9 +27,11 @@ public:
   ~VoxelTable();
 
   void Initialize(const std::string& voxelizationPath);
+  void LoadReferenceTable(const std::string& path);
 
   const std::list<Voxel>& GetVoxels() const { return m_voxelList; };
   const Voxel&            GetVoxel(const unsigned& id); 
+  Voxel*                  GetVoxel(const unsigned& id); 
   
 private:
   VoxelTable();

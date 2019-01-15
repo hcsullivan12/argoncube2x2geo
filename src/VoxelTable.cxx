@@ -44,6 +44,65 @@ const Voxel& VoxelTable::GetVoxel(const unsigned& id)
   return *it;
 }
 
+Voxel* VoxelTable::GetVoxel(const unsigned& id) 
+{
+  auto it = std::find_if(m_voxelList.begin(), m_voxelList.end(), [id](const Voxel& voxel){ return voxel.ID() == id; }); 
+  if (it == m_voxelList.end())
+  {
+    G4cout << "Voxel::GetVoxel() Error. Voxel #" << id << " not initialized!" << G4endl;
+  }
+  return it;
+}
+
+
+void VoxelTable::LoadReferenceTable(const std::string& path)
+{
+  // Make sure voxels have been initialized
+  if (m_voxelList.size() == 0)
+  {
+    G4cerr << "Error! Voxels have not been initialized!\n" << G4endl;
+    exit(1);
+  }
+
+  // Read in reference table
+  std::ifstream f(path.c_str());
+  if (!f.is_open())
+  { 
+    G4cerr << "VoxelTable::LoadReferenceTable() Error! Cannot open reference table file!\n";
+    exit(1);
+  }
+  G4cout << "Reading reference table file..." << G4endl;
+ 
+  // Table must be:
+  //
+  //    voxelID mppcID probability
+  //
+  std::string string1, string2, string3;
+  std::getline(f, string1, ' ');
+  std::getline(f, string2, ' ');
+  std::getline(f, string3);
+
+  if (string1 != "voxelID" || string2 != "mppcID" || string3 != "probability")
+  { 
+    G4cout << "Error! ReferenceTableFile must have "
+           << "\'voxelID mppcID probability\' on the top row.\n"
+           << G4endl;
+    exit(1);
+  } 
+  
+  while (std::getline(f, string1, ' '))
+  {
+    std::getline(f, string2, ' ');
+    std::getline(f, string3);
+
+    unsigned voxelID = std::stoi(string1);
+    unsigned mppcID  = std::stof(string2);
+    float    prob    = std::stof(string3);
+
+    Voxel* voxel = GetVoxel(voxelID);
+    voxel->AddReference(mppcID, prob); 
+  }
+}
 
 void VoxelTable::Initialize(const std::string& voxelizationPath)
 {
