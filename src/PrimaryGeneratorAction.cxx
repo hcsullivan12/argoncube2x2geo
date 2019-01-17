@@ -7,6 +7,11 @@
 //
 
 #include "PrimaryGeneratorAction.h"
+#include "Configuration.h"
+
+#include "TVector3.h"
+#include "TGraph.h"
+#include "TFile.h"
 
 namespace majorana {
 
@@ -24,8 +29,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   // Initialize rnd generator
   time_t seed = time( NULL );
   m_randomEngine.setSeed(static_cast<long>(seed)); 
-  std::cout << m_randomEngine.getSeed() << std::endl;
-
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -66,6 +69,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   CLHEP::RandGaussQ gauss(m_randomEngine);
   CLHEP::RandFlat   flat(m_randomEngine);
 
+  // Source scatter plot
+  TGraph g(m_nPrimaries);
+
   // Loop over the primaries  
   for (unsigned primary = 0; primary < m_nPrimaries; primary++)
   {
@@ -86,8 +92,11 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
       float a2 = m_sourcePositionXYZ[1] - m_voxelSize/2;
       float b2 = m_sourcePositionXYZ[1] + m_voxelSize/2;
 
-      x = flat.fire(a1, b1);
-      y = flat.fire(a2, b2);
+      // smear
+      //x = flat.fire(a1, b1);
+      //y = flat.fire(a2, b2);
+      x = m_sourcePositionXYZ[0];
+      y = m_sourcePositionXYZ[1];
     }
     G4float z = m_sourcePositionXYZ[2] - 0.1;
     // Sample the momentum
@@ -119,6 +128,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
     // Add this vertex
     G4PrimaryVertex* vertex = new G4PrimaryVertex(x*cm, y*cm, z*cm, 0);
     event->AddPrimaryVertex(vertex);
+    g.SetPoint(primary, x, y);
 
     if (m_particleTable == 0)
     {
@@ -136,5 +146,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
                                 polarization[2]);
     vertex->SetPrimary(g4Particle);
   }
+
+  
+  TFile f("/home/hunter/projects/Majorana/output/simulateOutput.root", "UPDATE");
+  g.Write();
+  f.Close();
 }
 }

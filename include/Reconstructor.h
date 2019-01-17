@@ -3,26 +3,31 @@
 //
 // Author: Hunter Sullivan
 //
-// Description: Structure to perform reconstruction on sipm data.
+// Description: Structure to perform reconstruction sipm wheel.
 //
 
 #ifndef RECONSTRUCTOR_H
 #define RECONSTRUCTOR_H
 
-namespace wheel 
+#include "Voxel.h"
+
+#include <map>
+#include <list>
+
+namespace majorana
 {
 
 class Reconstructor 
 {
 
 public:
-  Reconstructor();
+  Reconstructor(const std::map<unsigned, unsigned>& data,
+                const std::list<Voxel>& voxelList);
   ~Reconstructor();
   
-  void  Reconstruct(unsigned& N0);
-  void  SetData(const std::map<unsigned, unsigned>& data) { m_data = data; };
-  void  Initialize(const Configuration& config);
-  void  MakePlot(const unsigned& trigger);
+  void Reconstruct();
+  void Initialize();
+  void MakePlots(const std::string& filename);
 
   const double   ML()    { return m_mlLogLikelihood; }
   const float    X()     { return m_mlX; }
@@ -33,7 +38,15 @@ public:
     
 private:
 
-  void     ConvertToPolar(float& r, float& thetaDeg, const float& x, const float& y);
+  void Estimate(unsigned& iteration);  
+  void CalculateLL();
+  float CalculateMean(const unsigned& sipmID);
+  float DenominatorSum(const unsigned& sipmID);
+  float MoneyFormula(const unsigned& voxelID,
+                     const float& theEst,
+                     const std::vector<float>& referenceTable);
+  bool CheckConvergence();
+  void Reset();
    
   double                       m_mlLogLikelihood; //< Log likelihood for the MLE
   float                        m_mlN0;            //< MLE for N0
@@ -42,7 +55,10 @@ private:
   float                        m_mlRadius;        //< MLE for r (cm)
   float                        m_mlTheta;         //< MLE for theta (deg)
   std::list<Voxel>             m_voxelList;          //< list of created voxels
+  std::vector<float>           m_voxelEstimates;     //< 
+  std::vector<float>           m_denomSums;
   std::map<unsigned, unsigned> m_data;               //< measured counts (sipm, np.e.)
+  unsigned m_number;
 };
 }
 

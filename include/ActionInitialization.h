@@ -11,7 +11,6 @@
 #define ACTIONINITIALIZATION_H 
 
 #include "PrimaryGeneratorAction.h"
-#include "Configuration.h"
 #include "SteppingAction.h"
  
 #include "G4VUserActionInitialization.hh"

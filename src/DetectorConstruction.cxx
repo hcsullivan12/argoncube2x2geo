@@ -7,6 +7,8 @@
 //
 
 #include "DetectorConstruction.h"
+#include "Configuration.h"
+#include "MaterialManager.h"
 
 #include "G4Color.hh"
 #include "G4VisAttributes.hh"
@@ -17,15 +19,11 @@ namespace majorana
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
-  m_materialManager(NULL),
   m_wheelVolume(NULL),
   m_worldSolid(NULL),
   m_worldLV(NULL),
   m_worldPV(NULL)
 {
-  // Get instance of material manager
-  m_materialManager = MaterialManager::Instance();
-
   // Pass configuration to our other volumes
   Configuration* config = Configuration::Instance();
   m_wheelVolume = new WheelVolume(config->NMPPCs(),
@@ -55,12 +53,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 void DetectorConstruction::InitializeMaterials()
 {
   // Construct materials
-  if (!m_materialManager) 
+  MaterialManager* materialManager = MaterialManager::Instance();
+
+  if (!materialManager) 
   {
     G4cerr << "DetectorConstruction::InitializeMaterials() Error! Material manager not initialized!\n";
   }
-
-  m_materialManager->ConstructMaterials();
+  materialManager->ConstructMaterials();
 }
 
 void DetectorConstruction::InitializeDetector()
@@ -69,6 +68,8 @@ void DetectorConstruction::InitializeDetector()
   {
     G4cerr << "DetectorConstruction::InitializeDetector() Error! Disk volume not initialized!\n";
   }
+  // Get instance of material manager
+  MaterialManager* materialManager = MaterialManager::Instance();
 
   //**** World
   G4double diskRadius    = m_wheelVolume->Radius();
@@ -78,7 +79,7 @@ void DetectorConstruction::InitializeDetector()
                            diskRadius*4*cm, 
                            diskThickness*4*cm);
   m_worldLV    = new G4LogicalVolume(m_worldSolid, 
-                                     m_materialManager->FindMaterial("G4_AIR"), 
+                                     materialManager->FindMaterial("G4_AIR"), 
                                      "WorldLV");
   m_worldPV = new G4PVPlacement(0, 
                                 G4ThreeVector(), 

@@ -41,6 +41,7 @@ class Configuration
     std::string SourceMode()         const { return m_sourceMode; };
     std::string VoxelizationPath()   const { return m_voxelizationPath; };
     std::string OpReferenceTablePath() const { return m_opReferenceTablePath; };
+    std::string RecoAnaTreePath()      const { return m_recoAnaTreePath; };
     float       SourcePosSigma()  const { return m_sourcePosSigma; };
     float       SourcePeakE()      const { return m_sourcePeakE; };
     float       SourcePeakESigma() const { return m_sourcePeakESigma; };

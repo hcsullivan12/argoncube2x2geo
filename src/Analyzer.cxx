@@ -20,11 +20,6 @@ Analyzer::Analyzer(const std::string& simOutputPath)
 {
   // Reset variables
   ResetVars();
-
-  // Initialize output file
-  TFile f(m_simulateOutputPath.c_str(), "RECREATE");
-  f.Close();
-
   
   m_anaTree = new TTree("anatree", "analysis tree");
   m_anaTree->Branch("event",      &m_event, "event/I");

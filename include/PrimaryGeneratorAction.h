@@ -9,8 +9,6 @@
 #ifndef PRIMARYGENERATORACTION_H
 #define PRIMARYGENERATORACTION_H
 
-#include "Configuration.h"
-
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
@@ -22,8 +20,6 @@
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Random/RandGaussQ.h"
-
-#include "TVector3.h"
 
 class G4Event;
 

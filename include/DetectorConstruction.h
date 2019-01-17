@@ -9,8 +9,6 @@
 #ifndef DETECTORCONSTRUCTION_H
 #define DETECTORCONSTRUCTION_H
 
-#include "Configuration.h"
-#include "MaterialManager.h"
 #include "WheelVolume.h"
 #include "MPPCSD.h"
 
@@ -18,7 +16,6 @@
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4VPhysicalVolume.hh"
-#include "G4Material.hh"
 #include "G4Box.hh"
 #include "G4Cache.hh"
 
@@ -43,7 +40,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume*   m_worldLV; 
     G4VPhysicalVolume* m_worldPV;
     WheelVolume*       m_wheelVolume;
-    MaterialManager*   m_materialManager;
     G4Cache<MPPCSD*>   m_mppcSD;    
 
     unsigned           m_nMPPCs;

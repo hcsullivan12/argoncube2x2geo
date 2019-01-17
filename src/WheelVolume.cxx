@@ -8,6 +8,7 @@
 
 #include "WheelVolume.h"
 #include "Configuration.h"
+#include "MaterialManager.h"
 
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"

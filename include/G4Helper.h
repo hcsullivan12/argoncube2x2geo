@@ -9,11 +9,12 @@
 #ifndef G4HELPER_H
 #define G4HELPER_H
 
-#include "Configuration.h"
 #include "DetectorConstruction.h"
 #include "PrimaryGeneratorAction.h"
 #include "ActionInitialization.h"
 #include "PhysicsList.h"
+
+#include "TMath.h"
 
 // Geant4 includes
 #include "G4RunManager.hh"
@@ -75,6 +76,7 @@ class G4Helper
     bool                    m_showVis;
     std::string             m_visMacroPath;
     std::string             m_simulateOutputPath;
+    std::string             m_recoAnaTreePath;
 };
 }
 

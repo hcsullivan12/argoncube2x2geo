@@ -10,6 +10,8 @@
 #include "Analyzer.h"
 #include "OpDetPhotonTable.h"
 #include "VoxelTable.h"
+#include "Configuration.h"
+#include "Reconstructor.h"
 
 namespace majorana
 {
@@ -45,6 +47,7 @@ G4Helper::G4Helper()
   m_showVis            = config->ShowVis();
   m_visMacroPath       = config->VisMacroPath();
   m_simulateOutputPath = config->SimulateOutputPath();
+  m_recoAnaTreePath    = config->RecoAnaTreePath();
 
   // Initialize managers
   m_runManager = new G4RunManager;
@@ -267,7 +270,18 @@ void G4Helper::RunG4()
       }
       else 
       {
-        //  Reconstructor reconstructor;
+        std::cout << "\nReconstructing...\n";
+
+        // Pass data and voxelization schema
+        auto tempData = photonTable->GetPhotonsDetected();
+        std::map<unsigned, unsigned> data;
+        for (const auto& d : tempData) data.emplace(d.first, d.second.size());
+        VoxelTable* voxelTable = VoxelTable::Instance();
+        auto voxelList = voxelTable->GetVoxels();
+
+        Reconstructor reconstructor(data, voxelList);
+        reconstructor.Reconstruct(); 
+        reconstructor.MakePlots(m_recoAnaTreePath);
       }
     }
     // Clear the photon table!

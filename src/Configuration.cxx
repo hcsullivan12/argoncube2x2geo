@@ -84,7 +84,7 @@ void Configuration::ReadJSONFile()
   }
   if (m_showVis)      m_visMacroPath    = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
   if (m_sourceMode == "point") m_sourcePosSigma = GetJSONMember("sourcePosSigma", rapidjson::kNumberType).GetDouble(); 
-  if (m_sourceMode == "voxel") m_voxelizationPath = GetJSONMember("voxelizationPath", rapidjson::kStringType).GetString(); 
+  if (m_sourceMode == "voxel" || m_reconstruct) m_voxelizationPath = GetJSONMember("voxelizationPath", rapidjson::kStringType).GetString(); 
 }
 
 const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memberName,

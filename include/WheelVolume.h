@@ -9,8 +9,6 @@
 #ifndef WHEELVOLUME_H
 #define WHEELVOLUME_H
 
-#include "MaterialManager.h"
-
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
