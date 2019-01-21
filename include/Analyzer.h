@@ -11,7 +11,7 @@
 
 #include "TTree.h"
 
-const int kMaxMPPCs = 100;
+const int kMaxMPPCs = 500;
 
 namespace majorana {
 

@@ -57,6 +57,13 @@ void Analyzer::Fill(const unsigned& e)
   m_diskRadius   = g4Helper->GetDetectorConstruction()->WheelGeometry()->Radius();
   m_nPrimaries   = g4Helper->GetActionInitialization()->GetGeneratorAction()->GetNPrimaries();
 
+  // **CHECK**
+  if (m_nMPPCs > kMaxMPPCs)
+  {
+    std::cerr << "Error! Number of mppcs > kMaxMPPCs.\n" << std::endl;
+    exit(1);
+  }
+
   auto xyzVec = g4Helper->GetActionInitialization()->GetGeneratorAction()->GetSourcePositionXYZ();
   auto rtzVec = g4Helper->GetActionInitialization()->GetGeneratorAction()->GetSourcePositionRTZ();
   m_sourcePosXYZ[0] = xyzVec[0]; 

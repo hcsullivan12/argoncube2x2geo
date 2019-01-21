@@ -10,7 +10,6 @@
 #include <iomanip>
 #include <math.h>
 
-// Preprocessing variables
 #ifdef VERSION
 #define majoranaVersion VERSION
 #endif
@@ -76,6 +75,10 @@ void Configuration::ReadJSONFile()
   m_reconstruct        = GetJSONMember("reconstruct", rapidjson::kFalseType).GetBool(); 
   m_surfaceRoughness   = GetJSONMember("surfaceRoughness", rapidjson::kNumberType).GetDouble(); 
   m_surfaceAbsorption  = GetJSONMember("surfaceAbsorption", rapidjson::kNumberType).GetDouble(); 
+
+  #ifdef G4_GDML 
+  m_gdmlOutputPath     = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
+  #endif
 
   if (m_reconstruct)  
   {
@@ -172,6 +175,9 @@ void Configuration::PrintConfiguration()
   std::cout << "Majorana Configuration:\n";
   std::cout << "SimulateOutputPath " << m_simulateOutputPath << std::endl
             << "SteeringFilePath   " << m_steeringFilePath   << std::endl
+            #ifdef G4_GDML
+            << "GDMLOutputPath     " << m_gdmlOutputPath     << std::endl
+            #endif
             << "SourceMode         " << m_sourceMode         << std::endl
             << "SourcePosSigma     " << m_sourcePosSigma     << " cm"  << std::endl
             << "SourcePeakE        " << m_sourcePeakE        << " eV"  << std::endl

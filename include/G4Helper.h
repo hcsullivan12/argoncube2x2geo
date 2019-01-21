@@ -39,6 +39,7 @@ class G4Helper
     using SteeringTable = std::vector<std::vector<float>>;
 
     void StartG4();
+    void WriteGDML();
     ActionInitialization* GetActionInitialization() const { return m_actionInitialization; };
     DetectorConstruction* GetDetectorConstruction() const { return m_detector; };
 
@@ -77,6 +78,7 @@ class G4Helper
     std::string             m_visMacroPath;
     std::string             m_simulateOutputPath;
     std::string             m_recoAnaTreePath;
+    std::string             m_gdmlOutputPath;
 };
 }
 

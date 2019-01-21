@@ -42,6 +42,7 @@ class Configuration
     std::string VoxelizationPath()   const { return m_voxelizationPath; };
     std::string OpReferenceTablePath() const { return m_opReferenceTablePath; };
     std::string RecoAnaTreePath()      const { return m_recoAnaTreePath; };
+    std::string GDMLOutputPath()       const { return m_gdmlOutputPath; };
     float       SourcePosSigma()  const { return m_sourcePosSigma; };
     float       SourcePeakE()      const { return m_sourcePeakE; };
     float       SourcePeakESigma() const { return m_sourcePeakESigma; };
@@ -71,6 +72,7 @@ class Configuration
     std::string m_visMacroPath;
     std::string m_sourceMode;
     std::string m_opReferenceTablePath;
+    std::string m_gdmlOutputPath;
     unsigned    m_nMPPCs;
     float       m_mppcArea;
     float       m_diskRadius;

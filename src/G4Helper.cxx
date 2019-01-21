@@ -13,6 +13,11 @@
 #include "Configuration.h"
 #include "Reconstructor.h"
 
+#ifdef G4_GDML
+#include "G4GDMLParser.hh"
+#include "G4PhysicalVolumeStore.hh"
+#endif
+
 namespace majorana
 {
 
@@ -48,6 +53,7 @@ G4Helper::G4Helper()
   m_visMacroPath       = config->VisMacroPath();
   m_simulateOutputPath = config->SimulateOutputPath();
   m_recoAnaTreePath    = config->RecoAnaTreePath();
+  m_gdmlOutputPath     = config->GDMLOutputPath();
 
   // Initialize managers
   m_runManager = new G4RunManager;
@@ -113,7 +119,7 @@ void G4Helper::ReadSteeringFile()
     if (string1 != "voxelID" || string2 != "n")
     {
       G4cout << "Error! LightSteeringFile in voxel mode must have " 
-             << "\'voxelID n\' on the top row.\n"
+             << "\'voxelID n\' on the top row.  " << string1 << " " << string2 << "\n"
              << G4endl;
       exit(1);
     }
@@ -200,6 +206,9 @@ void G4Helper::StartG4()
  
   // Start main G4 loop
   RunG4();
+
+  // Output GDML
+  WriteGDML();
 }
 
 void G4Helper::HandleVerbosities()
@@ -302,6 +311,27 @@ void G4Helper::HandleVisualization()
     std::string command = "/control/execute " + m_visMacroPath;
     m_uiManager->ApplyCommand(command);
   }
+  #endif
+}
+
+void G4Helper::WriteGDML()
+{
+  #ifdef G4_GDML
+ // std::cout << "Writing geometry to gdml file...\n";
+  G4Navigator* nav =
+    G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
+
+  G4VPhysicalVolume* w = nav->GetWorldVolume();
+
+  G4PhysicalVolumeStore* volStore = G4PhysicalVolumeStore::GetInstance();
+  /*for (auto it = volStore->begin(); it != volStore->end(); it++)
+  {
+    std::cout << (*it)->GetName() << std::endl;
+  }*/
+  auto s = volStore->GetVolume("mppcs/mppc1");
+
+  G4GDMLParser parser;
+  parser.Write(m_gdmlOutputPath, s, false);
   #endif
 }
 
