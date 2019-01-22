@@ -105,33 +105,9 @@ CMakeFiles/construct.dir/src/ActionInitialization.cxx.o.provides: CMakeFiles/con
 CMakeFiles/construct.dir/src/ActionInitialization.cxx.o.provides.build: CMakeFiles/construct.dir/src/ActionInitialization.cxx.o
 
 
-CMakeFiles/construct.dir/src/Analyzer.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/Analyzer.cxx.o: ../src/Analyzer.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/construct.dir/src/Analyzer.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/Analyzer.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/Analyzer.cxx
-
-CMakeFiles/construct.dir/src/Analyzer.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/Analyzer.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/Analyzer.cxx > CMakeFiles/construct.dir/src/Analyzer.cxx.i
-
-CMakeFiles/construct.dir/src/Analyzer.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/Analyzer.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/Analyzer.cxx -o CMakeFiles/construct.dir/src/Analyzer.cxx.s
-
-CMakeFiles/construct.dir/src/Analyzer.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/Analyzer.cxx.o.requires
-
-CMakeFiles/construct.dir/src/Analyzer.cxx.o.provides: CMakeFiles/construct.dir/src/Analyzer.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Analyzer.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/Analyzer.cxx.o.provides
-
-CMakeFiles/construct.dir/src/Analyzer.cxx.o.provides.build: CMakeFiles/construct.dir/src/Analyzer.cxx.o
-
-
 CMakeFiles/construct.dir/src/Configuration.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/Configuration.cxx.o: ../src/Configuration.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/construct.dir/src/Configuration.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/construct.dir/src/Configuration.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/Configuration.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/Configuration.cxx
 
 CMakeFiles/construct.dir/src/Configuration.cxx.i: cmake_force
@@ -155,7 +131,7 @@ CMakeFiles/construct.dir/src/Configuration.cxx.o.provides.build: CMakeFiles/cons
 
 CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o: ../src/DetectorConstruction.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/DetectorConstruction.cxx
 
 CMakeFiles/construct.dir/src/DetectorConstruction.cxx.i: cmake_force
@@ -179,7 +155,7 @@ CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o.provides.build: CMakeFil
 
 CMakeFiles/construct.dir/src/G4Helper.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/G4Helper.cxx.o: ../src/G4Helper.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/construct.dir/src/G4Helper.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/construct.dir/src/G4Helper.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/G4Helper.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/G4Helper.cxx
 
 CMakeFiles/construct.dir/src/G4Helper.cxx.i: cmake_force
@@ -201,33 +177,9 @@ CMakeFiles/construct.dir/src/G4Helper.cxx.o.provides: CMakeFiles/construct.dir/s
 CMakeFiles/construct.dir/src/G4Helper.cxx.o.provides.build: CMakeFiles/construct.dir/src/G4Helper.cxx.o
 
 
-CMakeFiles/construct.dir/src/MPPCSD.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/MPPCSD.cxx.o: ../src/MPPCSD.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/construct.dir/src/MPPCSD.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/MPPCSD.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/MPPCSD.cxx
-
-CMakeFiles/construct.dir/src/MPPCSD.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/MPPCSD.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/MPPCSD.cxx > CMakeFiles/construct.dir/src/MPPCSD.cxx.i
-
-CMakeFiles/construct.dir/src/MPPCSD.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/MPPCSD.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/MPPCSD.cxx -o CMakeFiles/construct.dir/src/MPPCSD.cxx.s
-
-CMakeFiles/construct.dir/src/MPPCSD.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/MPPCSD.cxx.o.requires
-
-CMakeFiles/construct.dir/src/MPPCSD.cxx.o.provides: CMakeFiles/construct.dir/src/MPPCSD.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/MPPCSD.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/MPPCSD.cxx.o.provides
-
-CMakeFiles/construct.dir/src/MPPCSD.cxx.o.provides.build: CMakeFiles/construct.dir/src/MPPCSD.cxx.o
-
-
 CMakeFiles/construct.dir/src/MaterialManager.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/MaterialManager.cxx.o: ../src/MaterialManager.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/construct.dir/src/MaterialManager.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/construct.dir/src/MaterialManager.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/MaterialManager.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/MaterialManager.cxx
 
 CMakeFiles/construct.dir/src/MaterialManager.cxx.i: cmake_force
@@ -249,81 +201,9 @@ CMakeFiles/construct.dir/src/MaterialManager.cxx.o.provides: CMakeFiles/construc
 CMakeFiles/construct.dir/src/MaterialManager.cxx.o.provides.build: CMakeFiles/construct.dir/src/MaterialManager.cxx.o
 
 
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o: ../src/OpDetPhotonTable.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/OpDetPhotonTable.cxx
-
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/OpDetPhotonTable.cxx > CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.i
-
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/OpDetPhotonTable.cxx -o CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.s
-
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.requires
-
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.provides: CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.provides
-
-CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.provides.build: CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o
-
-
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o: ../src/OpticalPhysics.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/OpticalPhysics.cxx
-
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/OpticalPhysics.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/OpticalPhysics.cxx > CMakeFiles/construct.dir/src/OpticalPhysics.cxx.i
-
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/OpticalPhysics.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/OpticalPhysics.cxx -o CMakeFiles/construct.dir/src/OpticalPhysics.cxx.s
-
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.requires
-
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.provides: CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.provides
-
-CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.provides.build: CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o
-
-
-CMakeFiles/construct.dir/src/PhysicsList.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/PhysicsList.cxx.o: ../src/PhysicsList.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/construct.dir/src/PhysicsList.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/PhysicsList.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/PhysicsList.cxx
-
-CMakeFiles/construct.dir/src/PhysicsList.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/PhysicsList.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/PhysicsList.cxx > CMakeFiles/construct.dir/src/PhysicsList.cxx.i
-
-CMakeFiles/construct.dir/src/PhysicsList.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/PhysicsList.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/PhysicsList.cxx -o CMakeFiles/construct.dir/src/PhysicsList.cxx.s
-
-CMakeFiles/construct.dir/src/PhysicsList.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/PhysicsList.cxx.o.requires
-
-CMakeFiles/construct.dir/src/PhysicsList.cxx.o.provides: CMakeFiles/construct.dir/src/PhysicsList.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/PhysicsList.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/PhysicsList.cxx.o.provides
-
-CMakeFiles/construct.dir/src/PhysicsList.cxx.o.provides.build: CMakeFiles/construct.dir/src/PhysicsList.cxx.o
-
-
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o: ../src/PrimaryGeneratorAction.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.cxx
 
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.i: cmake_force
@@ -345,105 +225,9 @@ CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o.provides: CMakeFiles/c
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o.provides.build: CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o
 
 
-CMakeFiles/construct.dir/src/Reconstructor.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/Reconstructor.cxx.o: ../src/Reconstructor.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/construct.dir/src/Reconstructor.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/Reconstructor.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/Reconstructor.cxx
-
-CMakeFiles/construct.dir/src/Reconstructor.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/Reconstructor.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/Reconstructor.cxx > CMakeFiles/construct.dir/src/Reconstructor.cxx.i
-
-CMakeFiles/construct.dir/src/Reconstructor.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/Reconstructor.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/Reconstructor.cxx -o CMakeFiles/construct.dir/src/Reconstructor.cxx.s
-
-CMakeFiles/construct.dir/src/Reconstructor.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/Reconstructor.cxx.o.requires
-
-CMakeFiles/construct.dir/src/Reconstructor.cxx.o.provides: CMakeFiles/construct.dir/src/Reconstructor.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Reconstructor.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/Reconstructor.cxx.o.provides
-
-CMakeFiles/construct.dir/src/Reconstructor.cxx.o.provides.build: CMakeFiles/construct.dir/src/Reconstructor.cxx.o
-
-
-CMakeFiles/construct.dir/src/SteppingAction.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/SteppingAction.cxx.o: ../src/SteppingAction.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/construct.dir/src/SteppingAction.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/SteppingAction.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/SteppingAction.cxx
-
-CMakeFiles/construct.dir/src/SteppingAction.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/SteppingAction.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/SteppingAction.cxx > CMakeFiles/construct.dir/src/SteppingAction.cxx.i
-
-CMakeFiles/construct.dir/src/SteppingAction.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/SteppingAction.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/SteppingAction.cxx -o CMakeFiles/construct.dir/src/SteppingAction.cxx.s
-
-CMakeFiles/construct.dir/src/SteppingAction.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/SteppingAction.cxx.o.requires
-
-CMakeFiles/construct.dir/src/SteppingAction.cxx.o.provides: CMakeFiles/construct.dir/src/SteppingAction.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/SteppingAction.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/SteppingAction.cxx.o.provides
-
-CMakeFiles/construct.dir/src/SteppingAction.cxx.o.provides.build: CMakeFiles/construct.dir/src/SteppingAction.cxx.o
-
-
-CMakeFiles/construct.dir/src/Voxel.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/Voxel.cxx.o: ../src/Voxel.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/construct.dir/src/Voxel.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/Voxel.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/Voxel.cxx
-
-CMakeFiles/construct.dir/src/Voxel.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/Voxel.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/Voxel.cxx > CMakeFiles/construct.dir/src/Voxel.cxx.i
-
-CMakeFiles/construct.dir/src/Voxel.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/Voxel.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/Voxel.cxx -o CMakeFiles/construct.dir/src/Voxel.cxx.s
-
-CMakeFiles/construct.dir/src/Voxel.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/Voxel.cxx.o.requires
-
-CMakeFiles/construct.dir/src/Voxel.cxx.o.provides: CMakeFiles/construct.dir/src/Voxel.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Voxel.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/Voxel.cxx.o.provides
-
-CMakeFiles/construct.dir/src/Voxel.cxx.o.provides.build: CMakeFiles/construct.dir/src/Voxel.cxx.o
-
-
-CMakeFiles/construct.dir/src/VoxelTable.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/VoxelTable.cxx.o: ../src/VoxelTable.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/construct.dir/src/VoxelTable.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/VoxelTable.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/VoxelTable.cxx
-
-CMakeFiles/construct.dir/src/VoxelTable.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/VoxelTable.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/VoxelTable.cxx > CMakeFiles/construct.dir/src/VoxelTable.cxx.i
-
-CMakeFiles/construct.dir/src/VoxelTable.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/VoxelTable.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/VoxelTable.cxx -o CMakeFiles/construct.dir/src/VoxelTable.cxx.s
-
-CMakeFiles/construct.dir/src/VoxelTable.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/VoxelTable.cxx.o.requires
-
-CMakeFiles/construct.dir/src/VoxelTable.cxx.o.provides: CMakeFiles/construct.dir/src/VoxelTable.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/VoxelTable.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/VoxelTable.cxx.o.provides
-
-CMakeFiles/construct.dir/src/VoxelTable.cxx.o.provides.build: CMakeFiles/construct.dir/src/VoxelTable.cxx.o
-
-
 CMakeFiles/construct.dir/src/WheelVolume.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/WheelVolume.cxx.o: ../src/WheelVolume.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/WheelVolume.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx
 
 CMakeFiles/construct.dir/src/WheelVolume.cxx.i: cmake_force
@@ -469,20 +253,11 @@ CMakeFiles/construct.dir/src/WheelVolume.cxx.o.provides.build: CMakeFiles/constr
 construct_OBJECTS = \
 "CMakeFiles/construct.dir/construct.cxx.o" \
 "CMakeFiles/construct.dir/src/ActionInitialization.cxx.o" \
-"CMakeFiles/construct.dir/src/Analyzer.cxx.o" \
 "CMakeFiles/construct.dir/src/Configuration.cxx.o" \
 "CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o" \
 "CMakeFiles/construct.dir/src/G4Helper.cxx.o" \
-"CMakeFiles/construct.dir/src/MPPCSD.cxx.o" \
 "CMakeFiles/construct.dir/src/MaterialManager.cxx.o" \
-"CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o" \
-"CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o" \
-"CMakeFiles/construct.dir/src/PhysicsList.cxx.o" \
 "CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o" \
-"CMakeFiles/construct.dir/src/Reconstructor.cxx.o" \
-"CMakeFiles/construct.dir/src/SteppingAction.cxx.o" \
-"CMakeFiles/construct.dir/src/Voxel.cxx.o" \
-"CMakeFiles/construct.dir/src/VoxelTable.cxx.o" \
 "CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
 
 # External object files for target construct
@@ -490,20 +265,11 @@ construct_EXTERNAL_OBJECTS =
 
 construct: CMakeFiles/construct.dir/construct.cxx.o
 construct: CMakeFiles/construct.dir/src/ActionInitialization.cxx.o
-construct: CMakeFiles/construct.dir/src/Analyzer.cxx.o
 construct: CMakeFiles/construct.dir/src/Configuration.cxx.o
 construct: CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o
 construct: CMakeFiles/construct.dir/src/G4Helper.cxx.o
-construct: CMakeFiles/construct.dir/src/MPPCSD.cxx.o
 construct: CMakeFiles/construct.dir/src/MaterialManager.cxx.o
-construct: CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o
-construct: CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o
-construct: CMakeFiles/construct.dir/src/PhysicsList.cxx.o
 construct: CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o
-construct: CMakeFiles/construct.dir/src/Reconstructor.cxx.o
-construct: CMakeFiles/construct.dir/src/SteppingAction.cxx.o
-construct: CMakeFiles/construct.dir/src/Voxel.cxx.o
-construct: CMakeFiles/construct.dir/src/VoxelTable.cxx.o
 construct: CMakeFiles/construct.dir/src/WheelVolume.cxx.o
 construct: CMakeFiles/construct.dir/build.make
 construct: /home/hunter/Software/root-6.14.00-install/lib/libCore.so
@@ -564,7 +330,7 @@ construct: /home/hunter/Software/geant4.10.03-install/lib/libG4intercoms.so
 construct: /home/hunter/Software/geant4.10.03-install/lib/libG4global.so
 construct: /home/hunter/Software/geant4.10.03-install/lib/libG4clhep.so
 construct: CMakeFiles/construct.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX executable construct"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable construct"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/construct.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -574,20 +340,11 @@ CMakeFiles/construct.dir/build: construct
 
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/construct.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/ActionInitialization.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/Analyzer.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/Configuration.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/G4Helper.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/MPPCSD.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/MaterialManager.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/PhysicsList.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/Reconstructor.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/SteppingAction.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/Voxel.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/VoxelTable.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/WheelVolume.cxx.o.requires
 
 .PHONY : CMakeFiles/construct.dir/requires

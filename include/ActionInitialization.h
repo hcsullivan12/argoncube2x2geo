@@ -11,11 +11,10 @@
 #define ACTIONINITIALIZATION_H 
 
 #include "PrimaryGeneratorAction.h"
-#include "SteppingAction.h"
  
 #include "G4VUserActionInitialization.hh"
 
-namespace majorana
+namespace geo
 {
 
 class ActionInitialization : public G4VUserActionInitialization
@@ -23,14 +22,10 @@ class ActionInitialization : public G4VUserActionInitialization
   public:
     ActionInitialization();
     virtual ~ActionInitialization();
-
     virtual void Build() const;
 
-    PrimaryGeneratorAction* GetGeneratorAction() const { return m_generatorAction; };
-
   private:
-    PrimaryGeneratorAction*  m_generatorAction;
-    SteppingAction*          m_steppingAction;
+    PrimaryGeneratorAction* fGeneratorAction;
 };
 
 }

@@ -8,16 +8,14 @@
 
 #include "ActionInitialization.h"
 
-namespace majorana
+namespace geo
 {
 
 ActionInitialization::ActionInitialization()
  : G4VUserActionInitialization(),
-   m_generatorAction(NULL),
-   m_steppingAction(NULL)
+   fGeneratorAction(NULL)
 {
-  m_generatorAction = new PrimaryGeneratorAction();
-  m_steppingAction  = new SteppingAction;
+  fGeneratorAction = new PrimaryGeneratorAction();
 }
 
 ActionInitialization::~ActionInitialization()
@@ -25,8 +23,7 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::Build() const
 {
-  SetUserAction(m_generatorAction);
-  SetUserAction(m_steppingAction);
+  SetUserAction(fGeneratorAction);
 }
 
 }

@@ -6,20 +6,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/hunter/projects/argoncube2x2geo/construct.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/construct.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/ActionInitialization.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/ActionInitialization.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/Analyzer.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/Analyzer.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/Configuration.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/Configuration.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/DetectorConstruction.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/G4Helper.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/G4Helper.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/MPPCSD.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/MPPCSD.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/MaterialManager.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/MaterialManager.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/OpDetPhotonTable.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/OpticalPhysics.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/PhysicsList.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/PhysicsList.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/Reconstructor.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/Reconstructor.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/SteppingAction.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/SteppingAction.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/Voxel.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/Voxel.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/VoxelTable.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/VoxelTable.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
