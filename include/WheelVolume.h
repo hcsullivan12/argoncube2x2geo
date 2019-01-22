@@ -18,7 +18,7 @@
 #include "G4OpticalSurface.hh"
 #include "G4LogicalSkinSurface.hh"
 
-namespace majorana
+namespace geo
 {
 
 class WheelVolume 

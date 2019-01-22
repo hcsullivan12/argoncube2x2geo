@@ -15,7 +15,7 @@
 #include "G4LogicalBorderSurface.hh"
 #include "G4PhysicalVolumeStore.hh"
 
-namespace majorana
+namespace geo
 {
 
 WheelVolume::WheelVolume(const unsigned& nMPPCs, 
@@ -126,7 +126,7 @@ void WheelVolume::HandleSurfaces(G4VPhysicalVolume* worldPV)
   // Air surface
   //****
   G4OpticalSurface* airSurface(NULL);
-  float roughness = config->SurfaceRoughness();
+  float roughness = 1;//config->SurfaceRoughness();
   airSurface = new G4OpticalSurface("AirSurface", glisur, ground, dielectric_dielectric, roughness);
   new G4LogicalBorderSurface("DiskBorderSurfaceOut",
                              m_diskPV, worldPV, airSurface);

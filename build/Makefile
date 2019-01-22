@@ -177,33 +177,6 @@ src/ActionInitialization.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/ActionInitialization.cxx.s
 .PHONY : src/ActionInitialization.cxx.s
 
-src/Analyzer.o: src/Analyzer.cxx.o
-
-.PHONY : src/Analyzer.o
-
-# target to build an object file
-src/Analyzer.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Analyzer.cxx.o
-.PHONY : src/Analyzer.cxx.o
-
-src/Analyzer.i: src/Analyzer.cxx.i
-
-.PHONY : src/Analyzer.i
-
-# target to preprocess a source file
-src/Analyzer.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Analyzer.cxx.i
-.PHONY : src/Analyzer.cxx.i
-
-src/Analyzer.s: src/Analyzer.cxx.s
-
-.PHONY : src/Analyzer.s
-
-# target to generate assembly for a file
-src/Analyzer.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Analyzer.cxx.s
-.PHONY : src/Analyzer.cxx.s
-
 src/Configuration.o: src/Configuration.cxx.o
 
 .PHONY : src/Configuration.o
@@ -285,33 +258,6 @@ src/G4Helper.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/G4Helper.cxx.s
 .PHONY : src/G4Helper.cxx.s
 
-src/MPPCSD.o: src/MPPCSD.cxx.o
-
-.PHONY : src/MPPCSD.o
-
-# target to build an object file
-src/MPPCSD.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/MPPCSD.cxx.o
-.PHONY : src/MPPCSD.cxx.o
-
-src/MPPCSD.i: src/MPPCSD.cxx.i
-
-.PHONY : src/MPPCSD.i
-
-# target to preprocess a source file
-src/MPPCSD.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/MPPCSD.cxx.i
-.PHONY : src/MPPCSD.cxx.i
-
-src/MPPCSD.s: src/MPPCSD.cxx.s
-
-.PHONY : src/MPPCSD.s
-
-# target to generate assembly for a file
-src/MPPCSD.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/MPPCSD.cxx.s
-.PHONY : src/MPPCSD.cxx.s
-
 src/MaterialManager.o: src/MaterialManager.cxx.o
 
 .PHONY : src/MaterialManager.o
@@ -339,87 +285,6 @@ src/MaterialManager.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/MaterialManager.cxx.s
 .PHONY : src/MaterialManager.cxx.s
 
-src/OpDetPhotonTable.o: src/OpDetPhotonTable.cxx.o
-
-.PHONY : src/OpDetPhotonTable.o
-
-# target to build an object file
-src/OpDetPhotonTable.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.o
-.PHONY : src/OpDetPhotonTable.cxx.o
-
-src/OpDetPhotonTable.i: src/OpDetPhotonTable.cxx.i
-
-.PHONY : src/OpDetPhotonTable.i
-
-# target to preprocess a source file
-src/OpDetPhotonTable.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.i
-.PHONY : src/OpDetPhotonTable.cxx.i
-
-src/OpDetPhotonTable.s: src/OpDetPhotonTable.cxx.s
-
-.PHONY : src/OpDetPhotonTable.s
-
-# target to generate assembly for a file
-src/OpDetPhotonTable.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpDetPhotonTable.cxx.s
-.PHONY : src/OpDetPhotonTable.cxx.s
-
-src/OpticalPhysics.o: src/OpticalPhysics.cxx.o
-
-.PHONY : src/OpticalPhysics.o
-
-# target to build an object file
-src/OpticalPhysics.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpticalPhysics.cxx.o
-.PHONY : src/OpticalPhysics.cxx.o
-
-src/OpticalPhysics.i: src/OpticalPhysics.cxx.i
-
-.PHONY : src/OpticalPhysics.i
-
-# target to preprocess a source file
-src/OpticalPhysics.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpticalPhysics.cxx.i
-.PHONY : src/OpticalPhysics.cxx.i
-
-src/OpticalPhysics.s: src/OpticalPhysics.cxx.s
-
-.PHONY : src/OpticalPhysics.s
-
-# target to generate assembly for a file
-src/OpticalPhysics.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/OpticalPhysics.cxx.s
-.PHONY : src/OpticalPhysics.cxx.s
-
-src/PhysicsList.o: src/PhysicsList.cxx.o
-
-.PHONY : src/PhysicsList.o
-
-# target to build an object file
-src/PhysicsList.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/PhysicsList.cxx.o
-.PHONY : src/PhysicsList.cxx.o
-
-src/PhysicsList.i: src/PhysicsList.cxx.i
-
-.PHONY : src/PhysicsList.i
-
-# target to preprocess a source file
-src/PhysicsList.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/PhysicsList.cxx.i
-.PHONY : src/PhysicsList.cxx.i
-
-src/PhysicsList.s: src/PhysicsList.cxx.s
-
-.PHONY : src/PhysicsList.s
-
-# target to generate assembly for a file
-src/PhysicsList.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/PhysicsList.cxx.s
-.PHONY : src/PhysicsList.cxx.s
-
 src/PrimaryGeneratorAction.o: src/PrimaryGeneratorAction.cxx.o
 
 .PHONY : src/PrimaryGeneratorAction.o
@@ -446,114 +311,6 @@ src/PrimaryGeneratorAction.s: src/PrimaryGeneratorAction.cxx.s
 src/PrimaryGeneratorAction.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.s
 .PHONY : src/PrimaryGeneratorAction.cxx.s
-
-src/Reconstructor.o: src/Reconstructor.cxx.o
-
-.PHONY : src/Reconstructor.o
-
-# target to build an object file
-src/Reconstructor.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Reconstructor.cxx.o
-.PHONY : src/Reconstructor.cxx.o
-
-src/Reconstructor.i: src/Reconstructor.cxx.i
-
-.PHONY : src/Reconstructor.i
-
-# target to preprocess a source file
-src/Reconstructor.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Reconstructor.cxx.i
-.PHONY : src/Reconstructor.cxx.i
-
-src/Reconstructor.s: src/Reconstructor.cxx.s
-
-.PHONY : src/Reconstructor.s
-
-# target to generate assembly for a file
-src/Reconstructor.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Reconstructor.cxx.s
-.PHONY : src/Reconstructor.cxx.s
-
-src/SteppingAction.o: src/SteppingAction.cxx.o
-
-.PHONY : src/SteppingAction.o
-
-# target to build an object file
-src/SteppingAction.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/SteppingAction.cxx.o
-.PHONY : src/SteppingAction.cxx.o
-
-src/SteppingAction.i: src/SteppingAction.cxx.i
-
-.PHONY : src/SteppingAction.i
-
-# target to preprocess a source file
-src/SteppingAction.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/SteppingAction.cxx.i
-.PHONY : src/SteppingAction.cxx.i
-
-src/SteppingAction.s: src/SteppingAction.cxx.s
-
-.PHONY : src/SteppingAction.s
-
-# target to generate assembly for a file
-src/SteppingAction.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/SteppingAction.cxx.s
-.PHONY : src/SteppingAction.cxx.s
-
-src/Voxel.o: src/Voxel.cxx.o
-
-.PHONY : src/Voxel.o
-
-# target to build an object file
-src/Voxel.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Voxel.cxx.o
-.PHONY : src/Voxel.cxx.o
-
-src/Voxel.i: src/Voxel.cxx.i
-
-.PHONY : src/Voxel.i
-
-# target to preprocess a source file
-src/Voxel.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Voxel.cxx.i
-.PHONY : src/Voxel.cxx.i
-
-src/Voxel.s: src/Voxel.cxx.s
-
-.PHONY : src/Voxel.s
-
-# target to generate assembly for a file
-src/Voxel.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Voxel.cxx.s
-.PHONY : src/Voxel.cxx.s
-
-src/VoxelTable.o: src/VoxelTable.cxx.o
-
-.PHONY : src/VoxelTable.o
-
-# target to build an object file
-src/VoxelTable.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/VoxelTable.cxx.o
-.PHONY : src/VoxelTable.cxx.o
-
-src/VoxelTable.i: src/VoxelTable.cxx.i
-
-.PHONY : src/VoxelTable.i
-
-# target to preprocess a source file
-src/VoxelTable.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/VoxelTable.cxx.i
-.PHONY : src/VoxelTable.cxx.i
-
-src/VoxelTable.s: src/VoxelTable.cxx.s
-
-.PHONY : src/VoxelTable.s
-
-# target to generate assembly for a file
-src/VoxelTable.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/VoxelTable.cxx.s
-.PHONY : src/VoxelTable.cxx.s
 
 src/WheelVolume.o: src/WheelVolume.cxx.o
 
@@ -597,9 +354,6 @@ help:
 	@echo "... src/ActionInitialization.o"
 	@echo "... src/ActionInitialization.i"
 	@echo "... src/ActionInitialization.s"
-	@echo "... src/Analyzer.o"
-	@echo "... src/Analyzer.i"
-	@echo "... src/Analyzer.s"
 	@echo "... src/Configuration.o"
 	@echo "... src/Configuration.i"
 	@echo "... src/Configuration.s"
@@ -609,36 +363,12 @@ help:
 	@echo "... src/G4Helper.o"
 	@echo "... src/G4Helper.i"
 	@echo "... src/G4Helper.s"
-	@echo "... src/MPPCSD.o"
-	@echo "... src/MPPCSD.i"
-	@echo "... src/MPPCSD.s"
 	@echo "... src/MaterialManager.o"
 	@echo "... src/MaterialManager.i"
 	@echo "... src/MaterialManager.s"
-	@echo "... src/OpDetPhotonTable.o"
-	@echo "... src/OpDetPhotonTable.i"
-	@echo "... src/OpDetPhotonTable.s"
-	@echo "... src/OpticalPhysics.o"
-	@echo "... src/OpticalPhysics.i"
-	@echo "... src/OpticalPhysics.s"
-	@echo "... src/PhysicsList.o"
-	@echo "... src/PhysicsList.i"
-	@echo "... src/PhysicsList.s"
 	@echo "... src/PrimaryGeneratorAction.o"
 	@echo "... src/PrimaryGeneratorAction.i"
 	@echo "... src/PrimaryGeneratorAction.s"
-	@echo "... src/Reconstructor.o"
-	@echo "... src/Reconstructor.i"
-	@echo "... src/Reconstructor.s"
-	@echo "... src/SteppingAction.o"
-	@echo "... src/SteppingAction.i"
-	@echo "... src/SteppingAction.s"
-	@echo "... src/Voxel.o"
-	@echo "... src/Voxel.i"
-	@echo "... src/Voxel.s"
-	@echo "... src/VoxelTable.o"
-	@echo "... src/VoxelTable.i"
-	@echo "... src/VoxelTable.s"
 	@echo "... src/WheelVolume.o"
 	@echo "... src/WheelVolume.i"
 	@echo "... src/WheelVolume.s"

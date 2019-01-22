@@ -1,6 +1,5 @@
 {
   "simulateOutputPath": "/home/hunter/projects/argoncube2x2geo/output/simulateOutput.root",
-  "recoAnaTreePath":    "/home/hunter/projects/argoncube2x2geo/output/recoAnaTree.root",
   "steeringFilePath":   "/home/hunter/projects/argoncube2x2geo/LightSourceSteering.txt",
   "gdmlOutputPath":     "/home/hunter/projects/argoncube2x2geo/output/sipmwheel.gdml",
   "visMacroPath":       "/home/hunter/projects/argoncube2x2geo/vis.mac",

@@ -10,7 +10,6 @@
 #define DETECTORCONSTRUCTION_H
 
 #include "WheelVolume.h"
-#include "MPPCSD.h"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4LogicalVolume.hh"
@@ -19,7 +18,7 @@
 #include "G4Box.hh"
 #include "G4Cache.hh"
 
-namespace majorana
+namespace geo
 {
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
@@ -30,20 +29,19 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
     virtual void               ConstructSDandField();
    
-    const WheelVolume* WheelGeometry() const { return m_wheelVolume; };
+    const WheelVolume* WheelGeometry() const { return fWheelVolume; };
 
   private:
     void InitializeMaterials();
     void InitializeDetector();
 
-    G4VSolid*          m_worldSolid;       
-    G4LogicalVolume*   m_worldLV; 
-    G4VPhysicalVolume* m_worldPV;
-    WheelVolume*       m_wheelVolume;
-    G4Cache<MPPCSD*>   m_mppcSD;    
+    G4VSolid*          fWorldSolid; 
+    G4LogicalVolume*   fWorldLV; 
+    G4VPhysicalVolume* fWorldPV;
+    WheelVolume*       fWheelVolume;
 
-    unsigned           m_nMPPCs;
-    float              m_mppcArea;
+    unsigned           fNMPPCs;
+    float              fMPPCArea;
 };
 }
 
