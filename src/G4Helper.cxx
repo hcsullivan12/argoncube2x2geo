@@ -66,9 +66,7 @@ void G4Helper::ConstructDetector()
   std::cin.get();
 
   // Output GDML
-  #ifdef G4_GDML
   WriteGDML();
-  #endif
 }
 
 void G4Helper::UselessInfo()
@@ -111,6 +109,7 @@ void G4Helper::HandleVisualization()
 
 void G4Helper::WriteGDML()
 {
+  #ifdef G4_GDML
   G4cout << "Writing geometry to gdml file..." << G4endl;
   G4Navigator* nav =
     G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
@@ -125,6 +124,7 @@ void G4Helper::WriteGDML()
 
   G4GDMLParser parser;
   parser.Write(fGDMLOutputPath, w, false);
+  #endif
 }
 
 }

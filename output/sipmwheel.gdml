@@ -7,8 +7,6 @@
     <matrix coldim="2" name="IMAGINARYRINDEX" values="5e-08 0 1e-06 0 1.5e-06 0 2.25e-06 0 2.481e-06 0 2.819e-06 0 2.952e-06 0 2.988e-06 0 3.024e-06 0 3.1e-06 0 3.14e-06 0 3.1807e-06 0 3.54e-06 0 5.5e-06 0 5.039e-05 0"/>
     <matrix coldim="2" name="REALRINDEX" values="5e-08 1.49 1e-06 1.49 1.5e-06 1.49 2.25e-06 1.49 2.481e-06 1.49 2.819e-06 1.49 2.952e-06 1.49 2.988e-06 1.49 3.024e-06 1.49 3.1e-06 1.49 3.14e-06 1.49 3.1807e-06 1.49 3.54e-06 1.49 5.5e-06 1.49 5.039e-05 1.49"/>
     <matrix coldim="2" name="RINDEX" values="5e-08 1.49 1e-06 1.49 1.5e-06 1.49 2.25e-06 1.49 2.481e-06 1.49 2.819e-06 1.49 2.952e-06 1.49 2.988e-06 1.49 3.024e-06 1.49 3.1e-06 1.49 3.14e-06 1.49 3.1807e-06 1.49 3.54e-06 1.49 5.5e-06 1.49 5.039e-05 1.49"/>
-    <matrix coldim="2" name="EFFICIENCY" values="5e-08 1 1e-06 1 1.5e-06 1 2.25e-06 1 2.481e-06 1 2.819e-06 1 2.952e-06 1 2.988e-06 1 3.024e-06 1 3.1e-06 1 3.14e-06 1 3.1807e-06 1 3.54e-06 1 5.5e-06 1 5.039e-05 1"/>
-    <matrix coldim="2" name="REFLECTIVITY" values="5e-08 0 1e-06 0 1.5e-06 0 2.25e-06 0 2.481e-06 0 2.819e-06 0 2.952e-06 0 2.988e-06 0 3.024e-06 0 3.1e-06 0 3.14e-06 0 3.1807e-06 0 3.54e-06 0 5.5e-06 0 5.039e-05 0"/>
     <matrix coldim="2" name="IMAGINARYRINDEX" values="5e-08 0 1e-06 0 1.5e-06 0 2.25e-06 0 2.481e-06 0 2.819e-06 0 2.952e-06 0 2.988e-06 0 3.024e-06 0 3.1e-06 0 3.14e-06 0 3.1807e-06 0 3.54e-06 0 5.5e-06 0 5.039e-05 0"/>
     <matrix coldim="2" name="REALRINDEX" values="5e-08 1 1e-06 1 1.5e-06 1 2.25e-06 1 2.481e-06 1 2.819e-06 1 2.952e-06 1 2.988e-06 1 3.024e-06 1 3.1e-06 1 3.14e-06 1 3.1807e-06 1 3.54e-06 1 5.5e-06 1 5.039e-05 1"/>
     <matrix coldim="2" name="REFLECTIVITY" values="5e-08 0.97 1e-06 0.97 1.5e-06 0.97 2.25e-06 0.97 2.481e-06 0.97 2.819e-06 0.97 2.952e-06 0.97 2.988e-06 0.97 3.024e-06 0.97 3.1e-06 0.97 3.14e-06 0.97 3.1807e-06 0.97 3.54e-06 0.97 5.5e-06 0.97 5.039e-05 0.97"/>
@@ -62,28 +60,6 @@
       <fraction n="0.599720363527414" ref="Carbon"/>
       <fraction n="0.0806950963747129" ref="Hydrogen"/>
       <fraction n="0.319584540097873" ref="Oxygen"/>
-    </material>
-    <isotope N="28" Z="14" name="Si28">
-      <atom unit="g/mole" value="27.9769"/>
-    </isotope>
-    <isotope N="29" Z="14" name="Si29">
-      <atom unit="g/mole" value="28.9765"/>
-    </isotope>
-    <isotope N="30" Z="14" name="Si30">
-      <atom unit="g/mole" value="29.9738"/>
-    </isotope>
-    <element name="Si">
-      <fraction n="0.922296077703922" ref="Si28"/>
-      <fraction n="0.0468319531680468" ref="Si29"/>
-      <fraction n="0.0308719691280309" ref="Si30"/>
-    </element>
-    <material name="G4_Si" state="solid">
-      <property name="EFFICIENCY" ref="EFFICIENCY"/>
-      <property name="REFLECTIVITY" ref="REFLECTIVITY"/>
-      <T unit="K" value="293.15"/>
-      <MEE unit="eV" value="173"/>
-      <D unit="g/cm3" value="2.33"/>
-      <fraction n="1" ref="Si"/>
     </material>
     <isotope N="12" Z="6" name="C12">
       <atom unit="g/mole" value="12"/>
@@ -149,105 +125,22 @@
   </materials>
 
   <solids>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="DiskSolid" rmax="145" rmin="0" startphi="0" z="10"/>
-    <opticalsurface finish="3" model="0" name="AirSurface" type="1" value="1"/>
-    <box lunit="mm" name="MPPCSolid" x="1.5" y="2" z="2"/>
-    <opticalsurface finish="0" model="0" name="DiskCouplingSurface" type="0" value="1"/>
-    <box lunit="mm" name="WorldSolid" x="1160" y="1160" z="80"/>
+    <box lunit="mm" name="TPCSolid" x="2000" y="2000" z="2000"/>
+    <box lunit="mm" name="WorldSolid" x="20000" y="20000" z="20000"/>
   </solids>
 
   <structure>
-    <volume name="DiskLV">
+    <volume name="TPCLV">
       <materialref ref="Acrylic"/>
-      <solidref ref="DiskSolid"/>
-    </volume>
-    <volume name="MPPCLV">
-      <materialref ref="G4_Si"/>
-      <solidref ref="MPPCSolid"/>
+      <solidref ref="TPCSolid"/>
     </volume>
     <volume name="WorldLV">
       <materialref ref="G4_AIR"/>
       <solidref ref="WorldSolid"/>
-      <physvol name="Disk">
-        <volumeref ref="DiskLV"/>
-        <position name="Disk_pos" unit="mm" x="0" y="0" z="5"/>
-      </physvol>
-      <physvol copynumber="1" name="mppcs/mppc1">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc1_pos" unit="mm" x="144.75" y="0" z="5"/>
-      </physvol>
-      <physvol copynumber="2" name="mppcs/mppc2">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc2_pos" unit="mm" x="102.353706576753" y="102.353706576753" z="5"/>
-        <rotation name="mppcs/mppc2_rot" unit="deg" x="0" y="0" z="-45"/>
-      </physvol>
-      <physvol copynumber="3" name="mppcs/mppc3">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc3_pos" unit="mm" x="8.86338120882897e-15" y="144.75" z="5"/>
-        <rotation name="mppcs/mppc3_rot" unit="deg" x="0" y="0" z="-90"/>
-      </physvol>
-      <physvol copynumber="4" name="mppcs/mppc4">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc4_pos" unit="mm" x="-102.353706576753" y="102.353706576753" z="5"/>
-        <rotation name="mppcs/mppc4_rot" unit="deg" x="0" y="0" z="-135"/>
-      </physvol>
-      <physvol copynumber="5" name="mppcs/mppc5">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc5_pos" unit="mm" x="-144.75" y="1.77267624176579e-14" z="5"/>
-        <rotation name="mppcs/mppc5_rot" unit="deg" x="0" y="0" z="-180"/>
-      </physvol>
-      <physvol copynumber="6" name="mppcs/mppc6">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc6_pos" unit="mm" x="-102.353706576753" y="-102.353706576753" z="5"/>
-        <rotation name="mppcs/mppc6_rot" unit="deg" x="0" y="0" z="135"/>
-      </physvol>
-      <physvol copynumber="7" name="mppcs/mppc7">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc7_pos" unit="mm" x="-2.65901436264869e-14" y="-144.75" z="5"/>
-        <rotation name="mppcs/mppc7_rot" unit="deg" x="0" y="0" z="90"/>
-      </physvol>
-      <physvol copynumber="8" name="mppcs/mppc8">
-        <volumeref ref="MPPCLV"/>
-        <position name="mppcs/mppc8_pos" unit="mm" x="102.353706576753" y="-102.353706576753" z="5"/>
-        <rotation name="mppcs/mppc8_rot" unit="deg" x="0" y="0" z="45"/>
+      <physvol name="TPC">
+        <volumeref ref="TPCLV"/>
       </physvol>
     </volume>
-    <bordersurface name="DiskBorderSurfaceOut" surfaceproperty="AirSurface">
-      <physvolref ref="Disk"/>
-      <physvolref ref="World"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn1" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc1"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn2" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc2"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn3" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc3"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn4" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc4"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn5" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc5"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn6" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc6"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn7" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc7"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
-    <bordersurface name="DiskMPPCSurfaceIn8" surfaceproperty="DiskCouplingSurface">
-      <physvolref ref="mppcs/mppc8"/>
-      <physvolref ref="Disk"/>
-    </bordersurface>
   </structure>
 
   <setup name="Default" version="1.0">

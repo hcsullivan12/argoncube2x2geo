@@ -129,9 +129,33 @@ CMakeFiles/construct.dir/src/Configuration.cxx.o.provides: CMakeFiles/construct.
 CMakeFiles/construct.dir/src/Configuration.cxx.o.provides.build: CMakeFiles/construct.dir/src/Configuration.cxx.o
 
 
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.o: CMakeFiles/construct.dir/flags.make
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.o: ../src/CryostatVolume.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/construct.dir/src/CryostatVolume.cxx.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/CryostatVolume.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/CryostatVolume.cxx
+
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/CryostatVolume.cxx.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/CryostatVolume.cxx > CMakeFiles/construct.dir/src/CryostatVolume.cxx.i
+
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/CryostatVolume.cxx.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/CryostatVolume.cxx -o CMakeFiles/construct.dir/src/CryostatVolume.cxx.s
+
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.requires:
+
+.PHONY : CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.requires
+
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.provides: CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.requires
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.provides.build
+.PHONY : CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.provides
+
+CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.provides.build: CMakeFiles/construct.dir/src/CryostatVolume.cxx.o
+
+
 CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o: ../src/DetectorConstruction.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/DetectorConstruction.cxx
 
 CMakeFiles/construct.dir/src/DetectorConstruction.cxx.i: cmake_force
@@ -155,7 +179,7 @@ CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o.provides.build: CMakeFil
 
 CMakeFiles/construct.dir/src/G4Helper.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/G4Helper.cxx.o: ../src/G4Helper.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/construct.dir/src/G4Helper.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/construct.dir/src/G4Helper.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/G4Helper.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/G4Helper.cxx
 
 CMakeFiles/construct.dir/src/G4Helper.cxx.i: cmake_force
@@ -179,7 +203,7 @@ CMakeFiles/construct.dir/src/G4Helper.cxx.o.provides.build: CMakeFiles/construct
 
 CMakeFiles/construct.dir/src/MaterialManager.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/MaterialManager.cxx.o: ../src/MaterialManager.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/construct.dir/src/MaterialManager.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/construct.dir/src/MaterialManager.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/MaterialManager.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/MaterialManager.cxx
 
 CMakeFiles/construct.dir/src/MaterialManager.cxx.i: cmake_force
@@ -201,9 +225,33 @@ CMakeFiles/construct.dir/src/MaterialManager.cxx.o.provides: CMakeFiles/construc
 CMakeFiles/construct.dir/src/MaterialManager.cxx.o.provides.build: CMakeFiles/construct.dir/src/MaterialManager.cxx.o
 
 
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.o: CMakeFiles/construct.dir/flags.make
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.o: ../src/ModuleVolume.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/construct.dir/src/ModuleVolume.cxx.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/ModuleVolume.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/ModuleVolume.cxx
+
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/ModuleVolume.cxx.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/ModuleVolume.cxx > CMakeFiles/construct.dir/src/ModuleVolume.cxx.i
+
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/ModuleVolume.cxx.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/ModuleVolume.cxx -o CMakeFiles/construct.dir/src/ModuleVolume.cxx.s
+
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.requires:
+
+.PHONY : CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.requires
+
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.provides: CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.requires
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.provides.build
+.PHONY : CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.provides
+
+CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.provides.build: CMakeFiles/construct.dir/src/ModuleVolume.cxx.o
+
+
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o: CMakeFiles/construct.dir/flags.make
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o: ../src/PrimaryGeneratorAction.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.cxx
 
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.i: cmake_force
@@ -225,40 +273,17 @@ CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o.provides: CMakeFiles/c
 CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o.provides.build: CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o
 
 
-CMakeFiles/construct.dir/src/WheelVolume.cxx.o: CMakeFiles/construct.dir/flags.make
-CMakeFiles/construct.dir/src/WheelVolume.cxx.o: ../src/WheelVolume.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/construct.dir/src/WheelVolume.cxx.o -c /home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx
-
-CMakeFiles/construct.dir/src/WheelVolume.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/construct.dir/src/WheelVolume.cxx.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx > CMakeFiles/construct.dir/src/WheelVolume.cxx.i
-
-CMakeFiles/construct.dir/src/WheelVolume.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/construct.dir/src/WheelVolume.cxx.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx -o CMakeFiles/construct.dir/src/WheelVolume.cxx.s
-
-CMakeFiles/construct.dir/src/WheelVolume.cxx.o.requires:
-
-.PHONY : CMakeFiles/construct.dir/src/WheelVolume.cxx.o.requires
-
-CMakeFiles/construct.dir/src/WheelVolume.cxx.o.provides: CMakeFiles/construct.dir/src/WheelVolume.cxx.o.requires
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/WheelVolume.cxx.o.provides.build
-.PHONY : CMakeFiles/construct.dir/src/WheelVolume.cxx.o.provides
-
-CMakeFiles/construct.dir/src/WheelVolume.cxx.o.provides.build: CMakeFiles/construct.dir/src/WheelVolume.cxx.o
-
-
 # Object files for target construct
 construct_OBJECTS = \
 "CMakeFiles/construct.dir/construct.cxx.o" \
 "CMakeFiles/construct.dir/src/ActionInitialization.cxx.o" \
 "CMakeFiles/construct.dir/src/Configuration.cxx.o" \
+"CMakeFiles/construct.dir/src/CryostatVolume.cxx.o" \
 "CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o" \
 "CMakeFiles/construct.dir/src/G4Helper.cxx.o" \
 "CMakeFiles/construct.dir/src/MaterialManager.cxx.o" \
-"CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o" \
-"CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
+"CMakeFiles/construct.dir/src/ModuleVolume.cxx.o" \
+"CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
 
 # External object files for target construct
 construct_EXTERNAL_OBJECTS =
@@ -266,11 +291,12 @@ construct_EXTERNAL_OBJECTS =
 construct: CMakeFiles/construct.dir/construct.cxx.o
 construct: CMakeFiles/construct.dir/src/ActionInitialization.cxx.o
 construct: CMakeFiles/construct.dir/src/Configuration.cxx.o
+construct: CMakeFiles/construct.dir/src/CryostatVolume.cxx.o
 construct: CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o
 construct: CMakeFiles/construct.dir/src/G4Helper.cxx.o
 construct: CMakeFiles/construct.dir/src/MaterialManager.cxx.o
+construct: CMakeFiles/construct.dir/src/ModuleVolume.cxx.o
 construct: CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o
-construct: CMakeFiles/construct.dir/src/WheelVolume.cxx.o
 construct: CMakeFiles/construct.dir/build.make
 construct: /home/hunter/Software/root-6.14.00-install/lib/libCore.so
 construct: /home/hunter/Software/root-6.14.00-install/lib/libImt.so
@@ -330,7 +356,7 @@ construct: /home/hunter/Software/geant4.10.03-install/lib/libG4intercoms.so
 construct: /home/hunter/Software/geant4.10.03-install/lib/libG4global.so
 construct: /home/hunter/Software/geant4.10.03-install/lib/libG4clhep.so
 construct: CMakeFiles/construct.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable construct"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hunter/projects/argoncube2x2geo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable construct"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/construct.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -341,11 +367,12 @@ CMakeFiles/construct.dir/build: construct
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/construct.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/ActionInitialization.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/Configuration.cxx.o.requires
+CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/CryostatVolume.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/G4Helper.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/MaterialManager.cxx.o.requires
+CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/ModuleVolume.cxx.o.requires
 CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o.requires
-CMakeFiles/construct.dir/requires: CMakeFiles/construct.dir/src/WheelVolume.cxx.o.requires
 
 .PHONY : CMakeFiles/construct.dir/requires
 

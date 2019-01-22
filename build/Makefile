@@ -204,6 +204,33 @@ src/Configuration.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/Configuration.cxx.s
 .PHONY : src/Configuration.cxx.s
 
+src/CryostatVolume.o: src/CryostatVolume.cxx.o
+
+.PHONY : src/CryostatVolume.o
+
+# target to build an object file
+src/CryostatVolume.cxx.o:
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/CryostatVolume.cxx.o
+.PHONY : src/CryostatVolume.cxx.o
+
+src/CryostatVolume.i: src/CryostatVolume.cxx.i
+
+.PHONY : src/CryostatVolume.i
+
+# target to preprocess a source file
+src/CryostatVolume.cxx.i:
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/CryostatVolume.cxx.i
+.PHONY : src/CryostatVolume.cxx.i
+
+src/CryostatVolume.s: src/CryostatVolume.cxx.s
+
+.PHONY : src/CryostatVolume.s
+
+# target to generate assembly for a file
+src/CryostatVolume.cxx.s:
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/CryostatVolume.cxx.s
+.PHONY : src/CryostatVolume.cxx.s
+
 src/DetectorConstruction.o: src/DetectorConstruction.cxx.o
 
 .PHONY : src/DetectorConstruction.o
@@ -285,6 +312,33 @@ src/MaterialManager.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/MaterialManager.cxx.s
 .PHONY : src/MaterialManager.cxx.s
 
+src/ModuleVolume.o: src/ModuleVolume.cxx.o
+
+.PHONY : src/ModuleVolume.o
+
+# target to build an object file
+src/ModuleVolume.cxx.o:
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/ModuleVolume.cxx.o
+.PHONY : src/ModuleVolume.cxx.o
+
+src/ModuleVolume.i: src/ModuleVolume.cxx.i
+
+.PHONY : src/ModuleVolume.i
+
+# target to preprocess a source file
+src/ModuleVolume.cxx.i:
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/ModuleVolume.cxx.i
+.PHONY : src/ModuleVolume.cxx.i
+
+src/ModuleVolume.s: src/ModuleVolume.cxx.s
+
+.PHONY : src/ModuleVolume.s
+
+# target to generate assembly for a file
+src/ModuleVolume.cxx.s:
+	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/ModuleVolume.cxx.s
+.PHONY : src/ModuleVolume.cxx.s
+
 src/PrimaryGeneratorAction.o: src/PrimaryGeneratorAction.cxx.o
 
 .PHONY : src/PrimaryGeneratorAction.o
@@ -312,33 +366,6 @@ src/PrimaryGeneratorAction.cxx.s:
 	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.s
 .PHONY : src/PrimaryGeneratorAction.cxx.s
 
-src/WheelVolume.o: src/WheelVolume.cxx.o
-
-.PHONY : src/WheelVolume.o
-
-# target to build an object file
-src/WheelVolume.cxx.o:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/WheelVolume.cxx.o
-.PHONY : src/WheelVolume.cxx.o
-
-src/WheelVolume.i: src/WheelVolume.cxx.i
-
-.PHONY : src/WheelVolume.i
-
-# target to preprocess a source file
-src/WheelVolume.cxx.i:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/WheelVolume.cxx.i
-.PHONY : src/WheelVolume.cxx.i
-
-src/WheelVolume.s: src/WheelVolume.cxx.s
-
-.PHONY : src/WheelVolume.s
-
-# target to generate assembly for a file
-src/WheelVolume.cxx.s:
-	$(MAKE) -f CMakeFiles/construct.dir/build.make CMakeFiles/construct.dir/src/WheelVolume.cxx.s
-.PHONY : src/WheelVolume.cxx.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -357,6 +384,9 @@ help:
 	@echo "... src/Configuration.o"
 	@echo "... src/Configuration.i"
 	@echo "... src/Configuration.s"
+	@echo "... src/CryostatVolume.o"
+	@echo "... src/CryostatVolume.i"
+	@echo "... src/CryostatVolume.s"
 	@echo "... src/DetectorConstruction.o"
 	@echo "... src/DetectorConstruction.i"
 	@echo "... src/DetectorConstruction.s"
@@ -366,12 +396,12 @@ help:
 	@echo "... src/MaterialManager.o"
 	@echo "... src/MaterialManager.i"
 	@echo "... src/MaterialManager.s"
+	@echo "... src/ModuleVolume.o"
+	@echo "... src/ModuleVolume.i"
+	@echo "... src/ModuleVolume.s"
 	@echo "... src/PrimaryGeneratorAction.o"
 	@echo "... src/PrimaryGeneratorAction.i"
 	@echo "... src/PrimaryGeneratorAction.s"
-	@echo "... src/WheelVolume.o"
-	@echo "... src/WheelVolume.i"
-	@echo "... src/WheelVolume.s"
 .PHONY : help
 
 

@@ -28,9 +28,25 @@ rapidjson/filereadstream.h
 rapidjson/rapidjson.h
 ../include/rapidjson/rapidjson.h
 
+../include/CryostatVolume.h
+G4LogicalVolume.hh
+../include/G4LogicalVolume.hh
+G4PVPlacement.hh
+../include/G4PVPlacement.hh
+G4SystemOfUnits.hh
+../include/G4SystemOfUnits.hh
+G4PhysicalConstants.hh
+../include/G4PhysicalConstants.hh
+G4Box.hh
+../include/G4Box.hh
+G4SubtractionSolid.hh
+../include/G4SubtractionSolid.hh
+
 ../include/DetectorConstruction.h
-WheelVolume.h
-../include/WheelVolume.h
+ModuleVolume.h
+../include/ModuleVolume.h
+CryostatVolume.h
+../include/CryostatVolume.h
 G4VUserDetectorConstruction.hh
 ../include/G4VUserDetectorConstruction.hh
 G4LogicalVolume.hh
@@ -39,10 +55,6 @@ G4PVPlacement.hh
 ../include/G4PVPlacement.hh
 G4VPhysicalVolume.hh
 ../include/G4VPhysicalVolume.hh
-G4Box.hh
-../include/G4Box.hh
-G4Cache.hh
-../include/G4Cache.hh
 
 ../include/G4Helper.h
 DetectorConstruction.h
@@ -62,15 +74,7 @@ G4VisExecutive.hh
 G4Material.hh
 ../include/G4Material.hh
 
-../include/PrimaryGeneratorAction.h
-G4VUserPrimaryGeneratorAction.hh
-../include/G4VUserPrimaryGeneratorAction.hh
-G4Event.hh
-../include/G4Event.hh
-G4ParticleTable.hh
-../include/G4ParticleTable.hh
-
-../include/WheelVolume.h
+../include/ModuleVolume.h
 G4LogicalVolume.hh
 ../include/G4LogicalVolume.hh
 G4PVPlacement.hh
@@ -79,14 +83,22 @@ G4SystemOfUnits.hh
 ../include/G4SystemOfUnits.hh
 G4PhysicalConstants.hh
 ../include/G4PhysicalConstants.hh
-G4Tubs.hh
-../include/G4Tubs.hh
-G4Box.hh
-../include/G4Box.hh
 G4OpticalSurface.hh
 ../include/G4OpticalSurface.hh
 G4LogicalSkinSurface.hh
 ../include/G4LogicalSkinSurface.hh
+G4Box.hh
+../include/G4Box.hh
+G4SubtractionSolid.hh
+../include/G4SubtractionSolid.hh
+
+../include/PrimaryGeneratorAction.h
+G4VUserPrimaryGeneratorAction.hh
+../include/G4VUserPrimaryGeneratorAction.hh
+G4Event.hh
+../include/G4Event.hh
+G4ParticleTable.hh
+../include/G4ParticleTable.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
 string
@@ -994,6 +1006,20 @@ G4BlockingList.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4BlockingList.icc
 
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4BooleanSolid.hh
+G4DisplacedSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4DisplacedSolid.hh
+G4ThreeVector.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4ThreeVector.hh
+G4RotationMatrix.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4RotationMatrix.hh
+G4Transform3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Transform3D.hh
+G4BooleanSolid.icc
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4BooleanSolid.icc
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4BooleanSolid.icc
+
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4Box.hh
 G4UBox.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4UBox.hh
@@ -1173,6 +1199,18 @@ G4VModelFactory.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4VModelFactory.hh
 G4VDigi.hh
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4VDigi.hh
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4DisplacedSolid.hh
+G4VSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4VSolid.hh
+G4RotationMatrix.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4RotationMatrix.hh
+G4ThreeVector.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4ThreeVector.hh
+G4Transform3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Transform3D.hh
+G4AffineTransform.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4AffineTransform.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4DsMesonMinus.hh
 globals.hh
@@ -3547,6 +3585,20 @@ G4String.icc
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4String.icc
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4String.icc
+
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4SubtractionSolid.hh
+G4BooleanSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4BooleanSolid.hh
+G4VSolid.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4VSolid.hh
+G4RotationMatrix.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4RotationMatrix.hh
+G4ThreeVector.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4ThreeVector.hh
+G4Transform3D.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4Transform3D.hh
+G4AffineTransform.hh
+/home/hunter/Software/geant4.10.03-install/include/Geant4/G4AffineTransform.hh
 
 /home/hunter/Software/geant4.10.03-install/include/Geant4/G4SurfBits.hh
 cstring
@@ -6506,6 +6558,26 @@ iomanip
 math.h
 -
 
+/home/hunter/projects/argoncube2x2geo/src/CryostatVolume.cxx
+CryostatVolume.h
+/home/hunter/projects/argoncube2x2geo/src/CryostatVolume.h
+Configuration.h
+/home/hunter/projects/argoncube2x2geo/src/Configuration.h
+MaterialManager.h
+/home/hunter/projects/argoncube2x2geo/src/MaterialManager.h
+G4Colour.hh
+/home/hunter/projects/argoncube2x2geo/src/G4Colour.hh
+G4VisAttributes.hh
+/home/hunter/projects/argoncube2x2geo/src/G4VisAttributes.hh
+G4LogicalBorderSurface.hh
+/home/hunter/projects/argoncube2x2geo/src/G4LogicalBorderSurface.hh
+G4PhysicalVolumeStore.hh
+/home/hunter/projects/argoncube2x2geo/src/G4PhysicalVolumeStore.hh
+G4Tubs.hh
+/home/hunter/projects/argoncube2x2geo/src/G4Tubs.hh
+G4Sphere.hh
+/home/hunter/projects/argoncube2x2geo/src/G4Sphere.hh
+
 /home/hunter/projects/argoncube2x2geo/src/DetectorConstruction.cxx
 DetectorConstruction.h
 /home/hunter/projects/argoncube2x2geo/src/DetectorConstruction.h
@@ -6519,6 +6591,8 @@ G4VisAttributes.hh
 /home/hunter/projects/argoncube2x2geo/src/G4VisAttributes.hh
 G4SDManager.hh
 /home/hunter/projects/argoncube2x2geo/src/G4SDManager.hh
+G4Box.hh
+/home/hunter/projects/argoncube2x2geo/src/G4Box.hh
 
 /home/hunter/projects/argoncube2x2geo/src/G4Helper.cxx
 G4Helper.h
@@ -6544,19 +6618,9 @@ G4NistManager.hh
 G4SystemOfUnits.hh
 /home/hunter/projects/argoncube2x2geo/src/G4SystemOfUnits.hh
 
-/home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.cxx
-PrimaryGeneratorAction.h
-/home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.h
-Configuration.h
-/home/hunter/projects/argoncube2x2geo/src/Configuration.h
-G4PrimaryVertex.hh
-/home/hunter/projects/argoncube2x2geo/src/G4PrimaryVertex.hh
-G4SystemOfUnits.hh
-/home/hunter/projects/argoncube2x2geo/src/G4SystemOfUnits.hh
-
-/home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx
-WheelVolume.h
-/home/hunter/projects/argoncube2x2geo/src/WheelVolume.h
+/home/hunter/projects/argoncube2x2geo/src/ModuleVolume.cxx
+ModuleVolume.h
+/home/hunter/projects/argoncube2x2geo/src/ModuleVolume.h
 Configuration.h
 /home/hunter/projects/argoncube2x2geo/src/Configuration.h
 MaterialManager.h
@@ -6569,4 +6633,14 @@ G4LogicalBorderSurface.hh
 /home/hunter/projects/argoncube2x2geo/src/G4LogicalBorderSurface.hh
 G4PhysicalVolumeStore.hh
 /home/hunter/projects/argoncube2x2geo/src/G4PhysicalVolumeStore.hh
+
+/home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.cxx
+PrimaryGeneratorAction.h
+/home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.h
+Configuration.h
+/home/hunter/projects/argoncube2x2geo/src/Configuration.h
+G4PrimaryVertex.hh
+/home/hunter/projects/argoncube2x2geo/src/G4PrimaryVertex.hh
+G4SystemOfUnits.hh
+/home/hunter/projects/argoncube2x2geo/src/G4SystemOfUnits.hh
 

@@ -1,17 +1,9 @@
 {
-  "simulateOutputPath": "/home/hunter/projects/argoncube2x2geo/output/simulateOutput.root",
-  "steeringFilePath":   "/home/hunter/projects/argoncube2x2geo/LightSourceSteering.txt",
-  "gdmlOutputPath":     "/home/hunter/projects/argoncube2x2geo/output/sipmwheel.gdml",
-  "visMacroPath":       "/home/hunter/projects/argoncube2x2geo/vis.mac",
-  "sourceMode":         "point",
-  "sourcePeakE":        2.95,  
-  "sourcePeakESigma":   0.42,   
-  "sourcePosSigma":     0.25,
-  "surfaceRoughness":   0.8,
-  "surfaceAbsorption":  0.03,
-  "nMPPCs":             128,
-  "mppcArea":           0.01,
-  "diskRadius":         14.5,
-  "diskThickness":      1.0,
-  "reconstruct":        false
+  "gdmlOutputPath":         "/home/hunter/projects/argoncube2x2geo/output/sipmwheel.gdml",
+  "visMacroPath":           "/home/hunter/projects/argoncube2x2geo/vis.mac",
+  "worldDimensions":        [1000, 1000, 1000],
+  "cryostatDimensions":     [110, 280, 1.0],
+  "moduleDimensions":       [67, 67, 181],
+  "moduleG10WallThickness": 1.0,
+  "moduleClearance":        0.15
 }

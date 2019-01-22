@@ -29,10 +29,15 @@ class Configuration
     void Initialize(const std::string& configPath);
     void SetVisualization(const bool& b) { fShowVis = b; };
 
-    bool        ShowVis()         const { return fShowVis; };
-    std::string VisMacroPath()    const { return fVisMacroPath; };
-    std::string GDMLOutputPath()  const { return fGDMLOutputPath; };
-    
+    const bool&        ShowVis()         const { return fShowVis; };
+    const std::string& VisMacroPath()    const { return fVisMacroPath; };
+    const std::string& GDMLOutputPath()  const { return fGDMLOutputPath; };
+    const double       ModuleG10WallThickness() const { return fModuleG10WallThickness; };
+    const double       ModuleClearance()        const { return fModuleClearance; };
+    const std::vector<double>& WorldDimensions()  const { return fWorldDimensions; };
+    const std::vector<double>& ModuleDimensions() const { return fModuleDimensions; };
+    const std::vector<double>& CryostatDimensions() const { return fCryostatDimensions; };
+   
   private:
     Configuration();
     static Configuration* instance;
@@ -57,6 +62,11 @@ class Configuration
     std::string fVisMacroPath;
     std::string fGDMLOutputPath;
     bool        fShowVis;
+    double      fModuleG10WallThickness;
+    double      fModuleClearance;
+    std::vector<double> fWorldDimensions;
+    std::vector<double> fModuleDimensions;
+    std::vector<double> fCryostatDimensions;
 };
 }
 

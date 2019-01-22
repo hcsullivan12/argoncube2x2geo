@@ -284,7 +284,7 @@ ROOT_rootmv_CMD:FILEPATH=/home/hunter/Software/root-6.14.00-install/bin/rootmv
 ROOT_rootrm_CMD:FILEPATH=/home/hunter/Software/root-6.14.00-install/bin/rootrm
 
 //Build with Geant4 GDML parser.
-WITH_GEANT4_GDML:BOOL=ON
+WITH_GEANT4_GDML:BOOL=OFF
 
 //Build with Geant4 UI and Vis drivers
 WITH_GEANT4_UIVIS:BOOL=ON

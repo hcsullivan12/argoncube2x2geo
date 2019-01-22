@@ -13,91 +13,96 @@
 #include "G4Color.hh"
 #include "G4VisAttributes.hh"
 #include "G4SDManager.hh"
+#include "G4Box.hh"
 
 namespace geo
 {
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fWheelVolume(NULL),
+  fModuleVolume(NULL),
   fWorldSolid(NULL),
   fWorldLV(NULL),
   fWorldPV(NULL)
-{
-  // Pass configuration to our other volumes
-  Configuration* config = Configuration::Instance();
-  fWheelVolume = new WheelVolume(8,
-                                 0.01,
-                                 14.5, 
-                                 1.0);
-}
+{}
 
 DetectorConstruction::~DetectorConstruction()
 {
-  if (fWheelVolume) delete fWheelVolume;
+  if (fModuleVolume) delete fModuleVolume;
 }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-  InitializeMaterials();
-  InitializeDetector();
+  // Construct the materials
+  ConstructMaterials();
+  
+  // Construct our detector 
+  ConstructDetector();
 
   if (!fWorldPV) 
   {
-    G4cerr << "DetectorConstruction::Construct() Error! WorldPV not initialized!\n";
+    G4cerr << "DetectorConstruction::Construct() "
+           << "Error! World physical volume not initialized!" 
+           << G4endl;
   }
-
   return fWorldPV;
 }
 
-void DetectorConstruction::InitializeMaterials()
+void DetectorConstruction::ConstructMaterials()
 {
-  // Construct materials
+  // Get the material manager
   MaterialManager* materialManager = MaterialManager::Instance();
 
   if (!materialManager) 
   {
-    G4cerr << "DetectorConstruction::InitializeMaterials() Error! Material manager not initialized!\n";
+    G4cerr << "DetectorConstruction::InitializeMaterials() "
+           << "Error! Material manager not initialized!" << G4endl;
   }
   materialManager->ConstructMaterials();
 }
 
-void DetectorConstruction::InitializeDetector()
+void DetectorConstruction::ConstructDetector()
 {
-  if (!fWheelVolume) 
-  {
-    G4cerr << "DetectorConstruction::InitializeDetector() Error! Disk volume not initialized!\n";
-  }
-  // Get instance of material manager
+  // Get instance of material manager and configuration
   MaterialManager* materialManager = MaterialManager::Instance();
+  Configuration* config = Configuration::Instance();
 
   //**** World
-  G4double diskRadius    = fWheelVolume->Radius();
-  G4double diskThickness = fWheelVolume->Thickness();
+  std::vector<double> worldDim = config->WorldDimensions();
   fWorldSolid = new G4Box("WorldSolid", 
-                           diskRadius*4*cm, 
-                           diskRadius*4*cm, 
-                           diskThickness*4*cm);
+                          (worldDim[0]/2.)*cm,
+                          (worldDim[1]/2.)*cm, 
+                          (worldDim[2]/2.)*cm);
   fWorldLV    = new G4LogicalVolume(fWorldSolid, 
-                                     materialManager->FindMaterial("G4_AIR"), 
-                                     "WorldLV");
+                                    materialManager->FindMaterial("G4_AIR"), 
+                                    "WorldLV");
   fWorldPV = new G4PVPlacement(0, 
-                                G4ThreeVector(), 
-                                fWorldLV, 
-                                "World", 
-                                0, 
-                                false, 
-                                0);
+                               G4ThreeVector(), 
+                               fWorldLV, 
+                               "World", 
+                               0, 
+                               false, 
+                               0);
   // vis
   G4Colour worldC(0,0,0);
   G4VisAttributes* worldVA = new G4VisAttributes(worldC);
   worldVA->SetForceWireframe(true);
   fWorldLV->SetVisAttributes(worldVA); 
 
-  //**** Wheel
-  fWheelVolume->ConstructVolume(fWorldPV, fWorldLV);
+  //****
+  // Cryostat
+  //****
+  fCryostatVolume = new CryostatVolume();
+  fCryostatVolume->ConstructVolume(fWorldPV, fWorldLV);
+
+  //**** 
+  // Modules
+  //****
+  fModuleVolume = new ModuleVolume();
+  fModuleVolume->ConstructVolume(fWorldPV, fWorldLV);
 }
 
 void DetectorConstruction::ConstructSDandField()
 {}
+
 }

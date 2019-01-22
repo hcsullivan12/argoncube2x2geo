@@ -62,10 +62,25 @@ void Configuration::Initialize(const std::string& configPath)
 
 void Configuration::ReadJSONFile()
 {
-  // Specific order 
   #ifdef G4_GDML 
-  fGDMLOutputPath = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
+  fGDMLOutputPath   = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
   #endif
+  fModuleG10WallThickness = GetJSONMember("moduleG10WallThickness", 
+                                          rapidjson::kNumberType).GetDouble();
+  fModuleClearance = GetJSONMember("moduleClearance", 
+                                   rapidjson::kNumberType).GetDouble();
+  fWorldDimensions  = std::vector<double>(3, 0);
+  auto jsonArrayItr = GetJSONMember("worldDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fWorldDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+ 
+  fCryostatDimensions  = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("cryostatDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fCryostatDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+ 
+  fModuleDimensions  = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
   if (fShowVis) fVisMacroPath = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
 }
 
@@ -140,7 +155,7 @@ void Configuration::PrintConfiguration()
   // Hello there!
   std::cout << std::setfill('-') << std::setw(60) << "-" << std::setfill(' ')  << std::endl;
   std::cout << "              geo " << version                                 << std::endl;
-  std::cout << "       Simulation software for SiPM Wheel           "          << std::endl;
+  std::cout << "  ArgonCube2x2 detector construction software       "          << std::endl;
   std::cout << "     Author: Hunter Sullivan (UT Arlington)         "          << std::endl;
   std::cout                                                                    << std::endl;
   std::cout << "geo Configuration:\n";

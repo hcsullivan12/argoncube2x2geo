@@ -28,8 +28,8 @@ MaterialManager* MaterialManager::Instance()
 
 MaterialManager::MaterialManager()
  : fAir(NULL),
-   fSi(NULL),
-   fAcrylic(NULL)
+   fAcrylic(NULL),
+   fLAr(NULL)
 {}
 
 MaterialManager::~MaterialManager()
@@ -48,47 +48,17 @@ void MaterialManager::ConstructMaterials()
                         0.0296, 0.011, 0.0,    0.0, 0.0};
   // Seperate the implentation here
   DefineAir();
-  DefineMPPCMaterial();
   DefineAcrylic();
-  DefineMPPCSurface();;
+  DefineLAr();
 
-  //G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
 
-void MaterialManager::DefineMPPCMaterial()
+void MaterialManager::DefineLAr()
 {
-  G4NistManager* man  = G4NistManager::Instance();
-  G4Material*    fSi = man->FindOrBuildMaterial("G4_Si");
+  G4NistManager* man = G4NistManager::Instance();
+  fLAr = man->FindOrBuildMaterial("G4_lAr");
 
-  // Optical properties 
-  // For now, just assume 0% reflectivity (all absorbed) 
-  // and 100 % effeciency
-  const G4int nEntries = fTPBEmissionE.size();
-  G4double photonEnergy[nEntries];
-  G4double siRef[nEntries];
-  G4double siEff[nEntries];
-  //G4double siRIndex[nEntries];
-  //G4double siAbs[nEntries];
-  //G4double siRIndexImg[nEntries];
-  for (int i = 0; i < nEntries; i++) 
-  {
-    photonEnergy[i] = fTPBEmissionE[i]*eV;
-    siRef[i]        = 0.0;
-    siEff[i]        = 1.0;
-    //siRIndex[i] = 1.0;
-    //siRIndexImg[i] = 0.0;
-  }
-
-  G4MaterialPropertiesTable *siMPT = new G4MaterialPropertiesTable();
-  siMPT->AddProperty("REFLECTIVITY",      photonEnergy, siRef,       nEntries);
-  siMPT->AddProperty("EFFICIENCY",        photonEnergy, siEff,       nEntries);
-  //siMPT->AddProperty("RINDEX",          photonEnergy, siRIndex,    nEntries);
-  //siMPT->AddProperty("REALRINDEX",      photonEnergy, siRIndex,    nEntries);
-  //siMPT->AddProperty("IMAGINARYRINDEX", photonEnergy, siRIndexImg, nEntries);
-
-  fSi->SetMaterialPropertiesTable(siMPT);
 }
-
 void MaterialManager::DefineAir()
 { 
   G4NistManager* man = G4NistManager::Instance();
@@ -174,31 +144,6 @@ G4Material* MaterialManager::FindMaterial(const G4String& name)
 {
   G4Material* material = G4Material::GetMaterial(name, true);
   return material;
-}
-
-void MaterialManager::DefineMPPCSurface()
-{
-  /*// PhotonDet Surface Properties
-  G4OpticalSurface* mppcDetSurface = new G4OpticalSurface("MPPCDetSurface",
-                                                           glisur,
-                                                           ground,
-                                                           dielectric_metal,
-                                                           fMPPCPolish);
-  G4MaterialPropertiesTable* mppcDetSurfaceProperty =
-                                                new G4MaterialPropertiesTable();
-  G4double p_mppc[] = {2.00*eV, 3.47*eV};
-  const G4int nbins = sizeof(p_mppc)/sizeof(G4double);
-  G4double refl_mppc[] = {fMPPCReflectivity,fMPPCReflectivity};
-  assert(sizeof(refl_mppc) == sizeof(p_mppc));
-  G4double effi_mppc[] = {1, 1};
-  assert(sizeof(effi_mppc) == sizeof(p_mppc));
- 
-  photonDetSurfaceProperty->AddProperty("REFLECTIVITY",p_mppc, refl_mppc, nbins);
-  photonDetSurfaceProperty->AddProperty("EFFICIENCY",  p_mppc, effi_mppc, nbins);
-
-  photonDetSurface->SetMaterialPropertiesTable(photonDetSurfaceProperty);
-  new G4LogicalSkinSurface("PhotonDetSurface",logicPhotonDet,photonDetSurface);
-*/
 }
 
 }

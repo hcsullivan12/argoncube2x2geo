@@ -7,11 +7,12 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/hunter/projects/argoncube2x2geo/construct.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/construct.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/ActionInitialization.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/ActionInitialization.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/Configuration.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/Configuration.cxx.o"
+  "/home/hunter/projects/argoncube2x2geo/src/CryostatVolume.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/CryostatVolume.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/DetectorConstruction.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/DetectorConstruction.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/G4Helper.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/G4Helper.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/MaterialManager.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/MaterialManager.cxx.o"
+  "/home/hunter/projects/argoncube2x2geo/src/ModuleVolume.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/ModuleVolume.cxx.o"
   "/home/hunter/projects/argoncube2x2geo/src/PrimaryGeneratorAction.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/PrimaryGeneratorAction.cxx.o"
-  "/home/hunter/projects/argoncube2x2geo/src/WheelVolume.cxx" "/home/hunter/projects/argoncube2x2geo/build/CMakeFiles/construct.dir/src/WheelVolume.cxx.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -24,9 +25,8 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "G4VIS_USE"
   "G4VIS_USE_OPENGL"
   "G4VIS_USE_OPENGLX"
-  "G4_GDML"
   "G4_STORE_TRAJECTORY"
-  "VERSION=\"v01_00_00\""
+  "VERSION=\"v02_01_00\""
   )
 
 # The include file search paths:
