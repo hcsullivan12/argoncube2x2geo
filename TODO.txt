@@ -1,7 +1,0 @@
-mppc individual dimensions instead of area
-import G4SiPM libraries (future)
-
-materials, mppc surface properties
-
-Fix headers
-Look at /extended/runAndEvent/RE03
