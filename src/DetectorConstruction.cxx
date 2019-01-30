@@ -84,7 +84,7 @@ void DetectorConstruction::ConstructDetector()
                                false, 
                                0);
   // vis
-  G4Colour worldC(0,0,0);
+  G4Colour worldC(0.5,0.5,0.5);
   G4VisAttributes* worldVA = new G4VisAttributes(worldC);
   worldVA->SetForceWireframe(true);
   fWorldLV->SetVisAttributes(worldVA); 

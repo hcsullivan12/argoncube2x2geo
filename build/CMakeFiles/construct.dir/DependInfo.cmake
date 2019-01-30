@@ -25,15 +25,15 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "G4VIS_USE"
   "G4VIS_USE_OPENGL"
   "G4VIS_USE_OPENGLX"
+  "G4_GDML"
   "G4_STORE_TRAJECTORY"
   "VERSION=\"v02_01_00\""
   )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/hunter/Software/geant4.10.03-install/include/Geant4"
+  "/home/hunter/Software/geant4.10.03-install/debug/include/Geant4"
   "/home/hunter/Software/xerces-c-3.2.2-install/include"
-  "/home/hunter/Software/root-6.14.00-install/include"
   "/home/hunter/Software/packages/lib/cmake/RapidJSON/../../../include"
   "../include"
   )

@@ -1,5 +1,5 @@
 {
-  "gdmlOutputPath":         "/home/hunter/projects/argoncube2x2geo/output/sipmwheel.gdml",
+  "gdmlOutputPath":         "/home/hunter/projects/argoncube2x2geo/output/detector.gdml",
   "visMacroPath":           "/home/hunter/projects/argoncube2x2geo/vis.mac",
   "worldDimensions":        [1000, 1000, 1000],
   "cryostatDimensions":     [110, 280, 1.0],

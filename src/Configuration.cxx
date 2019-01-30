@@ -63,7 +63,7 @@ void Configuration::Initialize(const std::string& configPath)
 void Configuration::ReadJSONFile()
 {
   #ifdef G4_GDML 
-  fGDMLOutputPath   = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
+  fGDMLOutputPath = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
   #endif
   fModuleG10WallThickness = GetJSONMember("moduleG10WallThickness", 
                                           rapidjson::kNumberType).GetDouble();

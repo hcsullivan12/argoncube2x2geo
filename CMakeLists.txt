@@ -27,11 +27,7 @@ if (WITH_GEANT4_GDML)
   add_definitions(-DG4_GDML)
 endif()
 
-# ROOT dependencies 
-list(APPEND CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
-find_package(ROOT COMPONENTS REQUIRED)
-include_directories(${ROOT_INCLUDE_DIRS})
-add_definitions(${ROOT_CXX_FLAGS})
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
 # RapidJSON dependencies
 set(RapidJSON_DIR $ENV{RapidJSON_CMAKEDIR})
@@ -45,5 +41,4 @@ file(GLOB_RECURSE sources ${PROJECT_SOURCE_DIR}/src/*.cxx)
 file(GLOB_RECURSE headers ${PROJECT_SOURCE_DIR}/include/*.h)
 add_executable(construct ${PROJECT_SOURCE_DIR}/construct.cxx ${sources} ${headers})
 
-target_link_libraries(construct ${ROOT_LIBRARIES})
 target_link_libraries(construct ${Geant4_LIBRARIES})

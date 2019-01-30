@@ -50,6 +50,7 @@ void ModuleVolume::ConstructModules(G4LogicalVolume* worldLV)
   //**** 
   // Module structure
   //****
+  // Module walls
   std::vector<double> moduleDimOD = config->ModuleDimensions();
   double moduleG10WallThickness   = config->ModuleG10WallThickness();
   double moduleClearance          = config->ModuleClearance();
@@ -66,7 +67,7 @@ void ModuleVolume::ConstructModules(G4LogicalVolume* worldLV)
                                    (moduleDimID[2]/2.)*cm);
   fModuleSolid = new G4SubtractionSolid("ModuleSolid", moduleSolidOD, moduleSolidID);
   fModuleLV    = new G4LogicalVolume(fModuleSolid,
-                                     materialManager->FindMaterial("G10"),
+                                     materialManager->FindMaterial("Acrylic"),
                                      "ModuleLV");
 
   //****
@@ -88,16 +89,16 @@ void ModuleVolume::ConstructModules(G4LogicalVolume* worldLV)
   std::string tpcName = "tpcs/tpc";
  
   // Modules
-  //new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(1), worldLV, false, 1);
+  new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(1), worldLV, false, 0);
   translation[0] = -1*l*cm;
-  //new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(2), worldLV, false, 2);
+  new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(2), worldLV, false, 2);
   translation[1] = -1*l*cm;
- // new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(3), worldLV, false, 3);
+  new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(3), worldLV, false, 3);
   translation[0] = l*cm; translation[1] = -1*l*cm;
-  //new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(4), worldLV, false, 4); 
+  new G4PVPlacement(0, translation, fModuleLV, modName+std::to_string(4), worldLV, false, 4); 
 
   // TPCs
-//  new G4PVPlacement(0, G4ThreeVector(), fTPCLV, tpcName+std::to_string(1), fModuleLV, false, 1);
+  new G4PVPlacement(0, G4ThreeVector(), fTPCLV, tpcName+std::to_string(1), fModuleLV, false, 0);
 }
 
 void ModuleVolume::HandleVisAttributes()

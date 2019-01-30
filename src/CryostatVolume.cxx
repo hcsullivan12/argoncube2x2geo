@@ -21,8 +21,8 @@ namespace geo
 {
 
 CryostatVolume::CryostatVolume()
-:  fCryostatSolid(NULL),
-   fCryostatLV(NULL)
+:  fCryostatODSolid(NULL),
+   fCryostatODLV(NULL)
 {}
 
 CryostatVolume::~CryostatVolume()
@@ -45,53 +45,74 @@ void CryostatVolume::ConstructCryostat(G4LogicalVolume* worldLV)
 {
   // Get material manager and config
   MaterialManager* materialManager = MaterialManager::Instance();
+  if (!materialManager) std::cout << "HEYYYYYY\n";
   Configuration* config = Configuration::Instance();
   
   //**** 
   // 	Cryostat shape
   //****
   // Expecting radius, depth, and wall thickness
-  std::vector<double> cryostatDimOD = config->CryostatDimensions();
-  double rMax = cryostatDimOD[0];
-  double rMin = rMax - cryostatDimOD[2];
-  double dz   = cryostatDimOD[1];
   // A bit of of hard-coding
-  double dz2  = 20.0; 
+  std::vector<double> cryostatDimOD = config->CryostatDimensions();
+  double cryoRMax = cryostatDimOD[0];
+  double cryoRMin = cryoRMax - cryostatDimOD[2];
+  double bowlRMax = 2*cryoRMax;
+  double bowlRMin = bowlRMax - cryostatDimOD[2];
+  double depth    = cryostatDimOD[1];
+  double sinTheta = cryoRMax/bowlRMax;
+  double cosTheta = std::sqrt(1 - sinTheta*sinTheta);
+  double y        = bowlRMax*(1 - cosTheta);
+  double h        = depth - y;
+  double x        = bowlRMax + 0.5*h - depth;
+  double theta    = std::abs(std::asin(sinTheta)*180/pi);
+
+  std::cout << y << " " << h << " " << x << " " << depth << std::endl;
+ 
   G4Tubs* cryostatMiddle = new G4Tubs("cryostatMiddle",
-                                      rMin*cm,
-                                      rMax*cm,
-                                      (dz-dz2)/2.*cm,
+                                      cryoRMin*cm,
+                                      cryoRMax*cm,
+                                      (h/2.)*cm,
                                       0*degree, 360*degree);
   G4Sphere* cryostatBottom = new G4Sphere("cryostatBottom",
-                                          2*rMin*cm,
-                                          2*rMax*cm,
+                                          bowlRMin*cm,
+                                          bowlRMax*cm,
                                           0*degree, 360*degree,
-                                          150*degree, 180*degree);
-/*  fCryostatODSolid = new G4UnionSolid("CryostatODSolid", 
-                                      cryostatMiddle, 
-                                      cryostatBottom,
-                                      0,
-  */
-                                      
-  G4LogicalVolume* middleLV = new G4LogicalVolume(cryostatMiddle,
+                                          (180-theta)*degree, 180*degree);
+  fCryostatODSolid = new G4UnionSolid("CryostatODSolid", 
+                                      cryostatBottom, 
+                                      cryostatMiddle,
+                                      new G4RotationMatrix(0,0,0),
+                                      G4ThreeVector(0,0,(-1*x-1.0)*cm));
+  //fCryostatODSolid->DumpInfo();
+  G4Material* air = materialManager->FindMaterial("G4_AIR");
+  if (!air) std::cout <<"asdfasfasfHEYYYY\n";
+  fCryostatODLV = new G4LogicalVolume(fCryostatODSolid,
+                                      materialManager->FindMaterial("G4_AIR"),
+                                      "CryostatODLV");                                    ;
+
+//  new G4PVPlacement(0, G4ThreeVector(), fCryostatODLV, "CryostatODLV", worldLV, false, 1); 
+  
+                                  
+  /*G4LogicalVolume* middleLV = new G4LogicalVolume(cryostatMiddle,
                                       materialManager->FindMaterial("G10"),
                                      "MiddleLV");                                    
   G4LogicalVolume* bottomLV = new G4LogicalVolume(cryostatBottom,
                                       materialManager->FindMaterial("G10"),
                                      "BottomLV");
- // new G4PVPlacement(0, G4ThreeVector(0,0,-590), middleLV, "temp1", worldLV, false, 1);
-  new G4PVPlacement(0, G4ThreeVector(), bottomLV, "temp2", worldLV, false, 1); 
+  *///new G4PVPlacement(0, G4ThreeVector(0,0,(-1*x-1)*cm), middleLV, "temp1", worldLV, false, 1);
+  //new G4PVPlacement(0, G4ThreeVector(), bottomLV, "temp2", worldLV, false, 1); 
 
-  bottomLV->SetVisAttributes(G4Colour(1,0,0));
+  //G4PhysicalVolumeStore* thePVStore = G4PhysicalVolumeStore::GetInstance();
+//  if((*thePVStore)[1]->CheckOverlaps(1000,0.,1)) std::cout << "asdf\n";
+ // std::cout << (*thePVStore)[1]->GetName() << std::endl;
 }
 
 void CryostatVolume::HandleVisAttributes()
 {
-  // TPC
-  G4VisAttributes* tpcVA = new G4VisAttributes(G4Colour(1,1,1));
-  tpcVA->SetForceWireframe(false);
-  //fTPCLV->SetVisAttributes(tpcVA); 
-
+  // Cryostat
+  G4VisAttributes* cryoVA = new G4VisAttributes(G4Colour(1,1,1));
+  cryoVA->SetForceWireframe(false);
+  fCryostatODLV->SetVisAttributes(cryoVA);
 }
 
 }

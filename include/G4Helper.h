@@ -11,8 +11,6 @@
 
 #include "DetectorConstruction.h"
 
-#include "TMath.h"
-
 // Geant4 includes
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"

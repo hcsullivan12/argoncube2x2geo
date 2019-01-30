@@ -14,7 +14,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4Box.hh"
-#include "G4SubtractionSolid.hh"
+#include "G4UnionSolid.hh"
 
 namespace geo
 {
@@ -33,8 +33,8 @@ class CryostatVolume
     void HandleSurfaces(G4VPhysicalVolume* worldPV);
     void HandleVisAttributes();
 
-    G4SubtractionSolid* fCryostatSolid;
-    G4LogicalVolume*    fCryostatLV;
+    G4UnionSolid*    fCryostatODSolid;
+    G4LogicalVolume* fCryostatODLV;
 };
 }
 
