@@ -35,11 +35,18 @@ class ModuleVolume
     void HandleSurfaces(G4VPhysicalVolume* worldPV);
     void HandleVisAttributes();
 
-    G4SubtractionSolid* fModuleSolid;
-    G4LogicalVolume*    fModuleLV;
-    G4Box*              fTPCSolid;
-    G4LogicalVolume*    fTPCLV;
-    G4OpticalSurface*   m_opticalSurface; 
+    // solids
+    G4LogicalVolume* fVolActiveLAr;
+    G4LogicalVolume* fVolLightUSPlane;
+    G4LogicalVolume* fVolLightDSPlane;
+    G4LogicalVolume* fVolActiveLight;
+    G4LogicalVolume* fVolFieldShell;
+    G4LogicalVolume* fVolRightSubModule;
+    G4LogicalVolume* fVolLeftSubModule;
+    G4LogicalVolume* fVolCathode;
+    G4LogicalVolume* fVolLeftPixelPlane;
+    G4LogicalVolume* fVolActiveModule;
+    G4LogicalVolume* fVolModuleWall;
 };
 }
 
