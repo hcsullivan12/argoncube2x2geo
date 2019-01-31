@@ -31,15 +31,14 @@ class MaterialManager
 
     void DefineAir();
     void DefineAcrylic();
-    void DefineMPPCMaterial();
-    void DefineMPPCSurface();
+    void DefineLAr();
  
     std::vector<float> fTPBEmissionE;
     std::vector<float> fTPBEmissionSpect; 
 
     G4Material* fAir;
-    G4Material* fSi;
     G4Material* fAcrylic;
+    G4Material* fLAr;
 };
 }
 

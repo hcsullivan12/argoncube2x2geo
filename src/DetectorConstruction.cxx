@@ -9,95 +9,104 @@
 #include "DetectorConstruction.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
+#include "Utilities.h"
 
 #include "G4Color.hh"
 #include "G4VisAttributes.hh"
 #include "G4SDManager.hh"
+#include "G4Box.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4PVPlacement.hh"
 
 namespace geo
 {
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fWheelVolume(NULL),
-  fWorldSolid(NULL),
-  fWorldLV(NULL),
-  fWorldPV(NULL)
-{
-  // Pass configuration to our other volumes
-  Configuration* config = Configuration::Instance();
-  fWheelVolume = new WheelVolume(8,
-                                 0.01,
-                                 14.5, 
-                                 1.0);
-}
+  fModule(NULL),
+  fVolWorld(NULL)
+{}
 
 DetectorConstruction::~DetectorConstruction()
 {
-  if (fWheelVolume) delete fWheelVolume;
+  if (fModule) delete fModule;
 }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-  InitializeMaterials();
-  InitializeDetector();
+  // Construct the materials
+  ConstructMaterials();
+  
+  // Construct our detector 
+  ConstructDetector();
 
-  if (!fWorldPV) 
+  if (!fPVWorld) 
   {
-    G4cerr << "DetectorConstruction::Construct() Error! WorldPV not initialized!\n";
+    G4cerr << "DetectorConstruction::Construct() "
+           << "Error! World physical volume not initialized!" 
+           << G4endl;
   }
-
-  return fWorldPV;
+  return fPVWorld;
 }
 
-void DetectorConstruction::InitializeMaterials()
+void DetectorConstruction::ConstructMaterials()
 {
-  // Construct materials
+  // Get the material manager
   MaterialManager* materialManager = MaterialManager::Instance();
 
   if (!materialManager) 
   {
-    G4cerr << "DetectorConstruction::InitializeMaterials() Error! Material manager not initialized!\n";
+    G4cerr << "DetectorConstruction::InitializeMaterials() "
+           << "Error! Material manager not initialized!" << G4endl;
   }
   materialManager->ConstructMaterials();
 }
 
-void DetectorConstruction::InitializeDetector()
+void DetectorConstruction::ConstructDetector()
 {
-  if (!fWheelVolume) 
-  {
-    G4cerr << "DetectorConstruction::InitializeDetector() Error! Disk volume not initialized!\n";
-  }
-  // Get instance of material manager
+  // Get instance of material manager and configuration
   MaterialManager* materialManager = MaterialManager::Instance();
+  Configuration* config = Configuration::Instance();
+  arcutil::Utilities util;
 
   //**** World
-  G4double diskRadius    = fWheelVolume->Radius();
-  G4double diskThickness = fWheelVolume->Thickness();
-  fWorldSolid = new G4Box("WorldSolid", 
-                           diskRadius*4*cm, 
-                           diskRadius*4*cm, 
-                           diskThickness*4*cm);
-  fWorldLV    = new G4LogicalVolume(fWorldSolid, 
-                                     materialManager->FindMaterial("G4_AIR"), 
-                                     "WorldLV");
-  fWorldPV = new G4PVPlacement(0, 
-                                G4ThreeVector(), 
-                                fWorldLV, 
-                                "World", 
-                                0, 
-                                false, 
-                                0);
-  // vis
-  G4Colour worldC(0,0,0);
-  G4VisAttributes* worldVA = new G4VisAttributes(worldC);
-  worldVA->SetForceWireframe(true);
-  fWorldLV->SetVisAttributes(worldVA); 
+  std::vector<G4double> worldDim = config->WorldDimensions(); util.ConvertToUnits(worldDim);
 
-  //**** Wheel
-  fWheelVolume->ConstructVolume(fWorldPV, fWorldLV);
+  G4Box* solWorld = new G4Box("solWorld", 
+                              worldDim[0]/2.,
+                              worldDim[1]/2., 
+                              worldDim[2]/2.);
+  fVolWorld    = new G4LogicalVolume(solWorld, 
+                                    materialManager->FindMaterial("Air"), 
+                                    "volWorld");
+  fPVWorld = new G4PVPlacement(0, 
+                               G4ThreeVector(), 
+                               fVolWorld, 
+                               "World", 
+                               0, 
+                               false, 
+                               0); 
+ 
+  //**** 
+  // Modules
+  //****
+  fModule = new Module();
+  fModule->ConstructVolume();
+
+  //****
+  // Detector (all modules)
+  //****
+  fDetector = new Detector();
+  fDetector->ConstructVolume(fVolWorld, fModule);
+
+  //****
+  // Cryostat
+  //****
+  fCryostat = new Cryostat();
+  fCryostat->ConstructVolume(fVolWorld, fDetector);
 }
 
 void DetectorConstruction::ConstructSDandField()
 {}
+
 }

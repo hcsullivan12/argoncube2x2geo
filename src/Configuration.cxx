@@ -62,11 +62,58 @@ void Configuration::Initialize(const std::string& configPath)
 
 void Configuration::ReadJSONFile()
 {
-  // Specific order 
   #ifdef G4_GDML 
   fGDMLOutputPath = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
   #endif
-  if (fShowVis) fVisMacroPath = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
+  fModuleWallThickness = GetJSONMember("moduleWallThickness", rapidjson::kNumberType).GetDouble();
+  fModuleClearance = GetJSONMember("moduleClearance", rapidjson::kNumberType).GetDouble();
+  fFieldShellThickness = GetJSONMember("fieldShellThickness", rapidjson::kNumberType).GetDouble();
+  fCathodeThickness = GetJSONMember("cathodeThickness", rapidjson::kNumberType).GetDouble();
+  fPixelPlaneThickness = GetJSONMember("pixelPlaneThickness", rapidjson::kNumberType).GetDouble();
+  
+  fWorldDimensions  = std::vector<double>(3, 0);
+  auto jsonArrayItr = GetJSONMember("worldDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fWorldDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+ 
+  fCryostatDimensions  = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("cryostatDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fCryostatDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+ 
+  fModuleDimensions  = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fActiveLArDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("activeLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fActiveLArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fLightDetDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("lightDetDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fLightDetDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fModuleLegDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleLegDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleLegDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fModuleLegFootDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleLegFootDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleLegFootDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fBottomDummyFlangeDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("bottomDummyFlangeDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fBottomDummyFlangeDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fLegPosition = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("legPosition", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fLegPosition) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fTopLArDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("topLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fTopLArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fTopGArDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("topGArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fTopGArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
 }
 
 const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memberName,
@@ -140,7 +187,7 @@ void Configuration::PrintConfiguration()
   // Hello there!
   std::cout << std::setfill('-') << std::setw(60) << "-" << std::setfill(' ')  << std::endl;
   std::cout << "              geo " << version                                 << std::endl;
-  std::cout << "       Simulation software for SiPM Wheel           "          << std::endl;
+  std::cout << "  ArgonCube2x2 detector construction software       "          << std::endl;
   std::cout << "     Author: Hunter Sullivan (UT Arlington)         "          << std::endl;
   std::cout                                                                    << std::endl;
   std::cout << "geo Configuration:\n";

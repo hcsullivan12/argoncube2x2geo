@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(ArgonCube2x2Geo)
 
-add_definitions(-DVERSION="v02_01_00")
+add_definitions(-DVERSION="v03_00_00")
 
 option(WITH_GEANT4_GDML "Build with Geant4 GDML parser." ON)
 option(WITH_GEANT4_UIVIS "Build with Geant4 UI and Vis drivers" ON)
@@ -27,11 +27,7 @@ if (WITH_GEANT4_GDML)
   add_definitions(-DG4_GDML)
 endif()
 
-# ROOT dependencies 
-list(APPEND CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
-find_package(ROOT COMPONENTS REQUIRED)
-include_directories(${ROOT_INCLUDE_DIRS})
-add_definitions(${ROOT_CXX_FLAGS})
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
 # RapidJSON dependencies
 set(RapidJSON_DIR $ENV{RapidJSON_CMAKEDIR})
@@ -45,5 +41,4 @@ file(GLOB_RECURSE sources ${PROJECT_SOURCE_DIR}/src/*.cxx)
 file(GLOB_RECURSE headers ${PROJECT_SOURCE_DIR}/include/*.h)
 add_executable(construct ${PROJECT_SOURCE_DIR}/construct.cxx ${sources} ${headers})
 
-target_link_libraries(construct ${ROOT_LIBRARIES})
 target_link_libraries(construct ${Geant4_LIBRARIES})

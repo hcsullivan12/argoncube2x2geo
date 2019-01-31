@@ -9,14 +9,13 @@
 #ifndef DETECTORCONSTRUCTION_H
 #define DETECTORCONSTRUCTION_H
 
-#include "WheelVolume.h"
+#include "Module.h"
+#include "Cryostat.h"
+#include "Detector.h"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
 #include "G4VPhysicalVolume.hh"
-#include "G4Box.hh"
-#include "G4Cache.hh"
 
 namespace geo
 {
@@ -28,20 +27,16 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     virtual G4VPhysicalVolume* Construct();
     virtual void               ConstructSDandField();
-   
-    const WheelVolume* WheelGeometry() const { return fWheelVolume; };
-
+    
   private:
-    void InitializeMaterials();
-    void InitializeDetector();
-
-    G4VSolid*          fWorldSolid; 
-    G4LogicalVolume*   fWorldLV; 
-    G4VPhysicalVolume* fWorldPV;
-    WheelVolume*       fWheelVolume;
-
-    unsigned           fNMPPCs;
-    float              fMPPCArea;
+    void ConstructMaterials();
+    void ConstructDetector();
+ 
+    G4LogicalVolume*   fVolWorld;
+    G4VPhysicalVolume* fPVWorld; 
+    Module*            fModule;
+    Detector*          fDetector;
+    Cryostat*          fCryostat;
 };
 }
 

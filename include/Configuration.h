@@ -29,10 +29,26 @@ class Configuration
     void Initialize(const std::string& configPath);
     void SetVisualization(const bool& b) { fShowVis = b; };
 
-    bool        ShowVis()         const { return fShowVis; };
-    std::string VisMacroPath()    const { return fVisMacroPath; };
-    std::string GDMLOutputPath()  const { return fGDMLOutputPath; };
-    
+    const bool&        ShowVis()         const { return fShowVis; };
+    const std::string& VisMacroPath()    const { return fVisMacroPath; };
+    const std::string& GDMLOutputPath()  const { return fGDMLOutputPath; };
+    const double       ModuleWallThickness() const { return fModuleWallThickness; };
+    const double       FieldShellThickness() const { return fFieldShellThickness; };
+    const double       CathodeThickness() const { return fCathodeThickness; };
+    const double       PixelPlaneThickness() const { return fPixelPlaneThickness; };
+    const double       ModuleClearance()        const { return fModuleClearance; };
+    const std::vector<double>& WorldDimensions()  const { return fWorldDimensions; };
+    const std::vector<double>& ModuleDimensions() const { return fModuleDimensions; };
+    const std::vector<double>& CryostatDimensions() const { return fCryostatDimensions; };
+    const std::vector<double>& ActiveLArDim() const { return fActiveLArDim; };
+    const std::vector<double>& LightDetDim()  const { return fLightDetDim; };
+    const std::vector<double>& ModuleLegDim()  const { return fModuleLegDim; };
+    const std::vector<double>& ModuleLegFootDim()  const { return fModuleLegFootDim; };
+    const std::vector<double>& BottomDummyFlangeDim()  const { return fBottomDummyFlangeDim; };
+    const std::vector<double>& LegPosition()  const { return fLegPosition; };
+    const std::vector<double>& TopLArDim()  const { return fTopLArDim; };
+    const std::vector<double>& TopGArDim()  const { return fTopGArDim; };
+
   private:
     Configuration();
     static Configuration* instance;
@@ -57,6 +73,22 @@ class Configuration
     std::string fVisMacroPath;
     std::string fGDMLOutputPath;
     bool        fShowVis;
+    double      fModuleWallThickness;
+    double      fModuleClearance;
+    double      fFieldShellThickness;
+    double      fCathodeThickness;
+    double      fPixelPlaneThickness;
+    std::vector<double> fWorldDimensions;
+    std::vector<double> fModuleDimensions;
+    std::vector<double> fCryostatDimensions;
+    std::vector<double> fActiveLArDim;
+    std::vector<double> fLightDetDim;
+    std::vector<double> fModuleLegDim;
+    std::vector<double> fModuleLegFootDim;
+    std::vector<double> fBottomDummyFlangeDim;
+    std::vector<double> fLegPosition;
+    std::vector<double> fTopLArDim;
+    std::vector<double> fTopGArDim;
 };
 }
 
