@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(ArgonCube2x2Geo)
 
-add_definitions(-DVERSION="v02_01_00")
+add_definitions(-DVERSION="v03_00_00")
 
 option(WITH_GEANT4_GDML "Build with Geant4 GDML parser." ON)
 option(WITH_GEANT4_UIVIS "Build with Geant4 UI and Vis drivers" ON)
