@@ -84,10 +84,10 @@ void CryostatVolume::ConstructCryostat(G4LogicalVolume* worldLV)
                                       new G4RotationMatrix(0,0,0),
                                       G4ThreeVector(0,0,(-1*x-1.0)*cm));
   //fCryostatODSolid->DumpInfo();
-  G4Material* air = materialManager->FindMaterial("G4_AIR");
+  G4Material* air = materialManager->FindMaterial("Air");
   if (!air) std::cout <<"asdfasfasfHEYYYY\n";
   fCryostatODLV = new G4LogicalVolume(fCryostatODSolid,
-                                      materialManager->FindMaterial("G4_AIR"),
+                                      materialManager->FindMaterial("Air"),
                                       "CryostatODLV");                                    ;
 
 //  new G4PVPlacement(0, G4ThreeVector(), fCryostatODLV, "CryostatODLV", worldLV, false, 1); 

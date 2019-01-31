@@ -10,13 +10,8 @@
 #define MODULEVOLUME_H
 
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
-#include "G4OpticalSurface.hh"
-#include "G4LogicalSkinSurface.hh"
-#include "G4Box.hh"
-#include "G4SubtractionSolid.hh"
 
 namespace geo
 {
@@ -32,8 +27,12 @@ class ModuleVolume
 
   private: 
     void ConstructModules(G4LogicalVolume* worldLV);
-    void HandleSurfaces(G4VPhysicalVolume* worldPV);
-    void HandleVisAttributes();
+    void ConstructSubVolumes();
+    void PlaceVolumes(G4LogicalVolume* worldLV);
+    void PlaceSubVolumes();
+    void ConstructActiveVolume();
+    void ConstructBottomVolume();
+    void ConstructTopVolume();
 
     // solids
     G4LogicalVolume* fVolActiveLAr;
@@ -45,8 +44,13 @@ class ModuleVolume
     G4LogicalVolume* fVolLeftSubModule;
     G4LogicalVolume* fVolCathode;
     G4LogicalVolume* fVolLeftPixelPlane;
+    G4LogicalVolume* fVolRightPixelPlane;
     G4LogicalVolume* fVolActiveModule;
     G4LogicalVolume* fVolModuleWall;
+    G4LogicalVolume* fVolModuleLeg;
+    G4LogicalVolume* fVolBottomDummyFlange;
+    G4LogicalVolume* fVolModule;
+    G4LogicalVolume* fVolLegContainer;
 };
 }
 

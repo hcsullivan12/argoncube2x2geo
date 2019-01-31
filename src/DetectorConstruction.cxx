@@ -68,13 +68,13 @@ void DetectorConstruction::ConstructDetector()
   Configuration* config = Configuration::Instance();
 
   //**** World
-  std::vector<double> worldDim = config->WorldDimensions();
+  std::vector<G4double> worldDim = config->WorldDimensions();
   fWorldSolid = new G4Box("WorldSolid", 
                           (worldDim[0]/2.)*cm,
                           (worldDim[1]/2.)*cm, 
                           (worldDim[2]/2.)*cm);
   fWorldLV    = new G4LogicalVolume(fWorldSolid, 
-                                    materialManager->FindMaterial("G4_AIR"), 
+                                    materialManager->FindMaterial("Air"), 
                                     "WorldLV");
   fWorldPV = new G4PVPlacement(0, 
                                G4ThreeVector(), 
@@ -93,7 +93,7 @@ void DetectorConstruction::ConstructDetector()
   // Cryostat
   //****
   fCryostatVolume = new CryostatVolume();
-  fCryostatVolume->ConstructVolume(fWorldPV, fWorldLV);
+  //fCryostatVolume->ConstructVolume(fWorldPV, fWorldLV);
 
   //**** 
   // Modules

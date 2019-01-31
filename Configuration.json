@@ -1,9 +1,18 @@
 {
   "gdmlOutputPath":         "/home/hunter/projects/argoncube2x2geo/output/detector.gdml",
   "visMacroPath":           "/home/hunter/projects/argoncube2x2geo/vis.mac",
-  "worldDimensions":        [1000, 1000, 1000],
+  "worldDimensions":        [100000, 100000, 100000],
+  "moduleWallThickness":    1.0,
+  "fieldShellThickness":    0.005,
+  "cathodeThickness":       0.5,
+  "pixelPlaneThickness":    0.3,
+  "activeLArDim":           [65, 120, 60],
+  "lightDetDim":            [10, 50, 0.4],
+  "moduleLegDim":           [6, 8, 2],
+  "moduleLegFootDim":       [8, 2, 4],
+  "bottomDummyFlangeDim":   [67, 2, 67],
+  "legPosition":            [25, 0, 25],
   "cryostatDimensions":     [110, 280, 1.0],
   "moduleDimensions":       [67, 67, 181],
-  "moduleG10WallThickness": 1.0,
   "moduleClearance":        0.15
 }

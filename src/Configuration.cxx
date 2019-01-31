@@ -65,10 +65,12 @@ void Configuration::ReadJSONFile()
   #ifdef G4_GDML 
   fGDMLOutputPath = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
   #endif
-  fModuleG10WallThickness = GetJSONMember("moduleG10WallThickness", 
-                                          rapidjson::kNumberType).GetDouble();
-  fModuleClearance = GetJSONMember("moduleClearance", 
-                                   rapidjson::kNumberType).GetDouble();
+  fModuleWallThickness = GetJSONMember("moduleWallThickness", rapidjson::kNumberType).GetDouble();
+  fModuleClearance = GetJSONMember("moduleClearance", rapidjson::kNumberType).GetDouble();
+  fFieldShellThickness = GetJSONMember("fieldShellThickness", rapidjson::kNumberType).GetDouble();
+  fCathodeThickness = GetJSONMember("cathodeThickness", rapidjson::kNumberType).GetDouble();
+  fPixelPlaneThickness = GetJSONMember("pixelPlaneThickness", rapidjson::kNumberType).GetDouble();
+  
   fWorldDimensions  = std::vector<double>(3, 0);
   auto jsonArrayItr = GetJSONMember("worldDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
   for (auto& d : fWorldDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
@@ -81,7 +83,29 @@ void Configuration::ReadJSONFile()
   jsonArrayItr = GetJSONMember("moduleDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
   for (auto& d : fModuleDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
 
-  if (fShowVis) fVisMacroPath = GetJSONMember("visMacroPath", rapidjson::kStringType).GetString();
+  fActiveLArDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("activeLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fActiveLArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fLightDetDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("lightDetDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fLightDetDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fModuleLegDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleLegDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleLegDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fModuleLegFootDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleLegFootDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleLegFootDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fBottomDummyFlangeDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("bottomDummyFlangeDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fBottomDummyFlangeDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fLegPosition = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("legPosition", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fLegPosition) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
 }
 
 const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memberName,
