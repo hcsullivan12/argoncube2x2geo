@@ -6,9 +6,6 @@
 #include "Configuration.h"
 #include "G4Helper.h"
 
-// ROOT includes
-#include "TFile.h"
-
 // Visualization 
 static bool showVis = false;
 
