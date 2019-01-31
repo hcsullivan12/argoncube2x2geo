@@ -106,6 +106,14 @@ void Configuration::ReadJSONFile()
   fLegPosition = std::vector<double>(3, 0);
   jsonArrayItr = GetJSONMember("legPosition", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
   for (auto& d : fLegPosition) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fTopLArDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("topLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fTopLArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fTopGArDim = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("topGArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fTopGArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
 }
 
 const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memberName,

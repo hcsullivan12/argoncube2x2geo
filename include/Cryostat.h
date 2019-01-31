@@ -1,13 +1,13 @@
 // 
-// File: CryostatVolume.h
+// File: Cryostat.h
 //
 // Author: Hunter Sullivan
 //
 // Discription: Class to construct cryostat volume.
 //
 
-#ifndef CRYOSTATVOLUME_H
-#define CRYOSTATVOLUME_H
+#ifndef CRYOSTAT_H
+#define CRYOSTAT_H
 
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -19,11 +19,11 @@
 namespace geo
 {
 
-class CryostatVolume 
+class Cryostat 
 {
   public:
-    CryostatVolume();
-    ~CryostatVolume();
+    Cryostat();
+    ~Cryostat();
 
     void ConstructVolume(G4VPhysicalVolume* worldPV,
                          G4LogicalVolume*   worldLV);

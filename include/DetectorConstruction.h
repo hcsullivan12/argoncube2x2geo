@@ -9,8 +9,9 @@
 #ifndef DETECTORCONSTRUCTION_H
 #define DETECTORCONSTRUCTION_H
 
-#include "ModuleVolume.h"
-#include "CryostatVolume.h"
+#include "Module.h"
+#include "Cryostat.h"
+#include "Detector.h"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4LogicalVolume.hh"
@@ -31,12 +32,12 @@ class DetectorConstruction : public G4VUserDetectorConstruction
   private:
     void ConstructMaterials();
     void ConstructDetector();
-
-    G4VSolid*          fWorldSolid; 
-    G4LogicalVolume*   fWorldLV; 
-    G4VPhysicalVolume* fWorldPV;
-    ModuleVolume*      fModuleVolume;
-    CryostatVolume*    fCryostatVolume;
+ 
+    G4LogicalVolume*   fVolWorld;
+    G4VPhysicalVolume* fPVWorld; 
+    Module*            fModule;
+    Detector*          fDetector;
+    Cryostat*          fCryostat;
 };
 }
 

@@ -20,15 +20,13 @@ namespace geo
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fModuleVolume(NULL),
-  fWorldSolid(NULL),
-  fWorldLV(NULL),
-  fWorldPV(NULL)
+  fModule(NULL),
+  fVolWorld(NULL)
 {}
 
 DetectorConstruction::~DetectorConstruction()
 {
-  if (fModuleVolume) delete fModuleVolume;
+  if (fModule) delete fModule;
 }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
@@ -39,13 +37,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Construct our detector 
   ConstructDetector();
 
-  if (!fWorldPV) 
+  if (!fPVWorld) 
   {
     G4cerr << "DetectorConstruction::Construct() "
            << "Error! World physical volume not initialized!" 
            << G4endl;
   }
-  return fWorldPV;
+  return fPVWorld;
 }
 
 void DetectorConstruction::ConstructMaterials()
@@ -69,37 +67,38 @@ void DetectorConstruction::ConstructDetector()
 
   //**** World
   std::vector<G4double> worldDim = config->WorldDimensions();
-  fWorldSolid = new G4Box("WorldSolid", 
-                          (worldDim[0]/2.)*cm,
-                          (worldDim[1]/2.)*cm, 
-                          (worldDim[2]/2.)*cm);
-  fWorldLV    = new G4LogicalVolume(fWorldSolid, 
+  G4Box* solWorld = new G4Box("solWorld", 
+                              (worldDim[0]/2.)*cm,
+                              (worldDim[1]/2.)*cm, 
+                              (worldDim[2]/2.)*cm);
+  fVolWorld    = new G4LogicalVolume(solWorld, 
                                     materialManager->FindMaterial("Air"), 
-                                    "WorldLV");
-  fWorldPV = new G4PVPlacement(0, 
+                                    "volWorld");
+  fPVWorld = new G4PVPlacement(0, 
                                G4ThreeVector(), 
-                               fWorldLV, 
+                               fVolWorld, 
                                "World", 
                                0, 
                                false, 
-                               0);
-  // vis
-  G4Colour worldC(0.5,0.5,0.5);
-  G4VisAttributes* worldVA = new G4VisAttributes(worldC);
-  worldVA->SetForceWireframe(true);
-  fWorldLV->SetVisAttributes(worldVA); 
+                               0); 
 
   //****
   // Cryostat
   //****
-  fCryostatVolume = new CryostatVolume();
-  //fCryostatVolume->ConstructVolume(fWorldPV, fWorldLV);
+  fCryostat = new Cryostat();
+  //fCryostat->ConstructVolume(fWorldPV, fVolWorld);
 
   //**** 
   // Modules
   //****
-  fModuleVolume = new ModuleVolume();
-  fModuleVolume->ConstructVolume(fWorldPV, fWorldLV);
+  fModule = new Module();
+  fModule->ConstructVolume();
+
+  //****
+  // Detector (all modules)
+  //****
+  fDetector = new Detector();
+  fDetector->ConstructVolume(fVolWorld, fModule);
 }
 
 void DetectorConstruction::ConstructSDandField()

@@ -46,6 +46,8 @@ class Configuration
     const std::vector<double>& ModuleLegFootDim()  const { return fModuleLegFootDim; };
     const std::vector<double>& BottomDummyFlangeDim()  const { return fBottomDummyFlangeDim; };
     const std::vector<double>& LegPosition()  const { return fLegPosition; };
+    const std::vector<double>& TopLArDim()  const { return fTopLArDim; };
+    const std::vector<double>& TopGArDim()  const { return fTopGArDim; };
 
   private:
     Configuration();
@@ -85,6 +87,8 @@ class Configuration
     std::vector<double> fModuleLegFootDim;
     std::vector<double> fBottomDummyFlangeDim;
     std::vector<double> fLegPosition;
+    std::vector<double> fTopLArDim;
+    std::vector<double> fTopGArDim;
 };
 }
 

@@ -1,13 +1,13 @@
 // 
-// File: ModuleVolume.h
+// File: Module.h
 //
 // Author: Hunter Sullivan
 //
 // Discription: Class to construct module volumes.
 //
 
-#ifndef MODULEVOLUME_H
-#define MODULEVOLUME_H
+#ifndef MODULE_H
+#define MODULE_H
 
 #include "G4LogicalVolume.hh"
 #include "G4SystemOfUnits.hh"
@@ -16,19 +16,20 @@
 namespace geo
 {
 
-class ModuleVolume 
+class Module 
 {
   public:
-    ModuleVolume();
-    ~ModuleVolume();
+    Module();
+    ~Module();
 
-    void ConstructVolume(G4VPhysicalVolume* worldPV,
-                         G4LogicalVolume*   worldLV);
+    void ConstructVolume();
+
+    G4LogicalVolume* GetLV() { return fVolModule; };
 
   private: 
-    void ConstructModules(G4LogicalVolume* worldLV);
+    void ConstructModules();
     void ConstructSubVolumes();
-    void PlaceVolumes(G4LogicalVolume* worldLV);
+    void PlaceVolumes();
     void PlaceSubVolumes();
     void ConstructActiveVolume();
     void ConstructBottomVolume();
@@ -51,6 +52,9 @@ class ModuleVolume
     G4LogicalVolume* fVolBottomDummyFlange;
     G4LogicalVolume* fVolModule;
     G4LogicalVolume* fVolLegContainer;
+    G4LogicalVolume* fVolTopModule;
+    G4LogicalVolume* fVolTopLAr;
+    G4LogicalVolume* fVolTopGAr;
 };
 }
 

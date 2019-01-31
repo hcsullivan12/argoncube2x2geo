@@ -1,12 +1,12 @@
 // 
-// File: CryostatVolume.cxx
+// File: Cryostat.cxx
 //
 // Author: Hunter Sullivan
 //
 // Discription: Class to construct cryostat volume.
 //
 
-#include "CryostatVolume.h"
+#include "Cryostat.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
 
@@ -20,15 +20,15 @@
 namespace geo
 {
 
-CryostatVolume::CryostatVolume()
+Cryostat::Cryostat()
 :  fCryostatODSolid(NULL),
    fCryostatODLV(NULL)
 {}
 
-CryostatVolume::~CryostatVolume()
+Cryostat::~Cryostat()
 {}
 
-void CryostatVolume::ConstructVolume(G4VPhysicalVolume* worldPV,
+void Cryostat::ConstructVolume(G4VPhysicalVolume* worldPV,
                                      G4LogicalVolume*   worldLV)
 {
 
@@ -41,7 +41,7 @@ void CryostatVolume::ConstructVolume(G4VPhysicalVolume* worldPV,
   HandleVisAttributes();
 }
 
-void CryostatVolume::ConstructCryostat(G4LogicalVolume* worldLV)
+void Cryostat::ConstructCryostat(G4LogicalVolume* worldLV)
 {
   // Get material manager and config
   MaterialManager* materialManager = MaterialManager::Instance();
@@ -107,7 +107,7 @@ void CryostatVolume::ConstructCryostat(G4LogicalVolume* worldLV)
  // std::cout << (*thePVStore)[1]->GetName() << std::endl;
 }
 
-void CryostatVolume::HandleVisAttributes()
+void Cryostat::HandleVisAttributes()
 {
   // Cryostat
   G4VisAttributes* cryoVA = new G4VisAttributes(G4Colour(1,1,1));
