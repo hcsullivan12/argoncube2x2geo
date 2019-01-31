@@ -12,8 +12,6 @@
 #include "Module.h"
 
 #include "G4LogicalVolume.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4PhysicalConstants.hh"
 
 namespace geo
 {

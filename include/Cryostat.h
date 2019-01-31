@@ -10,11 +10,7 @@
 #define CRYOSTAT_H
 
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4PhysicalConstants.hh"
-#include "G4Box.hh"
-#include "G4UnionSolid.hh"
+#include "Detector.h"
 
 namespace geo
 {
@@ -25,15 +21,11 @@ class Cryostat
     Cryostat();
     ~Cryostat();
 
-    void ConstructVolume(G4VPhysicalVolume* worldPV,
-                         G4LogicalVolume*   worldLV);
-
+    void ConstructVolume(G4LogicalVolume* volWorld, 
+                         Detector*          module);
   private: 
     void ConstructCryostat(G4LogicalVolume* worldLV);
-    void HandleSurfaces(G4VPhysicalVolume* worldPV);
-    void HandleVisAttributes();
 
-    G4UnionSolid*    fCryostatODSolid;
     G4LogicalVolume* fCryostatODLV;
 };
 }

@@ -9,11 +9,14 @@
 #include "DetectorConstruction.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
+#include "Utilities.h"
 
 #include "G4Color.hh"
 #include "G4VisAttributes.hh"
 #include "G4SDManager.hh"
 #include "G4Box.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4PVPlacement.hh"
 
 namespace geo
 {
@@ -64,13 +67,15 @@ void DetectorConstruction::ConstructDetector()
   // Get instance of material manager and configuration
   MaterialManager* materialManager = MaterialManager::Instance();
   Configuration* config = Configuration::Instance();
+  arcutil::Utilities util;
 
   //**** World
-  std::vector<G4double> worldDim = config->WorldDimensions();
+  std::vector<G4double> worldDim = config->WorldDimensions(); util.ConvertToUnits(worldDim);
+
   G4Box* solWorld = new G4Box("solWorld", 
-                              (worldDim[0]/2.)*cm,
-                              (worldDim[1]/2.)*cm, 
-                              (worldDim[2]/2.)*cm);
+                              worldDim[0]/2.,
+                              worldDim[1]/2., 
+                              worldDim[2]/2.);
   fVolWorld    = new G4LogicalVolume(solWorld, 
                                     materialManager->FindMaterial("Air"), 
                                     "volWorld");
@@ -81,13 +86,7 @@ void DetectorConstruction::ConstructDetector()
                                0, 
                                false, 
                                0); 
-
-  //****
-  // Cryostat
-  //****
-  fCryostat = new Cryostat();
-  //fCryostat->ConstructVolume(fWorldPV, fVolWorld);
-
+ 
   //**** 
   // Modules
   //****
@@ -99,6 +98,12 @@ void DetectorConstruction::ConstructDetector()
   //****
   fDetector = new Detector();
   fDetector->ConstructVolume(fVolWorld, fModule);
+
+  //****
+  // Cryostat
+  //****
+  fCryostat = new Cryostat();
+  fCryostat->ConstructVolume(fVolWorld, fDetector);
 }
 
 void DetectorConstruction::ConstructSDandField()

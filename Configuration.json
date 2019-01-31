@@ -10,7 +10,7 @@
   "lightDetDim":            [10, 50, 0.4],
   "moduleLegDim":           [6, 8, 2],
   "moduleLegFootDim":       [8, 2, 4],
-  "bottomDummyFlangeDim":   [67, 2, 67],
+  "bottomDummyFlangeDim":   [0, 2, 0],
   "legPosition":            [25, 0, 25],
   "topLArDim":              [0, 20, 0],
   "topGArDim":              [0, 20, 0],

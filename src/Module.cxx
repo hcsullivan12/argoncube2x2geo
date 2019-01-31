@@ -19,6 +19,7 @@
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
 #include "G4PVPlacement.hh"
+#include "G4SystemOfUnits.hh"
 
 namespace geo
 {
@@ -61,7 +62,6 @@ void Module::PlaceVolumes()
   // Complete Module 
   // Our module legs are of boolean type, surely there is a better
   // way to access the constituent's dimensions, but this will do for now
-  Configuration*   config = Configuration::Instance();
   MaterialManager* matMan = MaterialManager::Instance();
   arcutil::Utilities util;
   G4Box* moduleWall = (G4Box*)fVolModuleWall->GetSolid();
@@ -91,8 +91,8 @@ void Module::PlaceVolumes()
   
   std::vector<G4double> steps = util.Stack(geomsDim, moduleDim[1]);
   std::vector<G4ThreeVector> positions;
-  std::cout << -1*moduleDim[1]/cm << std::endl;
-  for (auto s : steps) std::cout << "Step = " << s/cm << std::endl;
+  std::cout << -1*moduleDim[1] << std::endl;
+  for (auto s : steps) std::cout << "Step = " << s << std::endl;
   positions.resize(steps.size());
   for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
 
@@ -116,24 +116,23 @@ void Module::ConstructBottomVolume()
   //****
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration*   config = Configuration::Instance();
+  arcutil::Utilities util;
 
   // Get variables
-  std::vector<G4double> modLegDim      = config->ModuleLegDim();
-  std::vector<G4double> modLegFootDim  = config->ModuleLegFootDim();
-  std::vector<G4double> dummyFlangeDim = config->BottomDummyFlangeDim();
-  std::vector<G4double> legPosition = config->LegPosition();
-
-  // Heat exchanger
+  std::vector<G4double> modLegDim      = config->ModuleLegDim();         util.ConvertToUnits(modLegDim);
+  std::vector<G4double> modLegFootDim  = config->ModuleLegFootDim();     util.ConvertToUnits(modLegFootDim);
+  std::vector<G4double> dummyFlangeDim = config->BottomDummyFlangeDim(); util.ConvertToUnits(dummyFlangeDim);
+  std::vector<G4double> legPosition    = config->LegPosition();          util.ConvertToUnits(legPosition);
  
   // Legs
   G4Box* solModuleLegShin = new G4Box("solModuleLegShin", 
-                                      (modLegDim[0]/2.)*cm, 
-                                      (modLegDim[1]/2.)*cm, 
-                                      (modLegDim[2]/2.)*cm);
+                                      (modLegDim[0]/2.), 
+                                      (modLegDim[1]/2.), 
+                                      (modLegDim[2]/2.));
   G4Box* solModuleLegFoot = new G4Box("solModuleLegFoot", 
-                                      (modLegFootDim[0]/2.)*cm, 
-                                      (modLegFootDim[1]/2.)*cm, 
-                                      (modLegFootDim[2]/2.)*cm); 
+                                      (modLegFootDim[0]/2.), 
+                                      (modLegFootDim[1]/2.), 
+                                      (modLegFootDim[2]/2.)); 
   G4ThreeVector transl1(0, solModuleLegShin->GetYHalfLength()-solModuleLegFoot->GetYHalfLength(), 0);
   G4UnionSolid* solModuleLegTemp = new G4UnionSolid("solModuleLegTemp", 
                                                      solModuleLegShin, 
@@ -153,29 +152,29 @@ void Module::ConstructBottomVolume()
   auto moduleWall = (G4Box*)fVolModuleWall->GetSolid();
   G4Box* solLegContainer = new G4Box("solLegContainer",
                                      moduleWall->GetXHalfLength(),
-                                     (modLegDim[1]/2.)*cm,
+                                     (modLegDim[1]/2.),
                                      moduleWall->GetZHalfLength());
   fVolLegContainer = new G4LogicalVolume(solLegContainer,
 	                                       matMan->FindMaterial("Air"),
 	                                       "volLegContainer");
 
-  G4ThreeVector pos(legPosition[0]*cm, 0, legPosition[2]*cm);
+  G4ThreeVector pos(legPosition[0], 0, legPosition[2]);
   new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos1", fVolLegContainer, false, 0);
 
-  pos = {-1*legPosition[0]*cm, 0, legPosition[2]*cm};
+  pos = {-1*legPosition[0], 0, legPosition[2]};
   new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos2", fVolLegContainer, false, 1);
 
-  pos = {-1*legPosition[0]*cm, 0, -1*legPosition[2]*cm};
+  pos = {-1*legPosition[0], 0, -1*legPosition[2]};
   new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos3", fVolLegContainer, false, 2);
 
-  pos = {legPosition[0]*cm, 0, -1*legPosition[2]*cm};
+  pos = {legPosition[0], 0, -1*legPosition[2]};
   new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos4", fVolLegContainer, false, 3);                                      
 
   // Dummy flange
   G4Box* solBottomDummyFlange = new G4Box("solBottomDummyFlange", 
-                                          (dummyFlangeDim[0]/2.)*cm, 
-                                          (dummyFlangeDim[1]/2.)*cm, 
-                                          (dummyFlangeDim[2]/2.)*cm);
+                                          solLegContainer->GetXHalfLength(), 
+                                          (dummyFlangeDim[1]/2.), 
+                                          solLegContainer->GetZHalfLength());
   fVolBottomDummyFlange = new G4LogicalVolume(solBottomDummyFlange, 
                                               matMan->FindMaterial("SSteel304"),
                                               "volBottomDummyFlange");
@@ -191,16 +190,17 @@ void Module::ConstructTopVolume()
   //****
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration*   config = Configuration::Instance();
+  arcutil::Utilities util;
 
   G4Box* activeMod = (G4Box*)fVolActiveModule->GetSolid();
   G4Box* moduleWall = (G4Box*)fVolModuleWall->GetSolid();
-  std::vector<G4double> topLArDim  = config->TopLArDim();
-  std::vector<G4double> topGArDim  = config->TopGArDim();
-
+  std::vector<G4double> topLArDim  = config->TopLArDim(); util.ConvertToUnits(topLArDim);
+  std::vector<G4double> topGArDim  = config->TopGArDim(); util.ConvertToUnits(topGArDim);
+  
   // LAr
   G4Box* solTopLAr = new G4Box("solTopLAr", 
                                activeMod->GetXHalfLength(), 
-                               (topLArDim[1]/2.0)*cm, 
+                               (topLArDim[1]/2.0), 
                                activeMod->GetZHalfLength());
   fVolTopLAr = new G4LogicalVolume(solTopLAr, 
                                    matMan->FindMaterial("LAr"),
@@ -209,7 +209,7 @@ void Module::ConstructTopVolume()
   // GAr
   G4Box* solTopGAr = new G4Box("solTopGAr", 
                                 activeMod->GetXHalfLength(), 
-                                (topGArDim[1]/2.)*cm, 
+                                (topGArDim[1]/2.), 
                                 activeMod->GetZHalfLength());
   fVolTopGAr = new G4LogicalVolume(solTopGAr, 
                                    matMan->FindMaterial("GAr"),
@@ -239,20 +239,22 @@ void Module::ConstructActiveVolume()
   //****
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration*   config = Configuration::Instance();
+  arcutil::Utilities util;
+
 
   // Get variables
-  std::vector<G4double> activeLArDim = config->ActiveLArDim();
-  std::vector<G4double> lightDetDim  = config->LightDetDim();
-  G4double fieldShellThickness       = config->FieldShellThickness();
-  G4double cathodeThickness          = config->CathodeThickness();
-  G4double pixelPlaneThickness       = config->PixelPlaneThickness();
-  G4double moduleWallThickness       = config->ModuleWallThickness();
+  std::vector<G4double> activeLArDim = config->ActiveLArDim();        util.ConvertToUnits(activeLArDim);
+  std::vector<G4double> lightDetDim  = config->LightDetDim();         util.ConvertToUnits(lightDetDim);
+  G4double fieldShellThickness       = config->FieldShellThickness(); util.ConvertToUnits(fieldShellThickness);
+  G4double cathodeThickness          = config->CathodeThickness();    util.ConvertToUnits(cathodeThickness);
+  G4double pixelPlaneThickness       = config->PixelPlaneThickness(); util.ConvertToUnits(pixelPlaneThickness);
+  G4double moduleWallThickness       = config->ModuleWallThickness(); util.ConvertToUnits(moduleWallThickness);
   
   // Active LAr
   G4Box* solActiveLAr = new G4Box("solActiveLAr", 
-                                  (activeLArDim[0]/4.)*cm, 
-                                  (activeLArDim[1]/2.)*cm, 
-                                  (activeLArDim[2]/2.)*cm);
+                                  (activeLArDim[0]/4.), 
+                                  (activeLArDim[1]/2.), 
+                                  (activeLArDim[2]/2.));
   fVolActiveLAr = new G4LogicalVolume(solActiveLAr, 
                                       matMan->FindMaterial("LAr"),
                                       "volActiveLAr"); 
@@ -260,7 +262,7 @@ void Module::ConstructActiveVolume()
   G4Box* solLightUSPlane = new G4Box("solLightUSPlane", 
                                      solActiveLAr->GetXHalfLength(),
                                      solActiveLAr->GetYHalfLength(), 
-                                     (lightDetDim[2]/2.)*cm);
+                                     (lightDetDim[2]/2.));
   fVolLightUSPlane = new G4LogicalVolume(solLightUSPlane, 
                                          matMan->FindMaterial("PVT"),
                                          "volLightUSPlane"); 
@@ -268,7 +270,7 @@ void Module::ConstructActiveVolume()
   G4Box* solLightDSPlane = new G4Box("solLightDSPlane", 
                                      solActiveLAr->GetXHalfLength(), 
                                      solActiveLAr->GetYHalfLength(), 
-                                     (lightDetDim[2]/2.)*cm);
+                                     (lightDetDim[2]/2.));
   fVolLightDSPlane = new G4LogicalVolume(solLightDSPlane, 
                                          matMan->FindMaterial("PVT"),
                                          "volLightDSPlane"); 
@@ -283,8 +285,8 @@ void Module::ConstructActiveVolume()
   // Field shell solid
   G4Box* solResistFieldShell_whole = new G4Box("solResistFieldShellSide_whole",
                                                 solActiveLight->GetXHalfLength(),
-                                                solActiveLight->GetYHalfLength()+(fieldShellThickness/2.)*cm,
-                                                solActiveLight->GetZHalfLength()+(fieldShellThickness/2.)*cm);
+                                                solActiveLight->GetYHalfLength()+(fieldShellThickness/2.),
+                                                solActiveLight->GetZHalfLength()+(fieldShellThickness/2.));
   // Field shell, subtract pixel/cathode walls
   G4Box* solResistFieldShell_subtract = new G4Box("solResistFieldShellSide_subtract",
                                                    2*solActiveLight->GetXHalfLength(),
@@ -315,7 +317,7 @@ void Module::ConstructActiveVolume()
                                           "volLeftSubModule"); 
   // Cathode
   G4Box* solCathode = new G4Box("solCathode",
-                                (cathodeThickness/2.)*cm,
+                                (cathodeThickness/2.),
                                 solLeftSubModule->GetYHalfLength(),
                                 solLeftSubModule->GetZHalfLength());
   fVolCathode = new G4LogicalVolume(solCathode, 
@@ -323,14 +325,14 @@ void Module::ConstructActiveVolume()
                                     "volCathode"); 
   // Pixel planes
   G4Box* solLeftPixelPlane = new G4Box("solLeftCathode",
-                                        (pixelPlaneThickness/2.)*cm,
+                                        (pixelPlaneThickness/2.),
                                         solLeftSubModule->GetYHalfLength(),
                                         solLeftSubModule->GetZHalfLength());
   fVolLeftPixelPlane = new G4LogicalVolume(solLeftPixelPlane,
                                            matMan->FindMaterial("FR4"),
                                            "volLeftPixelPlane");
   G4Box* solRightPixelPlane = new G4Box("solRightCathode",
-                                        (pixelPlaneThickness/2.)*cm,
+                                        (pixelPlaneThickness/2.),
                                         solRightSubModule->GetYHalfLength(),
                                         solRightSubModule->GetZHalfLength());
   fVolRightPixelPlane = new G4LogicalVolume(solRightPixelPlane,
@@ -347,9 +349,9 @@ void Module::ConstructActiveVolume()
                                         "volActiveModule"); 
   // Module wall
   G4Box* solModuleWall = new G4Box("solModuleWall", 
-                                    solActiveModule->GetXHalfLength()+(moduleWallThickness/2.)*cm,
-                                    solActiveModule->GetYHalfLength()+(moduleWallThickness/2.)*cm,
-                                    solActiveModule->GetZHalfLength()+(moduleWallThickness/2.)*cm);
+                                    solActiveModule->GetXHalfLength()+(moduleWallThickness/2.),
+                                    solActiveModule->GetYHalfLength()+(moduleWallThickness/2.),
+                                    solActiveModule->GetZHalfLength()+(moduleWallThickness/2.));
   fVolModuleWall = new G4LogicalVolume(solModuleWall,
                                        matMan->FindMaterial("FR4"),
                                        "volModuleWall"); 
