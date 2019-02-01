@@ -58,47 +58,7 @@ void Module::ConstructVolume()
 
 void Module::PlaceVolumes()
 {
-  // Stack sub volumes
-  // Complete Module 
-  // Our module legs are of boolean type, surely there is a better
-  // way to access the constituent's dimensions, but this will do for now
-  MaterialManager* matMan = MaterialManager::Instance();
-  arcutil::Utilities util;
-  G4Box* moduleWall = (G4Box*)fVolModuleWall->GetSolid();
-
-  // Stack the volumes
-  std::vector<G4LogicalVolume*> geoms = {fVolBottomDummyFlange, 
-                                         fVolLegContainer, 
-                                         fVolModuleWall, 
-                                         fVolTopModule};
-  std::vector<G4double> geomsDim = {((G4Box*)fVolBottomDummyFlange->GetSolid())->GetYHalfLength(),
-                                    ((G4Box*)fVolLegContainer->GetSolid())->GetYHalfLength(),
-                                    ((G4Box*)fVolModuleWall->GetSolid())->GetYHalfLength(),
-                                    ((G4Box*)fVolTopModule->GetSolid())->GetYHalfLength()};
-
-  std::vector<G4double> moduleDim = {moduleWall->GetXHalfLength(),
-                                     geomsDim[0]+geomsDim[1]+geomsDim[2]+geomsDim[3], 
-                                     moduleWall->GetZHalfLength()};
-
-  G4Box* solModule = new G4Box("solModule",
-                                moduleDim[0],
-                                moduleDim[1],
-                                moduleDim[2]);
-  fVolModule = new G4LogicalVolume(solModule,
-                                   matMan->FindMaterial("Air"),
-                                   "volModule");
-
-  
-  std::vector<G4double> steps = util.Stack(geomsDim, moduleDim[1]);
-  std::vector<G4ThreeVector> positions;
-  std::cout << -1*moduleDim[1] << std::endl;
-  for (auto s : steps) std::cout << "Step = " << s << std::endl;
-  positions.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
-
-  util.Place(geoms, positions, fVolModule);
-  geoms.clear(); geomsDim.clear(); positions.clear();
-}
+  }
 
 void Module::ConstructSubVolumes()
 {
@@ -155,7 +115,7 @@ void Module::ConstructBottomVolume()
                                      (modLegDim[1]/2.),
                                      moduleWall->GetZHalfLength());
   fVolLegContainer = new G4LogicalVolume(solLegContainer,
-	                                       matMan->FindMaterial("Air"),
+	                                       matMan->FindMaterial("LAr"),
 	                                       "volLegContainer");
 
   G4ThreeVector pos(legPosition[0], 0, legPosition[2]);
@@ -370,12 +330,13 @@ void Module::PlaceSubVolumes()
   std::vector<G4double> steps;
   G4ThreeVector zeroVec(0,0,0);
   arcutil::Utilities util;
+  MaterialManager* matMan = MaterialManager::Instance();
 
   // LAr active and light planes
   geoms    = {fVolLightUSPlane, fVolActiveLAr, fVolLightDSPlane};
-  geomsDim = {((G4Box*)fVolLightUSPlane->GetSolid())->GetZHalfLength(), 
-              ((G4Box*)fVolActiveLAr->GetSolid())->GetZHalfLength(), 
-              ((G4Box*)fVolLightDSPlane->GetSolid())->GetZHalfLength()};
+  geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), 
+              ((G4Box*)geoms[1]->GetSolid())->GetZHalfLength(), 
+              ((G4Box*)geoms[2]->GetSolid())->GetZHalfLength()};
   steps = util.Stack(geomsDim, ((G4Box*)fVolActiveLight->GetSolid())->GetZHalfLength());
   positions.resize(steps.size());
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
@@ -384,8 +345,8 @@ void Module::PlaceSubVolumes()
 
   // LAr active light and field shell
   geoms = {fVolActiveLight, fVolFieldShell};
-  geomsDim = {((G4Box*)fVolActiveLight->GetSolid())->GetZHalfLength(), 
-              ((G4Box*)fVolFieldShell->GetSolid())->GetZHalfLength()};
+  geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), 
+              ((G4Box*)geoms[1]->GetSolid())->GetZHalfLength()};
   positions = {zeroVec, zeroVec};
   util.Place(geoms, positions, fVolLeftSubModule);
   util.Place(geoms, positions, fVolRightSubModule);
@@ -393,11 +354,11 @@ void Module::PlaceSubVolumes()
 
   // Sub modules, pixel plane, and cathode
   geoms = {fVolLeftPixelPlane, fVolLeftSubModule, fVolCathode, fVolRightSubModule, fVolRightPixelPlane};
-  geomsDim = {((G4Box*)fVolLeftPixelPlane->GetSolid())->GetXHalfLength(),
-              ((G4Box*)fVolLeftSubModule->GetSolid())->GetXHalfLength(),
-              ((G4Box*)fVolCathode->GetSolid())->GetXHalfLength(),
-              ((G4Box*)fVolRightSubModule->GetSolid())->GetXHalfLength(),
-              ((G4Box*)fVolRightPixelPlane->GetSolid())->GetXHalfLength()};
+  geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetXHalfLength(),
+              ((G4Box*)geoms[1]->GetSolid())->GetXHalfLength(),
+              ((G4Box*)geoms[2]->GetSolid())->GetXHalfLength(),
+              ((G4Box*)geoms[3]->GetSolid())->GetXHalfLength(),
+              ((G4Box*)geoms[4]->GetSolid())->GetXHalfLength()};
   steps = util.Stack(geomsDim, ((G4Box*)fVolActiveModule->GetSolid())->GetXHalfLength());
   positions.resize(steps.size());
   for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(steps[s],0,0); }
@@ -413,12 +374,42 @@ void Module::PlaceSubVolumes()
 
   // Top module
   geoms = {fVolTopLAr, fVolTopGAr};
-  geomsDim = {((G4Box*)fVolTopLAr->GetSolid())->GetYHalfLength(),
-              ((G4Box*)fVolTopLAr->GetSolid())->GetYHalfLength()};               
+  geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetYHalfLength(),
+              ((G4Box*)geoms[1]->GetSolid())->GetYHalfLength()};               
   steps = util.Stack(geomsDim, geomsDim[0]+geomsDim[1]);
   positions.resize(steps.size());
   for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
   util.Place(geoms, positions, fVolTopModule);
   geoms.clear(); geomsDim.clear(); positions.clear();   
+
+
+  // Stack sub volumes
+  // Complete Module 
+  geoms = {fVolBottomDummyFlange, 
+           fVolLegContainer, 
+           fVolModuleWall, 
+           fVolTopModule};
+  geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetYHalfLength(),
+              ((G4Box*)geoms[1]->GetSolid())->GetYHalfLength(),
+              ((G4Box*)geoms[2]->GetSolid())->GetYHalfLength(),
+              ((G4Box*)geoms[3]->GetSolid())->GetYHalfLength()};
+
+  std::vector<G4double> moduleDim = {((G4Box*)geoms[2]->GetSolid())->GetXHalfLength(),
+                                     geomsDim[0]+geomsDim[1]+geomsDim[2]+geomsDim[3], 
+                                     ((G4Box*)geoms[2]->GetSolid())->GetZHalfLength()};
+
+  G4Box* solModule = new G4Box("solModule",
+                                moduleDim[0],
+                                moduleDim[1],
+                                moduleDim[2]);
+  fVolModule = new G4LogicalVolume(solModule,
+                                   matMan->FindMaterial("LAr"),
+                                   "volModule");
+  
+  steps = util.Stack(geomsDim, moduleDim[1]);
+  positions.resize(steps.size());
+  for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
+  util.Place(geoms, positions, fVolModule);
+  geoms.clear(); geomsDim.clear(); positions.clear();
 }
 }

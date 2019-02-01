@@ -25,6 +25,8 @@ class Detector
     void ConstructVolume(G4LogicalVolume* volWorld, 
                          Module*          module);
 
+    G4LogicalVolume* GetLV() { return fVolModuleContainer; };
+
   private: 
     void ConstructModules();
 

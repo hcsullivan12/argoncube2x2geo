@@ -14,7 +14,7 @@
   "legPosition":            [25, 0, 25],
   "topLArDim":              [0, 20, 0],
   "topGArDim":              [0, 20, 0],
-  "cryostatDimensions":     [110, 280, 1.0],
+  "cryostatDimensions":     [105, 230, 1, 5, 110, 280, 1],
   "moduleDimensions":       [67, 67, 181],
   "moduleClearance":        0.15
 }

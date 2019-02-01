@@ -70,10 +70,5 @@ void Detector::ConstructVolume(G4LogicalVolume* volWorld,
   new G4PVPlacement(0, positions[2], volModule, volModule->GetName()+"_pos3", fVolModuleContainer, false, 3);
   new G4PVPlacement(0, positions[3], volModule, volModule->GetName()+"_pos4", fVolModuleContainer, false, 4);
   positions.clear();
-
-  // Place in world
-  std::vector<G4LogicalVolume*> geoms = {fVolModuleContainer};
-  positions = {G4ThreeVector(0,0,0)};
-  util.Place(geoms, positions, volWorld); 
 }
 }
