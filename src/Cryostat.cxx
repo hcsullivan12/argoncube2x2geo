@@ -34,14 +34,31 @@ void Cryostat::ConstructVolume(G4LogicalVolume* volWorld,
   //****
   // Construct cryostat volumes
   //****
-  ConstructCryostat(detector);
+  ConstructTubs();
+  ConstructCaps();
 
-  G4RotationMatrix* xRot = new G4RotationMatrix;
-  xRot->rotateX(pi/2);
-  new G4PVPlacement(xRot, G4ThreeVector(), fVolCryoOuterWall, detector->GetLV()->GetName()+"_pos1", volWorld, false, 0);
+  //****
+  // Placement
+  //****
+  // Go ahead and place our detector
+  G4RotationMatrix* xRot1 = new G4RotationMatrix;
+  xRot1->rotateX(3*pi/2);
+  G4LogicalVolume* volMod = detector->GetLV();
+  G4double modHeight = ((G4Box*)volMod->GetSolid())->GetYHalfLength();
+  G4double tubHeight = ((G4Tubs*)fVolCryoInnerBathTub->GetSolid())->GetZHalfLength();
+  G4double shift = tubHeight - modHeight;
+  G4ThreeVector transl(0, 0, shift);
+  new G4PVPlacement(xRot1, transl, detector->GetLV(), detector->GetLV()->GetName()+"_pos1", fVolCryoInnerBathTub, false, 0);  
+  PlaceVolumes();
+
+  //ConstructCryostat(detector);
+
+  G4RotationMatrix* xRot2 = new G4RotationMatrix;
+  xRot2->rotateX(pi/2);
+  new G4PVPlacement(xRot2, G4ThreeVector(), fVolCryoOuterWallTub, detector->GetLV()->GetName()+"_pos1", volWorld, false, 0);
 }
 
-void Cryostat::ConstructCryostat(Detector* detector)
+void Cryostat::ConstructTubs()
 {
   // Get material manager and config
   MaterialManager* matMan = MaterialManager::Instance();
@@ -59,8 +76,99 @@ void Cryostat::ConstructCryostat(Detector* detector)
   //     [4] --> outer radius
   //     [5] --> outer depth      
   //     [6] --> outer wall thickness
-
   std::vector<G4double> cryostatDim = config->CryostatDimensions(); util.ConvertToUnits(cryostatDim);
+  G4double cryoInnerR             = cryostatDim[0];
+  G4double cryoInnerDepth         = cryostatDim[1];
+  G4double cryoInnerWallThickness = cryostatDim[2];
+  G4double cryoWallGap            = cryostatDim[3];
+  G4double cryoOuterR             = cryostatDim[4];
+  G4double cryoOuterDepth         = cryostatDim[5];
+  G4double cryoOuterWallThickness = cryostatDim[6];
+
+  G4Tubs* solCryoInnerBathTub = new G4Tubs("solCryoInnerBathTub",
+                                            0,
+                                            cryoInnerR,
+                                            cryoInnerDepth/2.,
+                                            0*degree, 360*degree);
+
+  fVolCryoInnerBathTub = new G4LogicalVolume(solCryoInnerBathTub,
+                                             matMan->FindMaterial("LAr"),
+                                             "volCryoInnerBathTub");                                            
+
+  G4Tubs* solCryoInnerWallTub = new G4Tubs("solCryoInnerWallTub",
+                                            0,
+                                            cryoInnerR+cryoInnerWallThickness,
+                                            cryoInnerDepth/2.,
+                                            0*degree, 360*degree);  
+
+  fVolCryoInnerWallTub = new G4LogicalVolume(solCryoInnerWallTub,
+                                             matMan->FindMaterial("SSteel304"),
+                                             "volCryoInnerWallTub");                                                                                      
+
+  G4Tubs* solCryoOuterBathTub = new G4Tubs("solCryoOuterBathTub",
+                                            0,
+                                            cryoOuterR,
+                                            cryoOuterDepth/2.,
+                                            0*degree, 360*degree);
+
+  fVolCryoOuterBathTub = new G4LogicalVolume(solCryoOuterBathTub,
+                                             matMan->FindMaterial("LAr"),
+                                             "volCryoOuterBathTub");                                            
+
+  G4Tubs* solCryoOuterWallTub = new G4Tubs("solCryoOuterWallTub",
+                                            0,
+                                            cryoOuterR+cryoOuterWallThickness,
+                                            cryoOuterDepth/2.,
+                                            0*degree, 360*degree); 
+
+  fVolCryoOuterWallTub = new G4LogicalVolume(solCryoOuterWallTub,
+                                             matMan->FindMaterial("SSteel304"),
+                                             "volCryoOuterWallTub");
+
+}
+
+void Cryostat::ConstructCaps()
+{
+
+}
+
+void Cryostat::PlaceVolumes()
+{
+  std::vector<G4LogicalVolume*> vols = {fVolCryoInnerBathTub,
+                                        fVolCryoInnerWallTub,
+                                        fVolCryoOuterBathTub,
+                                        fVolCryoOuterWallTub};
+  std::vector<G4double> shifts  = { ((G4Tubs*)vols[1]->GetSolid())->GetZHalfLength() - ((G4Tubs*)vols[0]->GetSolid())->GetZHalfLength(),
+                                    ((G4Tubs*)vols[2]->GetSolid())->GetZHalfLength() - ((G4Tubs*)vols[1]->GetSolid())->GetZHalfLength(),
+                                    ((G4Tubs*)vols[3]->GetSolid())->GetZHalfLength() - ((G4Tubs*)vols[2]->GetSolid())->GetZHalfLength() };
+
+
+  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[0]), fVolCryoInnerBathTub, fVolCryoInnerBathTub->GetName()+"_pos", fVolCryoInnerWallTub, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[1]), fVolCryoInnerWallTub, fVolCryoInnerWallTub->GetName()+"_pos", fVolCryoOuterBathTub, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[2]), fVolCryoOuterBathTub, fVolCryoOuterBathTub->GetName()+"_pos", fVolCryoOuterWallTub, false, 0);  
+}
+
+
+//void Cryostat::ConstructCryostat(Detector* detector)
+//{
+  // Get material manager and config
+  //MaterialManager* matMan = MaterialManager::Instance();
+  //Configuration* config = Configuration::Instance();
+  //arcutil::Utilities util;
+  
+  //**** 
+  // 	Cryostat shape
+  //****
+  // Expecting (IDs not ODs):
+  //     [0] --> inner radius          
+  //     [1] --> inner depth
+  //     [2] --> inner wall thickness
+  //     [3] --> wall gap
+  //     [4] --> outer radius
+  //     [5] --> outer depth      
+  //     [6] --> outer wall thickness
+
+/*  std::vector<G4double> cryostatDim = config->CryostatDimensions(); util.ConvertToUnits(cryostatDim);
   G4double cryoInnerR             = cryostatDim[0];
   G4double cryoInnerDepth         = cryostatDim[1];
   G4double cryoInnerWallThickness = cryostatDim[2];
@@ -90,12 +198,6 @@ void Cryostat::ConstructCryostat(Detector* detector)
   x        = bowlR - 0.5*h - y;
   theta    = std::abs(std::asin(sinTheta)*180/pi);
 
-  G4Tubs* solCryoInnerBathTub = new G4Tubs("solCryoInnerBathTub",
-                                            0,
-                                            cryoInnerR,
-                                            h/2.,
-                                            0*degree, 360*degree);
-
   G4Sphere* solCryoInnerBathCap = new G4Sphere("solCryoInnerBathCap",
                                                 0,
                                                 bowlR,
@@ -107,9 +209,7 @@ void Cryostat::ConstructCryostat(Detector* detector)
                                                      solCryoInnerBathTub,
                                                      0,
                                                      G4ThreeVector(0,0,-1*x));
-  fVolCryoInnerBath = new G4LogicalVolume(solCryoInnerBath,
-                                          matMan->FindMaterial("LAr"),
-                                          "volCryoInnerBath");
+ 
 
   // Go ahead and place our detector
   G4RotationMatrix* xRot = new G4RotationMatrix;
@@ -131,11 +231,7 @@ void Cryostat::ConstructCryostat(Detector* detector)
   x        = bowlR - 0.5*h - y;
   theta    = std::abs(std::asin(sinTheta)*180/pi);
 
-  G4Tubs* solCryoInnerWallTub = new G4Tubs("solCryoInnerWallTub",
-                                            0,
-                                            cryoInnerR+cryoInnerWallThickness,
-                                            h/2.,
-                                            0*degree, 360*degree);
+  
 
   G4Sphere* solCryoInnerWallCap = new G4Sphere("solCryoInnerWallCap",
                                                 0,
@@ -149,7 +245,7 @@ void Cryostat::ConstructCryostat(Detector* detector)
                                                      0,
                                                      G4ThreeVector(0,0,-1*x));
   fVolCryoInnerWall = new G4LogicalVolume(solCryoInnerWall,
-                                          matMan->FindMaterial("LAr"),
+                                          matMan->FindMaterial("SSteel304"),
                                           "volCryoInnerWall");
 
   new G4PVPlacement(0, transl, fVolCryoInnerBath, detector->GetLV()->GetName()+"_pos1", fVolCryoInnerWall, false, 0);                                           
@@ -167,11 +263,7 @@ void Cryostat::ConstructCryostat(Detector* detector)
 
   std::cout << y << " " << bowlR << " " << h << " " << cryoOuterDepth << std::endl;
 
-  G4Tubs* solCryoOuterBathTub = new G4Tubs("solCryoOuterBathTub",
-                                            0,
-                                            cryoOuterR,
-                                            h/2.,
-                                            0*degree, 360*degree);
+  
 
   G4Sphere* solCryoOuterBathCap = new G4Sphere("solCryoOuterBathCap",
                                                 0,
@@ -201,11 +293,7 @@ void Cryostat::ConstructCryostat(Detector* detector)
   x        = bowlR - 0.5*h - y;
   theta    = std::abs(std::asin(sinTheta)*180/pi);
 
-  G4Tubs* solCryoOuterWallTub = new G4Tubs("solCryoOuterWallTub",
-                                            0,
-                                            cryoOuterR+cryoOuterWallThickness,
-                                            h/2.,
-                                            0*degree, 360*degree);
+  
 
   G4Sphere* solCryoOuterWallCap = new G4Sphere("solCryoOuterWallCap",
                                                 0,
@@ -219,10 +307,11 @@ void Cryostat::ConstructCryostat(Detector* detector)
                                                      0,
                                                      G4ThreeVector(0,0,-1*x));
   fVolCryoOuterWall = new G4LogicalVolume(solCryoOuterWall,
-                                          matMan->FindMaterial("LAr"),
+                                          matMan->FindMaterial("SSteel304"),
                                           "volCryoOuterWall");  
 
   new G4PVPlacement(0, transl, fVolCryoOuterBath, detector->GetLV()->GetName()+"_pos1", fVolCryoOuterWall, false, 0);                                          
 
-}
+}*/
+//}
 }

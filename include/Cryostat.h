@@ -24,15 +24,17 @@ class Cryostat
 
     void ConstructVolume(G4LogicalVolume* volWorld, 
                          Detector*          module);
-  private: 
-    void ConstructCryostat(Detector* detector);
-    G4UnionSolid* GetCryostatStructure(const std::vector<G4double>& dim, 
-                                       const G4String&              name);
 
-    G4LogicalVolume* fVolCryoInnerBath;
-    G4LogicalVolume* fVolCryoInnerWall;
-    G4LogicalVolume* fVolCryoOuterBath;
-    G4LogicalVolume* fVolCryoOuterWall;
+  private: 
+    //void ConstructCryostat(Detector* detector);
+    void ConstructTubs();
+    void ConstructCaps();
+    void PlaceVolumes();
+    
+    G4LogicalVolume* fVolCryoInnerBathTub;
+    G4LogicalVolume* fVolCryoInnerWallTub;
+    G4LogicalVolume* fVolCryoOuterBathTub;
+    G4LogicalVolume* fVolCryoOuterWallTub;
 
 };
 }
