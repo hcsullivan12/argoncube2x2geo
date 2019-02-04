@@ -70,7 +70,7 @@ void DetectorConstruction::ConstructDetector()
   arcutil::Utilities util;
 
   //**** World
-  std::vector<G4double> worldDim = config->WorldDimensions(); util.ConvertToUnits(worldDim);
+  std::vector<G4double> worldDim = config->WorldDim(); util.ConvertToUnits(worldDim);
 
   G4Box* solWorld = new G4Box("solWorld", 
                               worldDim[0]/2.,

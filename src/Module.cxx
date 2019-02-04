@@ -82,7 +82,7 @@ void Module::ConstructBottomVolume()
   std::vector<G4double> modLegDim      = config->ModuleLegDim();         util.ConvertToUnits(modLegDim);
   std::vector<G4double> modLegFootDim  = config->ModuleLegFootDim();     util.ConvertToUnits(modLegFootDim);
   std::vector<G4double> dummyFlangeDim = config->BottomDummyFlangeDim(); util.ConvertToUnits(dummyFlangeDim);
-  std::vector<G4double> legPosition    = config->LegPosition();          util.ConvertToUnits(legPosition);
+  std::vector<G4double> legPosition    = config->ModuleLegPosition();    util.ConvertToUnits(legPosition);
  
   // Legs
   G4Box* solModuleLegShin = new G4Box("solModuleLegShin", 
@@ -110,31 +110,31 @@ void Module::ConstructBottomVolume()
 
   // Place all four legs in container
   auto moduleWall = (G4Box*)fVolModuleWall->GetSolid();
-  G4Box* solLegContainer = new G4Box("solLegContainer",
-                                     moduleWall->GetXHalfLength(),
-                                     (modLegDim[1]/2.),
-                                     moduleWall->GetZHalfLength());
-  fVolLegContainer = new G4LogicalVolume(solLegContainer,
-	                                       matMan->FindMaterial("LAr"),
-	                                       "volLegContainer");
+  G4Box* solModuleLegContainer = new G4Box("solModuleLegContainer",
+                                            moduleWall->GetXHalfLength(),
+                                           (modLegDim[1]/2.),
+                                            moduleWall->GetZHalfLength());
+  fVolModuleLegContainer = new G4LogicalVolume(solModuleLegContainer,
+	                                             matMan->FindMaterial("LAr"),
+	                                            "volModuleLegContainer");
 
   G4ThreeVector pos(legPosition[0], 0, legPosition[2]);
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos1", fVolLegContainer, false, 0);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos1", fVolModuleLegContainer, false, 0);
 
   pos = {-1*legPosition[0], 0, legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos2", fVolLegContainer, false, 1);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos2", fVolModuleLegContainer, false, 1);
 
   pos = {-1*legPosition[0], 0, -1*legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos3", fVolLegContainer, false, 2);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos3", fVolModuleLegContainer, false, 2);
 
   pos = {legPosition[0], 0, -1*legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos4", fVolLegContainer, false, 3);                                      
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos4", fVolModuleLegContainer, false, 3);                                      
 
   // Dummy flange
   G4Box* solBottomDummyFlange = new G4Box("solBottomDummyFlange", 
-                                          solLegContainer->GetXHalfLength(), 
+                                          solModuleLegContainer->GetXHalfLength(), 
                                           (dummyFlangeDim[1]/2.), 
-                                          solLegContainer->GetZHalfLength());
+                                          solModuleLegContainer->GetZHalfLength());
   fVolBottomDummyFlange = new G4LogicalVolume(solBottomDummyFlange, 
                                               matMan->FindMaterial("SSteel304"),
                                               "volBottomDummyFlange");
@@ -386,7 +386,7 @@ void Module::PlaceSubVolumes()
   // Stack sub volumes
   // Complete Module 
   geoms = {fVolBottomDummyFlange, 
-           fVolLegContainer, 
+           fVolModuleLegContainer, 
            fVolModuleWall, 
            fVolTopModule};
   geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetYHalfLength(),

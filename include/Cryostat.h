@@ -26,18 +26,27 @@ class Cryostat
                          Detector*          module);
 
   private: 
-    //void ConstructCryostat(Detector* detector);
-    void ConstructTubs();
-    void ConstructCaps();
+    void ConstructBody();
+    void ConstructLegs();
     void ConstructFlange();
-    void PlaceVolumes();
+    void PlaceVolumes(G4LogicalVolume* volWorld, 
+                      Detector*          module);
+    G4UnionSolid* CryostatShape(const G4String& name, 
+                                const G4double& cryoR,
+                                const G4double& cryoD);
     
-    G4LogicalVolume* fVolCryoInnerBathTub;
-    G4LogicalVolume* fVolCryoInnerWallTub;
-    G4LogicalVolume* fVolCryoOuterBathTub;
-    G4LogicalVolume* fVolCryoOuterWallTub;
-    G4LogicalVolume* fVolCryoInnerBathCap;
-
+    G4LogicalVolume* fVolCryoInnerBath;
+    G4LogicalVolume* fVolCryoInnerWall;
+    G4LogicalVolume* fVolCryoOuterBath;
+    G4LogicalVolume* fVolCryoOuterWall;
+    G4LogicalVolume* fVolCryoLeg;
+    G4LogicalVolume* fVolCryoLegContainer;
+   
+    G4double fCryoInnerBathDepth;
+    G4double fCryoInnerWallDepth;
+    G4double fCryoOuterBathDepth;
+    G4double fCryoOuterWallDepth;
+    G4double fVolCryoOuterWallR;
 
 };
 }

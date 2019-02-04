@@ -49,7 +49,7 @@ class Module
     G4LogicalVolume* fVolModuleLeg;
     G4LogicalVolume* fVolBottomDummyFlange;
     G4LogicalVolume* fVolModule;
-    G4LogicalVolume* fVolLegContainer;
+    G4LogicalVolume* fVolModuleLegContainer;
     G4LogicalVolume* fVolTopModule;
     G4LogicalVolume* fVolTopLAr;
     G4LogicalVolume* fVolTopGAr;
