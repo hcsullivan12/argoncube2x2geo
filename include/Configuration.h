@@ -39,7 +39,7 @@ class Configuration
     const double       ModuleClearance()        const { return fModuleClearance; };
     const std::vector<double>& WorldDimensions()  const { return fWorldDimensions; };
     const std::vector<double>& ModuleDimensions() const { return fModuleDimensions; };
-    const std::vector<double>& CryostatDimensions() const { return fCryostatDimensions; };
+    const std::vector<double>& CryostatDim() const { return fCryostatDim; };
     const std::vector<double>& ActiveLArDim() const { return fActiveLArDim; };
     const std::vector<double>& LightDetDim()  const { return fLightDetDim; };
     const std::vector<double>& ModuleLegDim()  const { return fModuleLegDim; };
@@ -80,7 +80,7 @@ class Configuration
     double      fPixelPlaneThickness;
     std::vector<double> fWorldDimensions;
     std::vector<double> fModuleDimensions;
-    std::vector<double> fCryostatDimensions;
+    std::vector<double> fCryostatDim;
     std::vector<double> fActiveLArDim;
     std::vector<double> fLightDetDim;
     std::vector<double> fModuleLegDim;

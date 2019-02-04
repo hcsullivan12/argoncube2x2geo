@@ -29,12 +29,15 @@ class Cryostat
     //void ConstructCryostat(Detector* detector);
     void ConstructTubs();
     void ConstructCaps();
+    void ConstructFlange();
     void PlaceVolumes();
     
     G4LogicalVolume* fVolCryoInnerBathTub;
     G4LogicalVolume* fVolCryoInnerWallTub;
     G4LogicalVolume* fVolCryoOuterBathTub;
     G4LogicalVolume* fVolCryoOuterWallTub;
+    G4LogicalVolume* fVolCryoInnerBathCap;
+
 
 };
 }

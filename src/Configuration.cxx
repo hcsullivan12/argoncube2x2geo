@@ -75,9 +75,9 @@ void Configuration::ReadJSONFile()
   auto jsonArrayItr = GetJSONMember("worldDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
   for (auto& d : fWorldDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
  
-  fCryostatDimensions  = std::vector<double>(7, 0);
+  fCryostatDim  = std::vector<double>(7, 0);
   jsonArrayItr = GetJSONMember("cryostatDimensions", rapidjson::kArrayType, 7, rapidjson::kNumberType).Begin();
-  for (auto& d : fCryostatDimensions) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+  for (auto& d : fCryostatDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
  
   fModuleDimensions  = std::vector<double>(3, 0);
   jsonArrayItr = GetJSONMember("moduleDimensions", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
