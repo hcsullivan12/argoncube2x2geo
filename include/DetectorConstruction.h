@@ -3,15 +3,13 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to construct our detector.
-//
 
 #ifndef DETECTORCONSTRUCTION_H
 #define DETECTORCONSTRUCTION_H
 
-#include "Module.h"
-#include "Cryostat.h"
-#include "Detector.h"
+#include "Geometry/Module/Module.h"
+#include "Geometry/Cryostat/Cryostat.h"
+#include "Geometry/Detector/Detector.h"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4LogicalVolume.hh"

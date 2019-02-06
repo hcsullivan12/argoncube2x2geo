@@ -3,8 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to interface with G4.
-//
 
 #ifndef G4HELPER_H
 #define G4HELPER_H

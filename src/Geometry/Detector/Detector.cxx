@@ -6,7 +6,7 @@
 // Discription: Class to construct module volume.
 //
 
-#include "Detector.h"
+#include "Geometry/Detector/Detector.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
@@ -24,19 +24,26 @@ Detector::Detector()
 Detector::~Detector()
 {}
 
-void Detector::ConstructVolume(G4LogicalVolume* volWorld,
-                               Module*          module)
+void Detector::ConstructVolume()
+{
+  ConstructSubVolumes();
+  PlaceSubVolumes();
+}
 
+void Detector::ConstructSubVolumes()
 {
   //**** 
-  // Module Volumes
+  // Modules
   //****
+  fModule = new Module();
+  fModule->ConstructVolume();
+
   arcutil::Utilities util;
   Configuration* config = Configuration::Instance();
   MaterialManager* matMan = MaterialManager::Instance();
 
   G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);
-  G4LogicalVolume* volModule = module->GetLV();
+  G4LogicalVolume* volModule = fModule->GetLV();
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 
   // Module container
@@ -47,13 +54,22 @@ void Detector::ConstructVolume(G4LogicalVolume* volWorld,
   fVolModuleContainer = new G4LogicalVolume(solModuleContainer,
                                             matMan->FindMaterial("LAr"),
                                             "volModuleContainer");
- 
+}
+
+void Detector::PlaceSubVolumes()
+{
   //****
   // Placement in z
   // Will place in utilities soon
   //****
-  G4double boundZ = -1*solModuleContainer->GetZHalfLength();
-  G4double boundX = -1*solModuleContainer->GetXHalfLength();
+  arcutil::Utilities util;
+  Configuration* config = Configuration::Instance();
+  G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);
+  G4LogicalVolume* volModule = fModule->GetLV();
+  G4Box* solModule = (G4Box*)volModule->GetSolid();
+
+  G4double boundZ = -1*((G4Box*)fVolModuleContainer->GetSolid())->GetZHalfLength();
+  G4double boundX = -1*((G4Box*)fVolModuleContainer->GetSolid())->GetXHalfLength();
 
   std::vector<G4double> stepsX = {boundX + solModule->GetXHalfLength(),
                                   boundX + 3*solModule->GetXHalfLength() + modInsideGap};
@@ -69,6 +85,6 @@ void Detector::ConstructVolume(G4LogicalVolume* volWorld,
   new G4PVPlacement(0, positions[1], volModule, volModule->GetName()+"_pos2", fVolModuleContainer, false, 2);
   new G4PVPlacement(0, positions[2], volModule, volModule->GetName()+"_pos3", fVolModuleContainer, false, 3);
   new G4PVPlacement(0, positions[3], volModule, volModule->GetName()+"_pos4", fVolModuleContainer, false, 4);
-  positions.clear();
 }
+
 }

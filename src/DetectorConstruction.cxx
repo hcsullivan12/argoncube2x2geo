@@ -11,8 +11,6 @@
 #include "MaterialManager.h"
 #include "Utilities.h"
 
-#include "G4Color.hh"
-#include "G4VisAttributes.hh"
 #include "G4SDManager.hh"
 #include "G4Box.hh"
 #include "G4SystemOfUnits.hh"
@@ -69,7 +67,9 @@ void DetectorConstruction::ConstructDetector()
   Configuration* config = Configuration::Instance();
   arcutil::Utilities util;
 
-  //**** World
+  //**** 
+  // World
+  //****
   std::vector<G4double> worldDim = config->WorldDim(); util.ConvertToUnits(worldDim);
 
   G4Box* solWorld = new G4Box("solWorld", 
@@ -86,18 +86,12 @@ void DetectorConstruction::ConstructDetector()
                                0, 
                                false, 
                                0); 
- 
-  //**** 
-  // Modules
+  
   //****
-  fModule = new Module();
-  fModule->ConstructVolume();
-
-  //****
-  // Detector (all modules)
+  // Detector 
   //****
   fDetector = new Detector();
-  fDetector->ConstructVolume(fVolWorld, fModule);
+  fDetector->ConstructVolume();
 
   //****
   // Cryostat

@@ -3,8 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to initalize configuration.
-//
 
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
@@ -42,6 +40,7 @@ class Configuration
     const std::vector<double>& CryostatDim() const { return fCryostatDim; };
     const std::vector<double>& CryostatLegDim() const { return fCryostatLegDim; };
     const std::vector<double>& CryostatLegFootDim() const { return fCryostatLegFootDim; };
+    const std::vector<double>& CryostatFlangeDim() const { return fCryostatFlangeDim; };
     const std::vector<double>& ActiveLArDim() const { return fActiveLArDim; };
     const std::vector<double>& LightDetDim()  const { return fLightDetDim; };
     const std::vector<double>& ModuleLegDim()  const { return fModuleLegDim; };
@@ -85,6 +84,7 @@ class Configuration
     std::vector<double> fCryostatDim;
     std::vector<double> fCryostatLegDim;
     std::vector<double> fCryostatLegFootDim;
+    std::vector<double> fCryostatFlangeDim;
     std::vector<double> fActiveLArDim;
     std::vector<double> fLightDetDim;
     std::vector<double> fModuleLegDim;

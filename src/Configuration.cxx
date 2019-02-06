@@ -86,6 +86,10 @@ void Configuration::ReadJSONFile()
   fCryostatLegFootDim  = std::vector<double>(3, 0);
   jsonArrayItr = GetJSONMember("cryostatLegFootDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
   for (auto& d : fCryostatLegFootDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fCryostatFlangeDim  = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("cryostatFlangeDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fCryostatFlangeDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
  
   fModuleDim  = std::vector<double>(3, 0);
   jsonArrayItr = GetJSONMember("moduleDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
