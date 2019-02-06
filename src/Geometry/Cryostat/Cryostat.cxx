@@ -48,14 +48,16 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
 {
   G4LogicalVolume* volCryoBody = fCryostatBody->GetLV();
   G4LogicalVolume* volCryoLegs = fCryostatLegs->GetLV();
-  //G4LogicalVolume* volCryoFlange = fCryostatBody->GetLV();
+  G4LogicalVolume* volCryoFlange = fCryostatFlange->GetLV();
   
-  G4double zLen = ((G4Tubs*)volCryoLegs->GetSolid())->GetZHalfLength();
+  G4double zLen = ((G4Tubs*)volCryoLegs->GetSolid())->GetZHalfLength()+((G4Tubs*)volCryoFlange->GetSolid())->GetZHalfLength();
   G4double shift = ((G4Tubs*)volCryoLegs->GetSolid())->GetZHalfLength() - fCryostatBody->GetOuterWallDepth()/2.;
 
   G4RotationMatrix* xRot2 = new G4RotationMatrix;
   xRot2->rotateX(pi/2);
   new G4PVPlacement(0, G4ThreeVector(0,0,shift), volCryoBody, volCryoBody->GetName()+"_pos", volCryoLegs, false, 0);
-  new G4PVPlacement(xRot2, G4ThreeVector(), volCryoLegs, volCryoBody->GetName()+"_pos", volWorld, false, 0);  
+  new G4PVPlacement(xRot2, G4ThreeVector(), volCryoLegs, volCryoBody->GetName()+"_pos", volWorld, false, 0);
+  new G4PVPlacement(xRot2, G4ThreeVector(0,zLen,0), volCryoFlange, volCryoFlange->GetName()+"_pos", volWorld, false, 0);
+
 }
 }

@@ -84,7 +84,7 @@ void CryostatLegs::ConstructSubVolumes()
                                            cryoOuterWallDepth/2.0+legHeight/2.0 - offset,
                                            0*degree, 360*degree);
   fVolCryoLegContainer = new G4LogicalVolume(solCryoLegContainer,
-                                             matMan->FindMaterial("LAr"),
+                                             matMan->FindMaterial("Air"),
                                              "volCryoLegContainer");
 
   unsigned nLegs(5);

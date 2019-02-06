@@ -31,6 +31,7 @@ class Configuration
     const std::string& VisMacroPath()    const { return fVisMacroPath; };
     const std::string& GDMLOutputPath()  const { return fGDMLOutputPath; };
     const double       ModuleWallThickness() const { return fModuleWallThickness; };
+    const double       ModuleTopWallThickness() const { return fModuleTopWallThickness; };
     const double       FieldShellThickness() const { return fFieldShellThickness; };
     const double       CathodeThickness() const { return fCathodeThickness; };
     const double       PixelPlaneThickness() const { return fPixelPlaneThickness; };
@@ -47,6 +48,7 @@ class Configuration
     const std::vector<double>& ModuleLegFootDim()  const { return fModuleLegFootDim; };
     const std::vector<double>& BottomDummyFlangeDim()  const { return fBottomDummyFlangeDim; };
     const std::vector<double>& ModuleLegPosition()  const { return fModuleLegPosition; };
+    const std::vector<double>& ModuleMedFTDim()  const { return fModuleMedFTDim; };
     const std::vector<double>& TopLArDim()  const { return fTopLArDim; };
     const std::vector<double>& TopGArDim()  const { return fTopGArDim; };
 
@@ -79,6 +81,7 @@ class Configuration
     double      fFieldShellThickness;
     double      fCathodeThickness;
     double      fPixelPlaneThickness;
+    double      fModuleTopWallThickness;
     std::vector<double> fWorldDim;
     std::vector<double> fModuleDim;
     std::vector<double> fCryostatDim;
@@ -89,6 +92,7 @@ class Configuration
     std::vector<double> fLightDetDim;
     std::vector<double> fModuleLegDim;
     std::vector<double> fModuleLegFootDim;
+    std::vector<double> fModuleMedFTDim;
     std::vector<double> fBottomDummyFlangeDim;
     std::vector<double> fModuleLegPosition;
     std::vector<double> fTopLArDim;

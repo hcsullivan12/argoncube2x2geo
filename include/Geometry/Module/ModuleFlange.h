@@ -25,6 +25,9 @@ class ModuleFlange
   private:
 
     G4LogicalVolume* fVolModuleFlange;
+    G4LogicalVolume* fVolModuleMedFT;
+    G4LogicalVolume* fVolModuleFTContainer;
+    G4LogicalVolume* fVolModuleTopSolid;
     
 };
 }

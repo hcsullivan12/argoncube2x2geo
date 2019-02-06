@@ -20,13 +20,18 @@ class CryostatFlange
 
     void ConstructVolume();
 
-    G4LogicalVolume* GetLV() { return fVolCryoFlange; };
+    G4LogicalVolume* GetLV() { return fVolTopContainer; };
 
   private: 
     void ConstructSubVolumes();
     void PlaceSubVolumes();
 
-    G4LogicalVolume* fVolCryoFlange;
+    G4LogicalVolume* fVolTopContainer;
+    G4LogicalVolume* fVolModuleTopWall;
+    G4LogicalVolume* fVolModuleFTContainer;
+    G4LogicalVolume* fVolModuleMedFT;
+    G4LogicalVolume* fVolModuleFlange;
+    G4LogicalVolume* fVolTopFlange;
 
 };
 }

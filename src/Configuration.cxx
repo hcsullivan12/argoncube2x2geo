@@ -3,8 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to initalize configuration.
-//
 
 #include "Configuration.h"
 #include <iomanip>
@@ -70,6 +68,7 @@ void Configuration::ReadJSONFile()
   fFieldShellThickness = GetJSONMember("fieldShellThickness", rapidjson::kNumberType).GetDouble();
   fCathodeThickness = GetJSONMember("cathodeThickness", rapidjson::kNumberType).GetDouble();
   fPixelPlaneThickness = GetJSONMember("pixelPlaneThickness", rapidjson::kNumberType).GetDouble();
+  fModuleTopWallThickness = GetJSONMember("moduleTopWallThickness", rapidjson::kNumberType).GetDouble();
   
   fWorldDim  = std::vector<double>(3, 0);
   auto jsonArrayItr = GetJSONMember("worldDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
@@ -94,6 +93,10 @@ void Configuration::ReadJSONFile()
   fModuleDim  = std::vector<double>(3, 0);
   jsonArrayItr = GetJSONMember("moduleDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
   for (auto& d : fModuleDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
+
+  fModuleMedFTDim  = std::vector<double>(3, 0);
+  jsonArrayItr = GetJSONMember("moduleMedFTDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
+  for (auto& d : fModuleMedFTDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
 
   fActiveLArDim = std::vector<double>(3, 0);
   jsonArrayItr = GetJSONMember("activeLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();

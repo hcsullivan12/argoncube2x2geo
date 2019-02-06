@@ -10,6 +10,7 @@
 #include "Utilities.h"
 
 #include "G4Box.hh"
+#include "G4Tubs.hh"
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"
 #include "G4LogicalBorderSurface.hh"
@@ -40,25 +41,23 @@ void ModuleFlange::ConstructVolume()
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
   std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        util.ConvertToUnits(moduleMedFTDim);
-  G4double innerR = moduleMDFTDim[0];
-  G4double outerR = moduleMDFTDim[1];
-  G4double height = moduleMDFTDim[2];
+  G4double innerR = moduleMedFTDim[0];
+  G4double outerR = moduleMedFTDim[1];
+  G4double height = moduleMedFTDim[2];
 
-  std::vector<G4double> moduleMedFTPos = config->ModuleMedFTPosition();   util.ConvertToUnits(moduleMedFTPos);
-  G4double moduleFlangeThickness       = config->ModuleFlangeThickness(); util.ConvertToUnits(moduleFlangeThickness);
-  G4Box* volModuleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetShape();
+  G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); util.ConvertToUnits(moduleTopWallThickness);
+  G4Box* volModuleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
 
   //****
   // Top 
   //****
-  // Do we need to subtract out steel?                                 
-  G4Box* solModuleTopSolid = new G4Box("solModuleTop",
-                                        volModuleWall->GetXHalfLength(),
-                                        moduleFlangeThickness/2.,
-                                        volModuleWall->GetZHalfLength() );
-  fVolModuleTopSolid = new G4LogicalVolume(solModuleTopSolid,
-                                            matMan->FindMaterial("SSteel304"),
-                                            "volModuleTopSolid");
+  G4Box* solModuleTopWall = new G4Box("solModuleTopWall",
+                                       volModuleWall->GetXHalfLength(),
+                                       moduleTopWallThickness/2.,
+                                       volModuleWall->GetZHalfLength() );
+  fVolModuleTopSolid = new G4LogicalVolume(solModuleTopWall,
+                                           matMan->FindMaterial("SSteel304"),
+                                           "volModuleTopSolid");
 
   // Container for feedthroughs
   G4Box* solModuleFTContainer = new G4Box("solModuleFTContainer",
@@ -69,37 +68,41 @@ void ModuleFlange::ConstructVolume()
                                               matMan->FindMaterial("Air"),
                                               "volModuleFTContainer");
   
-  G4Tubs* ftTub1 = new G4Tubs("solModuleFTTub1_"+std::to_string(ft),
+  // Medium sized feethrough
+  G4Tubs* ftTub1 = new G4Tubs("solModuleFTTub1_",
                                innerR,
                                outerR,
-                               height,
+                               solModuleFTContainer->GetYHalfLength(),
                                0*degree, 360*degree);
-  G4Tubs* ftTub2 = new G4Tubs("solModuleFTTub2_"+std::to_string(ft),
+  G4Tubs* ftTub2 = new G4Tubs("solModuleFTTub2_",
                                0,
                                outerR+2*cm,
                                2*cm,
                                0*degree, 360*degree); 
 
-  G4UnionSolid* solModuleFT = new G4UnionSolid("solModuleFT"+std::to_string(ft),
-                                                ftTub1,
-                                                ftTub2,
-                                                0,
-                                                G4ThreeVector(0,0,ftTub1->GetZHalfLength()-ftTub2->GetZHalfLength()) );
+  G4UnionSolid* solModuleMedFT = new G4UnionSolid("solModuleMedFT",
+                                                   ftTub1,
+                                                   ftTub2,
+                                                   0,
+                                                   G4ThreeVector(0,0,ftTub1->GetZHalfLength()-ftTub2->GetZHalfLength()) );
   fVolModuleMedFT = new G4LogicalVolume(solModuleMedFT,
                                         matMan->FindMaterial("SSteel304"),
                                         "volModuleMedFT");
 
-  std::vector<G4ThreeVector> ftPositions;
-  for (auto p : moduleMedFTPos) ftPositions.push_back(G4ThreeVector(p[0],0,p[2]));
-
-  new G4PVPlacement(0, ftPositions[0], fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
-  new G4PVPlacement(0, ftPositions[1], fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
-  new G4PVPlacement(0, ftPositions[2], fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
-  new G4PVPlacement(0, ftPositions[3], fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 3);
+  // loosely positioned here
+  G4double xBound = volModuleWall->GetXHalfLength();
+  G4double yBound = volModuleWall->GetZHalfLength();
+  G4double x1 = xBound-5*cm;
+  G4double x2 = x1 - 5*cm;
+  G4double z2 = x1;
+  new G4PVPlacement(0, G4ThreeVector(x1,0,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-x1,0,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
+  new G4PVPlacement(0, G4ThreeVector(x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
+  new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 3);
 
   G4Box* solModuleFlange = new G4Box("solModuleFlange", 
                                       solModuleFTContainer->GetXHalfLength(),
-                                      height,
+                                      solModuleFTContainer->GetYHalfLength()+solModuleTopWall->GetYHalfLength(),
                                       solModuleFTContainer->GetZHalfLength());
   fVolModuleFlange = new G4LogicalVolume(solModuleFlange,
                                         matMan->FindMaterial("Air"),
@@ -112,7 +115,7 @@ void ModuleFlange::ConstructVolume()
                                     ((G4Box*)geoms[1]->GetSolid())->GetYHalfLength() };
 
 
-  std::vector<G4double> steps = util.Stack(geomsDim, moduleDim[1]);
+  std::vector<G4double> steps = util.Stack(geomsDim, solModuleFlange->GetYHalfLength());
   std::vector<G4ThreeVector> positions;
   positions.resize(steps.size());
   for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
