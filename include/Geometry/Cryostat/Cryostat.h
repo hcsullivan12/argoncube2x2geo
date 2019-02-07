@@ -13,7 +13,7 @@
 #include "Geometry/Module/ModuleFlange.h"
 #include "Geometry/Cryostat/CryostatBody.h"
 #include "Geometry/Cryostat/CryostatLeg.h"
-#include "Geometry/Cryostat/CryostatFlange.h"
+#include "Geometry/Cryostat/CryostatFT.h"
 
 namespace geo
 {
@@ -31,13 +31,12 @@ class Cryostat
     void ConstructSubVolumes(Detector* detector);
     void PlaceSubVolumes(G4LogicalVolume* volWorld);
     
-    CryostatBody* fCryostatBody;
     CryostatLeg*  fCryostatLeg;
-    //CryostatFlange* fCryostatFlange;
-    ModuleFlange* fModuleFlange;
+    CryostatBody* fCryostatBody;
+    CryostatFT*   fCryostatFT;
 
     G4LogicalVolume* fVolCryotatContainer;
-    G4LogicalVolume* fVolCryotatTop;
+    G4LogicalVolume* fVolCryostatFlangeWrap;
     G4LogicalVolume* fVolCryostatFlange;
 
 };

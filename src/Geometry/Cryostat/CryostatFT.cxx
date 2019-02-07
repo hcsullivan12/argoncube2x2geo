@@ -1,10 +1,10 @@
 // 
-// File: CryostatFlange.cxx
+// File: CryostatFT.cxx
 //
 // Author: Hunter Sullivan
 //
 
-#include "Geometry/Cryostat/CryostatFlange.h"
+#include "Geometry/Cryostat/CryostatFT.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
@@ -25,20 +25,20 @@
 namespace geo
 {
 
-CryostatFlange::CryostatFlange()
+CryostatFT::CryostatFT()
 {}
 
-CryostatFlange::~CryostatFlange()
+CryostatFT::~CryostatFT()
 {}
 
-void CryostatFlange::ConstructVolume()
+void CryostatFT::ConstructVolume()
 {
   // NEEDS WORK!
   ConstructSubVolumes();
   PlaceSubVolumes();
 }
 
-void CryostatFlange::ConstructSubVolumes()
+void CryostatFT::ConstructSubVolumes()
 {
   // Get material manager and config
   MaterialManager* matMan = MaterialManager::Instance();
@@ -101,31 +101,21 @@ void CryostatFlange::ConstructSubVolumes()
                                       solModuleFTContainer->GetZHalfLength()+solModuleTopWall->GetZHalfLength());
   fVolModuleFlange = new G4LogicalVolume(solModuleFlange,
                                         matMan->FindMaterial("Air"),
-                                        "volModuleFlange");
+                                        "volModuleFlange"); 
 
-  
-  /*G4Box* solModContainer = (G4Box*)lvStore->GetVolume("volModuleContainer")->GetSolid();
+  G4Box* solModContainer = (G4Box*)lvStore->GetVolume("volModuleContainer")->GetSolid();
   G4Box* solTopContainer = new G4Box("solTopContainer",
                                       solModContainer->GetXHalfLength(),
-                                      solModContainer->GetZHalfLength();,
-                                      solModuleFTContainer->GetZHalfLength() );
+                                      solModContainer->GetZHalfLength(),
+                                      solModuleFlange->GetZHalfLength());
   fVolTopContainer = new G4LogicalVolume(solTopContainer,
-                                         matMan->FindMaterial("SSteel304"),
+                                         matMan->FindMaterial("Air"),
                                          "volTopContainer");
-                                         */
-                                         
 
-  G4Tubs* solTopContainer = new G4Tubs("solTopContainer",
-                                        0*m,
-                                        solTopFlange->GetRMax(),
-                                        solTopFlange->GetZHalfLength()+solModuleFTContainer->GetZHalfLength(),
-                                        0*degree, 360*degree);
-  fVolTopContainer = new G4LogicalVolume(solTopContainer,
-                                         matMan->FindMaterial("SSteel304"),
-                                         "volTopContainer");
+  fHeight = 2*solTopContainer->GetZHalfLength();
 }
 
-void CryostatFlange::PlaceSubVolumes()
+void CryostatFT::PlaceSubVolumes()
 {
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
   Configuration* config = Configuration::Instance();
@@ -174,7 +164,7 @@ void CryostatFlange::PlaceSubVolumes()
 
   // For now place on top of cryo flange
   zLen = ((G4Tubs*)fVolTopContainer->GetSolid())->GetZHalfLength();
-  G4double zLen2 = ((G4Tubs*)fVolTopFlange->GetSolid())->GetZHalfLength();
+  //G4double zLen2 = ((G4Tubs*)fVolTopFlange->GetSolid())->GetZHalfLength();
   positions = {G4ThreeVector(stepsX[0], stepsZ[0], zLen),
                G4ThreeVector(stepsX[0], stepsZ[1], zLen),
                G4ThreeVector(stepsX[1], stepsZ[0], zLen),
@@ -182,13 +172,11 @@ void CryostatFlange::PlaceSubVolumes()
 
   G4RotationMatrix* xRot3 = new G4RotationMatrix;
   xRot3->rotateX(3*pi/2.);
-  new G4PVPlacement(0, G4ThreeVector(0,0,-1*zLen+zLen2), fVolTopFlange, fVolTopFlange->GetName()+"_pos1", fVolTopContainer, false, 0);
+  //new G4PVPlacement(0, G4ThreeVector(0,0,-1*zLen+zLen2), fVolTopFlange, fVolTopFlange->GetName()+"_pos1", fVolTopContainer, false, 0);
   new G4PVPlacement(0, positions[0], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos1", fVolTopContainer, false, 1);
   new G4PVPlacement(0, positions[1], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos2", fVolTopContainer, false, 2);
   new G4PVPlacement(0, positions[2], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos3", fVolTopContainer, false, 3);
   new G4PVPlacement(0, positions[3], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos4", fVolTopContainer, false, 4);
-
-
 }
 
 

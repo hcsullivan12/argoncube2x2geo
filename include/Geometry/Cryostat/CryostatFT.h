@@ -1,26 +1,27 @@
 // 
-// File: CryostatFlange.h
+// File: CryostatFT.h
 //
 // Author: Hunter Sullivan
 //
 
-#ifndef CRYOSTATFLANGE_H
-#define CRYOSTATFLANGE_H
+#ifndef CRYOSTATFT_H
+#define CRYOSTATFT_H
 
 #include "G4LogicalVolume.hh"
 
 namespace geo
 {
 
-class CryostatFlange 
+class CryostatFT 
 {
   public:
-    CryostatFlange();
-    ~CryostatFlange();
+    CryostatFT();
+    ~CryostatFT();
 
     void ConstructVolume();
 
     G4LogicalVolume* GetLV() { return fVolTopContainer; };
+    G4double         GetHeight() { return fHeight; }
 
   private: 
     void ConstructSubVolumes();
@@ -32,6 +33,8 @@ class CryostatFlange
     G4LogicalVolume* fVolModuleMedFT;
     G4LogicalVolume* fVolModuleFlange;
     G4LogicalVolume* fVolTopFlange;
+
+    G4double fHeight;
 
 };
 }
