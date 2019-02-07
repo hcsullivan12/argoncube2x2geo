@@ -34,25 +34,8 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
 
     if (TString(volume->GetMaterial()->GetName()).Contains("Air")) volume->SetInvisible();
     if (TString(volume->GetMaterial()->GetName()).Contains("LAr")) volume->SetTransparency(80);
-    //if (TString(volume->GetMaterial()->GetName()).Contains("SSteel")) volume->SetTransparency(10);
 
-//    if (TString(volume->GetMaterial()->GetName()).Contains("Steel")) volume->SetTransparency(10);
-    //if (TString(volume->GetMaterial()->GetName()).Contains("Rock")) volume->SetInvisible();
-
-    auto tubs = volume->GetShape();
-    cout << volume->GetName() << endl;
-
-
-     //if (TString(tubs->GetName()) == "solCryoInnerBath") tubs->Draw("ogl");
-   //if (TString(volume->GetName()) == "volCryoLeg") volume->Draw("ogl");
-
-
-    if (TString(volume->GetName()).Contains("ArgonCubeCryostat")) 
-    {  
-      TGeoTube* tubs = (TGeoTube*)volume->GetShape();
-      cryoHeight = 2*tubs->GetDX();
-    }
-    if (   TString(volume->GetName()).Contains("volModuleWall")) 
+    if (TString(volume->GetName()).Contains("volModuleWall")) 
     {  
       TGeoBBox* tubs = (TGeoBBox*)volume->GetShape();
       moduleFootX  = 2*tubs->GetDX();
@@ -64,9 +47,6 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
       moduleHeight = 2*tubs->GetDY();
     }
  
-    Int_t daughters = volume->GetNdaughters();
-    //cout << endl;
-		//cout << volume->GetName() << volume->GetMaterial()->GetName() << daughters << endl;
     volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
   }
 
