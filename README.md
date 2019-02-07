@@ -2,9 +2,9 @@
 This project holds the detector construction code for ArgonCube2x2.
 
 ## Dependencies
-RapidJSON (Configuration)
-Geant4 (Building)
-ROOT (Visualization)
+* RapidJSON (Configuration)
+* Geant4 (Building)
+* ROOT (Visualization)
 
 ## Running and visualization
 Edit the `envsetup.sh` script to point to your install directories. Then
