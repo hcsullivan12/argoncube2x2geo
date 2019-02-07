@@ -19,6 +19,7 @@
   "cryostatDim":            [105, 200, 1, 5, 110, 230, 1],
   "cryostatLegDim":         [0, 5, 70],
   "cryostatLegFootDim":     [0, 10, 5],
+  "cryostatLegOffset":      50,
   "cryostatFlangeDim":      [0,0,0],
   "moduleDim":              [67, 67, 181],
   "moduleClearance":        0.15

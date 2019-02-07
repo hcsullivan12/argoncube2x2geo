@@ -117,7 +117,7 @@ void CryostatFlange::ConstructSubVolumes()
   G4Tubs* solTopFlange = new G4Tubs("solTopFlange",
                                      0*m,
                                      1.5*m,
-                                     5*cm,
+                                     0.5*cm,
                                      0*degree, 360*degree);
   fVolTopFlange = new G4LogicalVolume(solTopFlange,
                                       matMan->FindMaterial("SSteel304"),

@@ -69,6 +69,7 @@ void Configuration::ReadJSONFile()
   fCathodeThickness = GetJSONMember("cathodeThickness", rapidjson::kNumberType).GetDouble();
   fPixelPlaneThickness = GetJSONMember("pixelPlaneThickness", rapidjson::kNumberType).GetDouble();
   fModuleTopWallThickness = GetJSONMember("moduleTopWallThickness", rapidjson::kNumberType).GetDouble();
+  fCryostatLegOffset = GetJSONMember("cryostatLegOffset", rapidjson::kNumberType).GetDouble();
   
   fWorldDim  = std::vector<double>(3, 0);
   auto jsonArrayItr = GetJSONMember("worldDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();

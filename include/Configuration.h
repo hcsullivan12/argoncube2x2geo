@@ -36,6 +36,7 @@ class Configuration
     const double       CathodeThickness() const { return fCathodeThickness; };
     const double       PixelPlaneThickness() const { return fPixelPlaneThickness; };
     const double       ModuleClearance()        const { return fModuleClearance; };
+    const double       CryostatLegOffset()        const { return fCryostatLegOffset; };
     const std::vector<double>& WorldDim()  const { return fWorldDim; };
     const std::vector<double>& ModuleDim() const { return fModuleDim; };
     const std::vector<double>& CryostatDim() const { return fCryostatDim; };
@@ -82,6 +83,7 @@ class Configuration
     double      fCathodeThickness;
     double      fPixelPlaneThickness;
     double      fModuleTopWallThickness;
+    double      fCryostatLegOffset;
     std::vector<double> fWorldDim;
     std::vector<double> fModuleDim;
     std::vector<double> fCryostatDim;
