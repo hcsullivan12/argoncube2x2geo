@@ -36,7 +36,7 @@ class Cryostat
     CryostatBody* fCryostatBody;
     CryostatFT*   fCryostatFT;
 
-    G4LogicalVolume* fVolCryotatContainer;
+    G4LogicalVolume* fVolCryostatContainer;
     G4LogicalVolume* fVolCryostatFlangeWrap;
     G4LogicalVolume* fVolCryostatFlange;
     G4LogicalVolume* fVolCryoMedFt;

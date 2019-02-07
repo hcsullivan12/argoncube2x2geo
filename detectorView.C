@@ -3,9 +3,10 @@ double moduleFootX  = 0;
 double moduleFootZ  = 0;
 double cryoHeight   = 0;
 
-void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
-{
-  
+void checkOverlaps( TGeoManager *geo );
+
+void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
+{  
   Int_t PriKolor[] = {  2,  3,  4,  5,  6,  7,  8, 9, 28, 30, 38, 40, 41, 42, 46 };
   Int_t PriIndex = 0;
   std::map<TString,Int_t> Kolor;
@@ -19,12 +20,14 @@ void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
   Kolor["Rock"] = kOrange+3;
   Kolor["SSteel304"] = kGray+1;
 
-  TGeoManager *geo2 = new TGeoManager("geo2","test");
-  geo2->Import(filename);
-  geo2->SetVisLevel(20);
+  TGeoManager *geo = new TGeoManager("geo","test");
+  geo->Import(filename);
+  geo->SetVisLevel(20);
   TGeoVolume *volume = NULL;
-  TObjArray *volumes = geo2->GetListOfVolumes();
+  TObjArray *volumes = geo->GetListOfVolumes();
   Int_t nvolumes = volumes->GetEntries();
+
+  if (checkoverlaps==kTRUE) checkOverlaps(geo);
 
   for ( int i = 0; i < nvolumes; i++ )
   {
@@ -74,10 +77,17 @@ void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
   cout << "Module foot size  = " << moduleFootX <<  " x " << moduleFootZ << " cm2" << endl;
   cout << endl;
 
-  geo2->GetTopVolume()->Draw("ogl");
+  geo->GetTopVolume()->Draw("ogl");
 
   TGLViewer * v = (TGLViewer *)gPad->GetViewer3D();
   Double_t refPos[3] = {0,0,0};
   v->SetGuideState(TGLUtil::kAxesOrigin, kTRUE, kTRUE, refPos);
   v->DrawGuides();
 }
+
+void checkOverlaps( TGeoManager *geo )
+{
+  geo->CheckOverlaps(1e-5,"s10000000");
+  geo->PrintOverlaps();
+}
+

@@ -487,7 +487,7 @@
         <position name="volModuleFlange_pos4_pos" unit="mm" x="336.25" y="309.8" z="0"/>
       </physvol>
     </volume>
-    <volume name="volTopFlange">
+    <volume name="volCryostatFlange">
       <materialref ref="SSteel304"/>
       <solidref ref="solCryostatFlange"/>
     </volume>
@@ -729,20 +729,20 @@
       <materialref ref="SSteel304"/>
       <solidref ref="solCryoLeg"/>
     </volume>
-    <volume name="volCryotatContainer">
+    <volume name="volCryostatContainer">
       <materialref ref="Air"/>
       <solidref ref="solCryostatContainer"/>
       <physvol name="volTopContainer_pos">
         <volumeref ref="volTopContainer"/>
         <position name="volTopContainer_pos_pos" unit="mm" x="0" y="0" z="1408.71180179927"/>
       </physvol>
-      <physvol name="volTopFlange_pos">
-        <volumeref ref="volTopFlange"/>
-        <position name="volTopFlange_pos_pos" unit="mm" x="0" y="0" z="1348.71180179927"/>
+      <physvol name="volCryostatFlange_pos">
+        <volumeref ref="volCryostatFlange"/>
+        <position name="volCryostatFlange_pos_pos" unit="mm" x="0" y="0" z="1348.71180179927"/>
       </physvol>
       <physvol name="volCryotatFlangeWrap_pos">
         <volumeref ref="volCryotatFlangeWrap"/>
-        <position name="volCryotatFlangeWrap_pos_pos" unit="mm" x="0" y="0" z="1253.71180179927"/>
+        <position name="volCryotatFlangeWrap_pos_pos" unit="mm" x="0" y="0" z="1243.71180179927"/>
       </physvol>
       <physvol name="volCryoOuterWall_pos">
         <volumeref ref="volCryoOuterWall"/>
@@ -804,9 +804,9 @@
     <volume name="volWorld">
       <materialref ref="Air"/>
       <solidref ref="solWorld"/>
-      <physvol name="volCryotatContainer_pos">
-        <volumeref ref="volCryotatContainer"/>
-        <rotation name="volCryotatContainer_pos_rot" unit="deg" x="90" y="0" z="0"/>
+      <physvol name="volCryostatContainer_pos">
+        <volumeref ref="volCryostatContainer"/>
+        <rotation name="volCryostatContainer_pos_rot" unit="deg" x="90" y="0" z="0"/>
       </physvol>
     </volume>
   </structure>
