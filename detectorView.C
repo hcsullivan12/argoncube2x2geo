@@ -9,16 +9,16 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
 {  
   Int_t PriKolor[] = {  2,  3,  4,  5,  6,  7,  8, 9, 28, 30, 38, 40, 41, 42, 46 };
   Int_t PriIndex = 0;
-  std::map<TString,Int_t> Kolor;
-  Kolor["Steel"] = kWhite;
-  Kolor["Copper"] = kYellow;
-  Kolor["Aluminum"] = kRed;
-  Kolor["FR4"] = kGreen;
-  Kolor["LAr"] = kBlue;
-  Kolor["PVT"] = kViolet;
-  Kolor["Kapton"] = kBlack;
-  Kolor["Rock"] = kOrange+3;
-  Kolor["SSteel304"] = kGray+1;
+  std::map<TString,Int_t> color;
+  color["Steel"] = kWhite;
+  color["Copper"] = kYellow;
+  color["Aluminum"] = kRed;
+  color["FR4"] = kGreen;
+  color["LAr"] = kBlue;
+  color["PVT"] = kViolet;
+  color["Kapton"] = kBlack;
+  color["Rock"] = kOrange+3;
+  color["SSteel304"] = kGray+1;
 
   TGeoManager *geo = new TGeoManager("geo","test");
   geo->Import(filename);
@@ -69,7 +69,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
     Int_t daughters = volume->GetNdaughters();
     //cout << endl;
 		//cout << volume->GetName() << volume->GetMaterial()->GetName() << daughters << endl;
-    volume->SetLineColor(Kolor[volume->GetMaterial()->GetName()]);
+    volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
   }
 
   cout << endl;
@@ -87,7 +87,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
 
 void checkOverlaps( TGeoManager *geo )
 {
-  geo->CheckOverlaps(1e-5,"s10000000");
+  geo->CheckOverlaps(0.01,"s10000000");
   geo->PrintOverlaps();
 }
 
