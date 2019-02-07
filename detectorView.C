@@ -3,7 +3,7 @@ double moduleFootX  = 0;
 double moduleFootZ  = 0;
 double cryoHeight   = 0;
 
-void materialDisplay(TString filename,Bool_t checkoverlaps=kFALSE,TString label="geom-test.root" )
+void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
 {
   
   Int_t PriKolor[] = {  2,  3,  4,  5,  6,  7,  8, 9, 28, 30, 38, 40, 41, 42, 46 };

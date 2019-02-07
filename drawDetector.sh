@@ -1,1 +1,1 @@
-root -l 'materialDisplay.C("detector.gdml")'
+root -l 'detectorView.C("detector.gdml")'
