@@ -5,6 +5,7 @@
 //
 
 #include "Geometry/Cryostat/CryostatFT.h"
+#include "Geometry/Auxiliary/Feedthrough.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
@@ -75,25 +76,8 @@ void CryostatFT::ConstructSubVolumes()
                                               "volModuleFTContainer");
   
   // Medium sized feethrough
-  G4Tubs* ftTub1 = new G4Tubs("solModuleFTTub1_",
-                               innerR,
-                               outerR,
-                               solModuleFTContainer->GetZHalfLength(),
-                               0*degree, 360*degree);
-  G4Tubs* ftTub2 = new G4Tubs("solModuleFTTub2_",
-                               0,
-                               outerR+2*cm,
-                               2*cm,
-                               0*degree, 360*degree); 
-
-  G4UnionSolid* solModuleMedFT = new G4UnionSolid("solModuleMedFT",
-                                                   ftTub1,
-                                                   ftTub2,
-                                                   0,
-                                                   G4ThreeVector(0,0,ftTub1->GetZHalfLength()-ftTub2->GetZHalfLength()) );
-  fVolModuleMedFT = new G4LogicalVolume(solModuleMedFT,
-                                        matMan->FindMaterial("SSteel304"),
-                                        "volModuleMedFT");
+  Feedthrough ft;
+  fVolModuleMedFT = ft.ConstructVolume("ModuleFT", innerR, outerR, 2*solModuleFTContainer->GetZHalfLength(), "SSteel304");
 
   G4Box* solModuleFlange = new G4Box("solModuleFlange", 
                                       solModuleFTContainer->GetXHalfLength(),
@@ -126,15 +110,16 @@ void CryostatFT::PlaceSubVolumes()
   // loosely positioned here
   G4double xBound = volModuleWall->GetXHalfLength();
   G4double yBound = volModuleWall->GetZHalfLength();
-  G4double x1 = xBound-12*cm;
+  G4double x1 = xBound - 12*cm;
   G4double x2 = x1 - 10*cm;
   G4double z2 = x1;
   G4RotationMatrix* xRot2 = new G4RotationMatrix;
   xRot2->rotateX(pi/2);
-  new G4PVPlacement(0, G4ThreeVector(x1,0,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-x1,0,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
-  new G4PVPlacement(0, G4ThreeVector(x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
+  new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
+  new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
   new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 3);
+  new G4PVPlacement(0, G4ThreeVector(0,-x1,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 4);
 
   // Place top wall and FT container in Module flange
   std::vector<G4LogicalVolume*> geoms = {fVolModuleTopWall,
@@ -172,7 +157,6 @@ void CryostatFT::PlaceSubVolumes()
 
   G4RotationMatrix* xRot3 = new G4RotationMatrix;
   xRot3->rotateX(3*pi/2.);
-  //new G4PVPlacement(0, G4ThreeVector(0,0,-1*zLen+zLen2), fVolTopFlange, fVolTopFlange->GetName()+"_pos1", fVolTopContainer, false, 0);
   new G4PVPlacement(0, positions[0], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos1", fVolTopContainer, false, 1);
   new G4PVPlacement(0, positions[1], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos2", fVolTopContainer, false, 2);
   new G4PVPlacement(0, positions[2], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos3", fVolTopContainer, false, 3);

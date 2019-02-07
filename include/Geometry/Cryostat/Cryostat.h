@@ -14,6 +14,7 @@
 #include "Geometry/Cryostat/CryostatBody.h"
 #include "Geometry/Cryostat/CryostatLeg.h"
 #include "Geometry/Cryostat/CryostatFT.h"
+#include "Geometry/Auxiliary/Feedthrough.h"
 
 namespace geo
 {
@@ -38,6 +39,10 @@ class Cryostat
     G4LogicalVolume* fVolCryotatContainer;
     G4LogicalVolume* fVolCryostatFlangeWrap;
     G4LogicalVolume* fVolCryostatFlange;
+    G4LogicalVolume* fVolCryoMedFt;
+    G4LogicalVolume* fVolCryoLgFt;
+
+    G4double fCryoFTHeight;
 
 };
 }

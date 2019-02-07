@@ -81,7 +81,18 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
 
   fVolCryotatContainer = new G4LogicalVolume(solCryotatContainer,
                                               matMan->FindMaterial("Air"),
-                                              "volCryotatContainer");                                              
+                                              "volCryotatContainer"); 
+
+  // It's easier to put other feedthroughs here
+  Feedthrough ft;
+  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        util.ConvertToUnits(moduleMedFTDim);
+  G4double innerR = moduleMedFTDim[0];
+  G4double outerR = moduleMedFTDim[1];
+  G4double height = moduleMedFTDim[2];
+
+  fVolCryoMedFt =  ft.ConstructVolume("CryoMedFT", innerR, outerR, height, "SSteel304"); 
+  fVolCryoLgFt =  ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "SSteel304");
+  fCryoFTHeight = height;
 }
 
 void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
@@ -112,7 +123,20 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   new G4PVPlacement(0, G4ThreeVector(0,0,shift[1]), fVolCryostatFlange, fVolCryostatFlange->GetName()+"_pos",         fVolCryotatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(0,0,shift[2]), fVolCryostatFlangeWrap, fVolCryostatFlangeWrap->GetName()+"_pos", fVolCryotatContainer, false, 0);
   // Place body
-  new G4PVPlacement(0, G4ThreeVector(0,0,shift[3]), fCryostatBody->GetLV(), fCryostatBody->GetLV()->GetName()+"_pos", fVolCryotatContainer, false, 0);                                          
+  new G4PVPlacement(0, G4ThreeVector(0,0,shift[3]), fCryostatBody->GetLV(), fCryostatBody->GetLV()->GetName()+"_pos", fVolCryotatContainer, false, 0);
+  // Place cryo FTs 
+  G4double x = 1*m;
+  G4double y = 10*cm;
+  G4double z = shift[1]+geomsDim[1]+fCryoFTHeight/2.;
+  new G4PVPlacement(0, G4ThreeVector(   x,   y,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   x,-1*y,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*x,-1*y,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*x,   y,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   y,-1*x,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*y,-1*x,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*y,   x,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryotatContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   y,   x,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryotatContainer, false, 0);
+
 
   // Place all legs in the container
   unsigned nLegs(5);
@@ -132,8 +156,5 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   G4RotationMatrix* xRot2 = new G4RotationMatrix;
   xRot2->rotateX(pi/2);
   new G4PVPlacement(xRot2, G4ThreeVector(), fVolCryotatContainer, fVolCryotatContainer->GetName()+"_pos", volWorld, false, 0);
-  //new G4PVPlacement(xRot2, G4ThreeVector(0,shift[3],0), fVolCryotatFlangeWrap, fVolCryotatFlangeWrap->GetName()+"_pos", volWorld, false, 0);
-  
-
 }
 }
