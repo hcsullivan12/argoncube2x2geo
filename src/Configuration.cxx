@@ -33,9 +33,10 @@ Configuration::Configuration()
 Configuration::~Configuration()
 {}
 
-void Configuration::Initialize(const std::string& configPath)
+void Configuration::Initialize(const std::string& configPath, const std::string& gdmlPath)
 {
   fConfigPath = configPath;
+  fGDMLOutputPath = gdmlPath;
   // Read json file
   FILE *configFile = fopen(fConfigPath.c_str(), "r");
   char readBuffer[65536];
@@ -60,9 +61,6 @@ void Configuration::Initialize(const std::string& configPath)
 
 void Configuration::ReadJSONFile()
 {
-  #ifdef G4_GDML 
-  fGDMLOutputPath = GetJSONMember("gdmlOutputPath", rapidjson::kStringType).GetString();
-  #endif
   fModuleWallThickness = GetJSONMember("moduleWallThickness", rapidjson::kNumberType).GetDouble();
   fModuleClearance = GetJSONMember("moduleClearance", rapidjson::kNumberType).GetDouble();
   fFieldShellThickness = GetJSONMember("fieldShellThickness", rapidjson::kNumberType).GetDouble();

@@ -11,10 +11,6 @@
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
-#include "G4Colour.hh"
-#include "G4VisAttributes.hh"
-#include "G4LogicalBorderSurface.hh"
-#include "G4PhysicalVolumeStore.hh"
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
 #include "G4PVPlacement.hh"

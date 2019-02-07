@@ -24,11 +24,8 @@ class Configuration
     static Configuration* Instance();
     ~Configuration();
  
-    void Initialize(const std::string& configPath);
-    void SetVisualization(const bool& b) { fShowVis = b; };
+    void Initialize(const std::string& configPath, const std::string& gdmlPath);
 
-    const bool&        ShowVis()         const { return fShowVis; };
-    const std::string& VisMacroPath()    const { return fVisMacroPath; };
     const std::string& GDMLOutputPath()  const { return fGDMLOutputPath; };
     const double       ModuleWallThickness() const { return fModuleWallThickness; };
     const double       ModuleTopWallThickness() const { return fModuleTopWallThickness; };
@@ -74,9 +71,7 @@ class Configuration
                                                     "String", 
                                                     "Number"}};
     std::string fConfigPath;
-    std::string fVisMacroPath;
     std::string fGDMLOutputPath;
-    bool        fShowVis;
     double      fModuleWallThickness;
     double      fModuleClearance;
     double      fFieldShellThickness;

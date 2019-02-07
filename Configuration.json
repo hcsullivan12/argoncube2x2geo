@@ -1,6 +1,5 @@
 {
-  "gdmlOutputPath":         "/home/hunter/projects/argoncube2x2geo/output/detector.gdml",
-  "visMacroPath":           "/home/hunter/projects/argoncube2x2geo/vis.mac",
+  "gdmlOutputPath":         "/home/hunter/projects/argoncube2x2geo/detector.gdml",
   "worldDim":               [100000, 100000, 100000],
   "moduleWallThickness":    1.0,
   "moduleTopWallThickness": 1.0,

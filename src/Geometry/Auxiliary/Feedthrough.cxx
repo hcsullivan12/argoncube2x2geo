@@ -5,13 +5,9 @@
 //
 
 #include "Geometry/Auxiliary/Feedthrough.h"
-#include "Configuration.h"
-#include "MaterialManager.h"
-#include "Utilities.h"
 #include "MaterialManager.h"
 
 #include "G4Tubs.hh"
-#include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4UnionSolid.hh"
 

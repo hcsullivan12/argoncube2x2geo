@@ -88,30 +88,6 @@ void CryostatBody::ConstructSubVolumes()
   fVolCryoOuterWall = new G4LogicalVolume(solCryoOuterWall,
                                           matMan->FindMaterial("SSteel304"),
                                           "volCryoOuterWall");  
-
-  // Top 
-  G4Tubs* solCryoFlangeWall = new G4Tubs("solCryoFlangeWall",
-                                          0,
-                                          fVolCryoOuterWallR+10*cm,
-                                          10*cm,
-                                          0*degree, 360*degree);
-
-  fVolCryoFlangeWall = new G4LogicalVolume(solCryoFlangeWall,
-                                          matMan->FindMaterial("SSteel304"),
-                                          "volCryoFlangeWall");  
-
-  G4Tubs* solCryoFlangeBath = new G4Tubs("solCryoFlangeBath",
-                                          0,
-                                          cryoInnerR,
-                                          solCryoFlangeWall->GetZHalfLength(),
-                                          0*degree, 360*degree); 
-
-  fVolCryoFlangeBath = new G4LogicalVolume(solCryoFlangeBath,
-                                          matMan->FindMaterial("LAr"),
-                                          "volCryoFlangeBath");
-
-  
-                                                                
 }
 
 G4UnionSolid* CryostatBody::GetShape(const G4String& name, 
@@ -159,32 +135,20 @@ void CryostatBody::PlaceSubVolumes(Detector* detector)
   xRot1->rotateX(3*pi/2);
 
   G4LogicalVolume* volMod = detector->GetLV();
-  if (!volMod) std::cout << "HEYYY\n";
   G4double modHeight = ((G4Box*)volMod->GetSolid())->GetYHalfLength();
   G4double shift = fCryoInnerBathTubDepth/2.0 - modHeight;
   G4ThreeVector transl(0, 0, shift);
-
   new G4PVPlacement(xRot1, transl, volMod, volMod->GetName()+"_pos1", fVolCryoInnerBath, false, 0); 
 
   //****
-  // Cryos
+  // Cryostat layers
   //****
-  //G4double bodyContainerZ = 2*((G4Tubs*)fVolCryoBodyContainer->GetSolid())->GetZHalfLength();
-  G4double flangeWallZ    = 2*((G4Tubs*)fVolCryoFlangeWall->GetSolid())->GetZHalfLength();
-
   std::vector<G4double> shifts  = {fCryoInnerWallTubDepth/2.0 - fCryoInnerBathTubDepth/2.0,
                                    fCryoOuterBathTubDepth/2.0 - fCryoInnerWallTubDepth/2.0,
                                    fCryoOuterWallTubDepth/2.0 - fCryoOuterBathTubDepth/2.0 };
-                                   //bodyContainerZ/2.0 - flangeWallZ/2.0,
-                                   //bodyContainerZ/2.0 - 2*flangeWallZ/2.0 - fCryoOuterWallTubDepth/2.0};
                                    
   new G4PVPlacement(0, G4ThreeVector(0,0,shifts[0]), fVolCryoInnerBath, fVolCryoInnerBath->GetName()+"_pos", fVolCryoInnerWall, false, 0);
   new G4PVPlacement(0, G4ThreeVector(0,0,shifts[1]), fVolCryoInnerWall, fVolCryoInnerWall->GetName()+"_pos", fVolCryoOuterBath, false, 0);
   new G4PVPlacement(0, G4ThreeVector(0,0,shifts[2]), fVolCryoOuterBath, fVolCryoOuterBath->GetName()+"_pos", fVolCryoOuterWall, false, 0);
-
-  //new G4PVPlacement(0, G4ThreeVector(), fVolCryoFlangeBath, fVolCryoFlangeBath->GetName()+"_pos", fVolCryoFlangeWall, false, 0);
-
-  //new G4PVPlacement(0, G4ThreeVector(0,0,shifts[3]), fVolCryoFlangeWall, fVolCryoFlangeWall->GetName()+"_pos", fVolCryoBodyContainer, false, 0);
-  //new G4PVPlacement(0, G4ThreeVector(0,0,shifts[4]), fVolCryoOuterWall, fVolCryoOuterWall->GetName()+"_pos", fVolCryoBodyContainer, false, 0);
 }
 }

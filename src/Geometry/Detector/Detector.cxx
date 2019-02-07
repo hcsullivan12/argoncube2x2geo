@@ -32,9 +32,7 @@ void Detector::ConstructVolume()
 
 void Detector::ConstructSubVolumes()
 {
-  //**** 
   // Modules
-  //****
   fModule = new Module();
   fModule->ConstructVolume();
 
@@ -58,10 +56,7 @@ void Detector::ConstructSubVolumes()
 
 void Detector::PlaceSubVolumes()
 {
-  //****
   // Placement in z
-  // Will place in utilities soon
-  //****
   arcutil::Utilities util;
   Configuration* config = Configuration::Instance();
   G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);

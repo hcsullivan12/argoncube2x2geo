@@ -12,10 +12,6 @@
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
-#include "G4Colour.hh"
-#include "G4VisAttributes.hh"
-#include "G4LogicalBorderSurface.hh"
-#include "G4PhysicalVolumeStore.hh"
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
 #include "G4PVPlacement.hh"
@@ -47,17 +43,15 @@ void CryostatFT::ConstructSubVolumes()
   arcutil::Utilities util;
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
+  // Get the parameters
   std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        util.ConvertToUnits(moduleMedFTDim);
   G4double innerR = moduleMedFTDim[0];
   G4double outerR = moduleMedFTDim[1];
   G4double height = moduleMedFTDim[2];
-
   G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); util.ConvertToUnits(moduleTopWallThickness);
   G4Box* volModuleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
 
-  //****
-  // Top 
-  //****
+  // Top wall 
   G4Box* solModuleTopWall = new G4Box("solModuleTopWall",
                                        volModuleWall->GetXHalfLength(),
                                        volModuleWall->GetZHalfLength(),
@@ -79,6 +73,7 @@ void CryostatFT::ConstructSubVolumes()
   Feedthrough ft;
   fVolModuleMedFT = ft.ConstructVolume("ModuleFT", innerR, outerR, 2*solModuleFTContainer->GetZHalfLength(), "SSteel304");
 
+  // Container for wall and FTs
   G4Box* solModuleFlange = new G4Box("solModuleFlange", 
                                       solModuleFTContainer->GetXHalfLength(),
                                       solModuleFTContainer->GetYHalfLength(),
@@ -87,6 +82,7 @@ void CryostatFT::ConstructSubVolumes()
                                         matMan->FindMaterial("Air"),
                                         "volModuleFlange"); 
 
+  // Container for all module walls and fts
   G4Box* solModContainer = (G4Box*)lvStore->GetVolume("volModuleContainer")->GetSolid();
   G4Box* solTopContainer = new G4Box("solTopContainer",
                                       solModContainer->GetXHalfLength(),
@@ -119,7 +115,7 @@ void CryostatFT::PlaceSubVolumes()
   new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
   new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
   new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 3);
-  new G4PVPlacement(0, G4ThreeVector(0,-x1,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 4);
+  new G4PVPlacement(0, G4ThreeVector(0,-x1,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 4);
 
   // Place top wall and FT container in Module flange
   std::vector<G4LogicalVolume*> geoms = {fVolModuleTopWall,
@@ -135,8 +131,8 @@ void CryostatFT::PlaceSubVolumes()
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
   util.Place(geoms, positions, fVolModuleFlange);
   
+  // Place module flanges in larger container
   G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);
-
   G4Box* solModContainer = (G4Box*)lvStore->GetVolume("volModuleContainer")->GetSolid();
   G4Box* solMod          = (G4Box*)lvStore->GetVolume("volModule")->GetSolid();
   G4double boundZ = -1*solModContainer->GetZHalfLength();
@@ -147,9 +143,7 @@ void CryostatFT::PlaceSubVolumes()
   std::vector<G4double> stepsZ = {boundZ + solMod->GetZHalfLength(),
                                   boundZ + 3*solMod->GetZHalfLength() + modInsideGap};
 
-  // For now place on top of cryo flange
   zLen = ((G4Tubs*)fVolTopContainer->GetSolid())->GetZHalfLength();
-  //G4double zLen2 = ((G4Tubs*)fVolTopFlange->GetSolid())->GetZHalfLength();
   positions = {G4ThreeVector(stepsX[0], stepsZ[0], zLen),
                G4ThreeVector(stepsX[0], stepsZ[1], zLen),
                G4ThreeVector(stepsX[1], stepsZ[0], zLen),
