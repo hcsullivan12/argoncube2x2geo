@@ -7,17 +7,15 @@ void checkOverlaps( TGeoManager *geo );
 
 void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
 {  
-  Int_t PriKolor[] = {  2,  3,  4,  5,  6,  7,  8, 9, 28, 30, 38, 40, 41, 42, 46 };
-  Int_t PriIndex = 0;
   std::map<TString,Int_t> color;
-  color["Steel"] = kWhite;
-  color["Copper"] = kYellow;
-  color["Aluminum"] = kRed;
-  color["FR4"] = kGreen;
-  color["LAr"] = kBlue;
-  color["PVT"] = kViolet;
-  color["Kapton"] = kBlack;
-  color["Rock"] = kOrange+3;
+  color["Steel"]     = kWhite;
+  color["Copper"]    = kYellow;
+  color["Aluminum"]  = kRed;
+  color["FR4"]       = kGreen;
+  color["LAr"]       = kBlue;
+  color["PVT"]       = kViolet;
+  color["Kapton"]    = kBlack;
+  color["Rock"]      = kOrange+3;
   color["SSteel304"] = kGray+1;
 
   TGeoManager *geo = new TGeoManager("geo","test");
