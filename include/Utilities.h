@@ -3,9 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: 
-//
-
 
 #ifndef UTILITIES_H
 #define UTILITIES_H 

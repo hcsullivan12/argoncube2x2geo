@@ -3,13 +3,11 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to construct module volumes.
-//
 
 #ifndef DETECTOR_H
 #define DETECTOR_H
 
-#include "Module.h"
+#include "Geometry/Module/Module.h"
 
 #include "G4LogicalVolume.hh"
 
@@ -22,13 +20,15 @@ class Detector
     Detector();
     ~Detector();
 
-    void ConstructVolume(G4LogicalVolume* volWorld, 
-                         Module*          module);
+    void ConstructVolume();
+
+    G4LogicalVolume* GetLV() { return fVolModuleContainer; };
 
   private: 
-    void ConstructModules();
+    void ConstructSubVolumes();
+    void PlaceSubVolumes();
 
-    // solids
+    Module*          fModule;
     G4LogicalVolume* fVolModuleContainer;
 
 };
