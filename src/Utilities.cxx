@@ -56,14 +56,11 @@ std::vector<G4double> Utilities::Stack(const std::vector<G4double>& geomsHalfLen
   std::vector<G4double> steps;
   steps.resize(geomsHalfLength.size());
   G4double prevStep = -1*motherHalfLength;
-  std::cout << "Prev = " << prevStep/cm << std::endl;
   for (unsigned p = 0; p < steps.size(); p++)
   {
-    std::cout << "   halfL = " << geomsHalfLength[p]/cm << std::endl;
     G4double v = prevStep + geomsHalfLength[p];
     steps[p] = v;
     prevStep = v + geomsHalfLength[p];
-    std::cout << prevStep/cm << std::endl;
   }
   return steps;
 }

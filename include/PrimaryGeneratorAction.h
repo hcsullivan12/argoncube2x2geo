@@ -3,8 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: 
-//
 
 #ifndef PRIMARYGENERATORACTION_H
 #define PRIMARYGENERATORACTION_H

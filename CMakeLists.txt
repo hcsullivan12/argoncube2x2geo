@@ -1,33 +1,16 @@
 cmake_minimum_required(VERSION 3.5)
 project(ArgonCube2x2Geo)
 
-add_definitions(-DVERSION="v03_00_00")
-
-option(WITH_GEANT4_GDML "Build with Geant4 GDML parser." ON)
-option(WITH_GEANT4_UIVIS "Build with Geant4 UI and Vis drivers" ON)
-
+add_definitions(-DVERSION="v04_00_00")
 set(CMAKE_CXX_STANDARD 11)
 
 # Geant4 dependencies
 list(APPEND CMAKE_MODULE_PATH $ENV{GEANTDIR})
-if (WITH_GEANT4_GDML)
-  find_package(Geant4 REQUIRED gdml)
-else()
-  find_package(Geant4 REQUIRED)
-endif()
-if(WITH_GEANT4_UIVIS)
-  find_package(Geant4 REQUIRED ui_all vis_all)
-else()
-  find_package(Geant4 REQUIRED)
-endif()
+find_package(Geant4 REQUIRED gdml)
 include_directories(${Geant4_INCLUDE_DIRS})
 add_definitions(${Geant4_DEFINITIONS})
 
-if (WITH_GEANT4_GDML)
-  add_definitions(-DG4_GDML)
-endif()
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
 # RapidJSON dependencies
 set(RapidJSON_DIR $ENV{RapidJSON_CMAKEDIR})

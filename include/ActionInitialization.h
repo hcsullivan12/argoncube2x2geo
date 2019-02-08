@@ -3,9 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: 
-//
-
 
 #ifndef ACTIONINITIALIZATION_H
 #define ACTIONINITIALIZATION_H 

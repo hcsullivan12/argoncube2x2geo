@@ -3,8 +3,6 @@
 //
 // Author: Hunter Sullivan
 //
-// Discription: Class to construct detector materials.
-//
 
 #ifndef MATERIALMANAGER_H
 #define MATERIALMANAGER_H

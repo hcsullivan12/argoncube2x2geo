@@ -12,17 +12,14 @@
 
 #include "G4PhysListFactory.hh"
 #include "G4HadronicProcessStore.hh"
-#ifdef G4_GDML
 #include "G4GDMLParser.hh"
 #include "G4PhysicalVolumeStore.hh"
-#endif
 
 namespace geo
 {
 
 G4Helper::G4Helper() 
  : fRunManager(NULL),
-   fVisManager(NULL),
    fDetector(NULL)
 {
   // Get config
@@ -32,18 +29,11 @@ G4Helper::G4Helper()
     G4cout << "Error! Configuration not initialized!" << G4endl;
     std::exit(1);
   }
-  // Visualization and outputs
-  fShowVis            = config->ShowVis();
-  fVisMacroPath       = config->VisMacroPath();
   fGDMLOutputPath     = config->GDMLOutputPath();
 }
 
 G4Helper::~G4Helper()
 {
-  //if (fUIManager)  delete fUIManager;
-  #ifdef G4VIS_USE
-  if (fVisManager) delete fVisManager;
-  #endif 
   if (fRunManager) delete fRunManager;
 }
 
@@ -57,9 +47,6 @@ void G4Helper::ConstructDetector()
   fDetector = new DetectorConstruction();
   UselessInfo();
   fRunManager->Initialize(); 
-   
-  // Handle visualization
-  HandleVisualization();
  
   G4cout << "Detector construction finished!" << G4endl;
   G4cout << "\nDone! Press enter to exit..." << G4endl;
@@ -93,38 +80,17 @@ void G4Helper::HandleVerbosities()
   G4HadronicProcessStore::Instance()->SetVerbose(0);
 }
 
-void G4Helper::HandleVisualization()
-{
-  #ifdef G4VIS_USE
-  if (fShowVis) 
-  {
-    fVisManager = new G4VisExecutive();
-    fVisManager->SetVerboseLevel(0); // max = 6
-    fVisManager->Initialize();
-    std::string command = "/control/execute " + fVisMacroPath;
-    fUIManager->ApplyCommand(command);
-  }
-  #endif
-}
-
 void G4Helper::WriteGDML()
 {
-  #ifdef G4_GDML
   G4cout << "Writing geometry to gdml file..." << G4endl;
   G4Navigator* nav =
     G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
 
   G4VPhysicalVolume* w = nav->GetWorldVolume();
   G4PhysicalVolumeStore* volStore = G4PhysicalVolumeStore::GetInstance();
-  /*for (auto it = volStore->begin(); it != volStore->end(); it++)
-  {
-    std::cout << (*it)->GetName() << std::endl;
-  }*/
- // auto s = volStore->GetVolume("mppcs/mppc1");
 
   G4GDMLParser parser;
   parser.Write(fGDMLOutputPath, w, false);
-  #endif
 }
 
 }
