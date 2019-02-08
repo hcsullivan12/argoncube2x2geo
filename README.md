@@ -16,6 +16,6 @@ make
 ```
 To build the detector, run
 ```
-./construct ../Configuration <GDML_OUTPUT_PATH>
+./construct ../Configuration.json <GDML_OUTPUT_PATH>
 ```
 or you can run the rebuild.sh script in the top directory. This will recompile the code and open the viewer. 
