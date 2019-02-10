@@ -34,15 +34,14 @@ void ModuleTop::ConstructSubVolumes()
   //****
   // Build from inside out
   //****
-  MaterialManager* matMan = MaterialManager::Instance();
-  Configuration*   config = Configuration::Instance();
+  MaterialManager* matMan       = MaterialManager::Instance();
+  Configuration*   config       = Configuration::Instance();
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
-  arcutil::Utilities util;
 
   G4Box* activeMod = (G4Box*)lvStore->GetVolume("volActiveModule")->GetSolid();
   G4Box* moduleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
-  std::vector<G4double> topLArDim  = config->TopLArDim(); util.ConvertToUnits(topLArDim);
-  std::vector<G4double> topGArDim  = config->TopGArDim(); util.ConvertToUnits(topGArDim);
+  std::vector<G4double> topLArDim  = config->TopLArDim();
+  std::vector<G4double> topGArDim  = config->TopGArDim();
   
   // LAr
   G4Box* solTopLAr = new G4Box("solTopLAr", 

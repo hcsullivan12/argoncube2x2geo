@@ -31,17 +31,17 @@ void ModuleFlange::ConstructVolume()
   // NEEDS WORK!
 
   // Get material manager and config
-  MaterialManager* matMan = MaterialManager::Instance();
-  Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
+  MaterialManager* matMan       = MaterialManager::Instance();
+  Configuration* config         = Configuration::Instance();
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
+  arcutil::Utilities util;
 
-  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        util.ConvertToUnits(moduleMedFTDim);
+  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim(); 
   G4double innerR = moduleMedFTDim[0];
   G4double outerR = moduleMedFTDim[1];
   G4double height = moduleMedFTDim[2];
 
-  G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); util.ConvertToUnits(moduleTopWallThickness);
+  G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); 
   G4Box* volModuleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
 
   //****

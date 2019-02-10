@@ -36,15 +36,14 @@ void ModuleActive::ConstructSubVolumes()
   //****
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration*   config = Configuration::Instance();
-  arcutil::Utilities util;
 
   // Get variables
-  std::vector<G4double> activeLArDim = config->ActiveLArDim();        util.ConvertToUnits(activeLArDim);
-  std::vector<G4double> lightDetDim  = config->LightDetDim();         util.ConvertToUnits(lightDetDim);
-  G4double fieldShellThickness       = config->FieldShellThickness(); util.ConvertToUnits(fieldShellThickness);
-  G4double cathodeThickness          = config->CathodeThickness();    util.ConvertToUnits(cathodeThickness);
-  G4double pixelPlaneThickness       = config->PixelPlaneThickness(); util.ConvertToUnits(pixelPlaneThickness);
-  G4double moduleWallThickness       = config->ModuleWallThickness(); util.ConvertToUnits(moduleWallThickness);
+  std::vector<G4double> activeLArDim = config->ActiveLArDim();        
+  std::vector<G4double> lightDetDim  = config->LightDetDim();         
+  G4double fieldShellThickness       = config->FieldShellThickness(); 
+  G4double cathodeThickness          = config->CathodeThickness();    
+  G4double pixelPlaneThickness       = config->PixelPlaneThickness(); 
+  G4double moduleWallThickness       = config->ModuleWallThickness(); 
   
   // Active LAr
   G4Box* solActiveLAr = new G4Box("solActiveLAr", 
