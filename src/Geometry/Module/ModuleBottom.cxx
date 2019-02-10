@@ -34,13 +34,12 @@ void ModuleBottom::ConstructSubVolumes()
 {
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration*   config = Configuration::Instance();
-  arcutil::Utilities util;
 
   // Get variables
-  std::vector<G4double> modLegDim      = config->ModuleLegDim();         util.ConvertToUnits(modLegDim);
-  std::vector<G4double> modLegFootDim  = config->ModuleLegFootDim();     util.ConvertToUnits(modLegFootDim);
-  std::vector<G4double> dummyFlangeDim = config->BottomDummyFlangeDim(); util.ConvertToUnits(dummyFlangeDim);
-  std::vector<G4double> legPosition    = config->ModuleLegPosition();    util.ConvertToUnits(legPosition);
+  std::vector<G4double> modLegDim      = config->ModuleLegDim();         
+  std::vector<G4double> modLegFootDim  = config->ModuleLegFootDim();     
+  std::vector<G4double> dummyFlangeDim = config->BottomDummyFlangeDim(); 
+  std::vector<G4double> legPosition    = config->ModuleLegPosition();    
  
   // Legs
   G4Box* solModuleLegShin = new G4Box("solModuleLegShin", 

@@ -7,7 +7,6 @@
 #include "Geometry/Cryostat/Cryostat.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
-#include "Utilities.h"
 
 #include "G4Tubs.hh"
 #include "G4Sphere.hh"
@@ -45,15 +44,14 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
 
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
 
   // Get the config parameters 
-  G4double cryoLegOffset = config->CryostatLegOffset(); util.ConvertToUnits(cryoLegOffset);
-  G4double bodyH   = fCryostatBody->GetDepth();
-  G4double bodyR   = fCryostatBody->GetOuterWallR();
-  G4double legH    = fCryostatLeg->GetHeight();
-  G4double ftH     = fCryostatFT->GetHeight();
-  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim(); util.ConvertToUnits(moduleMedFTDim);
+  G4double cryoLegOffset = config->CryostatLegOffset();
+  G4double bodyH         = fCryostatBody->GetDepth();
+  G4double bodyR         = fCryostatBody->GetOuterWallR();
+  G4double legH          = fCryostatLeg->GetHeight();
+  G4double ftH           = fCryostatFT->GetHeight();
+  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim(); 
   G4double innerR = moduleMedFTDim[0];
   G4double outerR = moduleMedFTDim[1];
   G4double height = moduleMedFTDim[2];
@@ -82,8 +80,8 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
   
   // It's easier to put cryostat feedthroughs here
   Feedthrough ft;
-  fVolCryoMedFt = ft.ConstructVolume("CryoMedFT", innerR, outerR, height, "SSteel304"); 
-  fVolCryoLgFt  = ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "SSteel304");
+  fVolCryoMedFt = ft.ConstructVolume("CryoMedFT", innerR, outerR, height, "Steel"); 
+  fVolCryoLgFt  = ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "Steel");
   fCryoFTHeight = height;
 
   // Container for entire cryostat
@@ -101,10 +99,9 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
 void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
 {
   Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
 
   // We need the leg offset 
-  G4double cryoLegOffset = config->CryostatLegOffset(); util.ConvertToUnits(cryoLegOffset);
+  G4double cryoLegOffset = config->CryostatLegOffset(); 
 
   // Compute shifts
   // Special case

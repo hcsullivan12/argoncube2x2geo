@@ -36,11 +36,10 @@ void Detector::ConstructSubVolumes()
   fModule = new Module();
   fModule->ConstructVolume();
 
-  arcutil::Utilities util;
-  Configuration* config = Configuration::Instance();
+  Configuration* config   = Configuration::Instance();
   MaterialManager* matMan = MaterialManager::Instance();
 
-  G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);
+  G4double modInsideGap = config->ModuleClearance(); 
   G4LogicalVolume* volModule = fModule->GetLV();
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 
@@ -59,7 +58,7 @@ void Detector::PlaceSubVolumes()
   // Placement in z
   arcutil::Utilities util;
   Configuration* config = Configuration::Instance();
-  G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);
+  G4double modInsideGap = config->ModuleClearance(); 
   G4LogicalVolume* volModule = fModule->GetLV();
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 

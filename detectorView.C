@@ -17,6 +17,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
   color["Kapton"]    = kBlack;
   color["Rock"]      = kOrange+3;
   color["SSteel304"] = kGray+1;
+  color["Steel"]     = kGray;
 
   TGeoManager *geo = new TGeoManager("geo","test");
   geo->Import(filename);

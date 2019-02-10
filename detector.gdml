@@ -148,6 +148,15 @@
       <fraction n="0.001" ref="nitrogen"/>
       <fraction n="0.70995" ref="iron"/>
     </material>
+    <material name="Steel" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="282.415990843335"/>
+      <D unit="g/cm3" value="7.93"/>
+      <fraction n="0.7298" ref="iron"/>
+      <fraction n="0.1792" ref="chromium"/>
+      <fraction n="0.09" ref="nickel"/>
+      <fraction n="0.001" ref="carbon"/>
+    </material>
     <isotope N="16" Z="8" name="O16">
       <atom unit="g/mole" value="15.9949"/>
     </isotope>
@@ -329,7 +338,7 @@
     </union>
     <box lunit="mm" name="solModuleFTContainer" x="671" y="618.1" z="100"/>
     <box lunit="mm" name="solModuleFlange" x="671" y="618.1" z="110"/>
-    <box lunit="mm" name="solTopContainer" x="1343.5" y="1237.7" z="110"/>
+    <box lunit="mm" name="solTopContainer" x="1343" y="1237.2" z="110"/>
     <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryostatFlange" rmax="1210" rmin="0" startphi="0" z="10"/>
     <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryotatFlangeWrap" rmax="1210" rmin="1110" startphi="0" z="200"/>
     <box lunit="mm" name="solBottomDummyFlange" x="671" y="20" z="618.1"/>
@@ -368,7 +377,7 @@
     <box lunit="mm" name="solTopGAr" x="661" y="200" z="608.1"/>
     <box lunit="mm" name="solTopModule" x="671" y="400" z="618.1"/>
     <box lunit="mm" name="solModule" x="671" y="1710.1" z="618.1"/>
-    <box lunit="mm" name="solModuleContainer" x="1343.5" y="1710.1" z="1237.7"/>
+    <box lunit="mm" name="solModuleContainer" x="1343" y="1710.1" z="1237.2"/>
     <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoInnerBathTub" rmax="1050" rmin="0" startphi="0" z="2000"/>
     <sphere aunit="deg" deltaphi="360" deltatheta="30" lunit="mm" name="solCryoInnerBathCap" rmax="2100" rmin="0" startphi="0" starttheta="150"/>
     <union name="solCryoInnerBath">
@@ -419,7 +428,7 @@
       <position name="solCryoLeg_pos" unit="mm" x="0" y="0" z="-325"/>
     </union>
     <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryostatContainer" rmax="1500" rmin="0" startphi="0" z="2927.42360359855"/>
-    <box lunit="mm" name="solWorld" x="1000000" y="1000000" z="1000000"/>
+    <box lunit="mm" name="solWorld" x="10000" y="10000" z="10000"/>
   </solids>
 
   <structure>
@@ -428,7 +437,7 @@
       <solidref ref="solModuleTopWall"/>
     </volume>
     <volume name="volModuleFT">
-      <materialref ref="SSteel304"/>
+      <materialref ref="Steel"/>
       <solidref ref="solModuleFT"/>
     </volume>
     <volume name="volModuleFTContainer">
@@ -472,19 +481,19 @@
       <solidref ref="solTopContainer"/>
       <physvol copynumber="1" name="volModuleFlange_pos1">
         <volumeref ref="volModuleFlange"/>
-        <position name="volModuleFlange_pos1_pos" unit="mm" x="-336.25" y="-309.8" z="0"/>
+        <position name="volModuleFlange_pos1_pos" unit="mm" x="-336" y="-309.55" z="0"/>
       </physvol>
       <physvol copynumber="2" name="volModuleFlange_pos2">
         <volumeref ref="volModuleFlange"/>
-        <position name="volModuleFlange_pos2_pos" unit="mm" x="-336.25" y="309.8" z="0"/>
+        <position name="volModuleFlange_pos2_pos" unit="mm" x="-336" y="309.55" z="0"/>
       </physvol>
       <physvol copynumber="3" name="volModuleFlange_pos3">
         <volumeref ref="volModuleFlange"/>
-        <position name="volModuleFlange_pos3_pos" unit="mm" x="336.25" y="-309.8" z="0"/>
+        <position name="volModuleFlange_pos3_pos" unit="mm" x="336" y="-309.55" z="0"/>
       </physvol>
       <physvol copynumber="4" name="volModuleFlange_pos4">
         <volumeref ref="volModuleFlange"/>
-        <position name="volModuleFlange_pos4_pos" unit="mm" x="336.25" y="309.8" z="0"/>
+        <position name="volModuleFlange_pos4_pos" unit="mm" x="336" y="309.55" z="0"/>
       </physvol>
     </volume>
     <volume name="volCryostatFlange">
@@ -669,19 +678,19 @@
       <solidref ref="solModuleContainer"/>
       <physvol copynumber="1" name="volModule_pos1">
         <volumeref ref="volModule"/>
-        <position name="volModule_pos1_pos" unit="mm" x="-336.25" y="0" z="-309.8"/>
+        <position name="volModule_pos1_pos" unit="mm" x="-336" y="0" z="-309.55"/>
       </physvol>
       <physvol copynumber="2" name="volModule_pos2">
         <volumeref ref="volModule"/>
-        <position name="volModule_pos2_pos" unit="mm" x="-336.25" y="0" z="309.8"/>
+        <position name="volModule_pos2_pos" unit="mm" x="-336" y="0" z="309.55"/>
       </physvol>
       <physvol copynumber="3" name="volModule_pos3">
         <volumeref ref="volModule"/>
-        <position name="volModule_pos3_pos" unit="mm" x="336.25" y="0" z="-309.8"/>
+        <position name="volModule_pos3_pos" unit="mm" x="336" y="0" z="-309.55"/>
       </physvol>
       <physvol copynumber="4" name="volModule_pos4">
         <volumeref ref="volModule"/>
-        <position name="volModule_pos4_pos" unit="mm" x="336.25" y="0" z="309.8"/>
+        <position name="volModule_pos4_pos" unit="mm" x="336" y="0" z="309.55"/>
       </physvol>
     </volume>
     <volume name="volCryoInnerBath">
@@ -718,11 +727,11 @@
       </physvol>
     </volume>
     <volume name="volCryoMedFT">
-      <materialref ref="SSteel304"/>
+      <materialref ref="Steel"/>
       <solidref ref="solCryoMedFT"/>
     </volume>
     <volume name="volCryoLgFT">
-      <materialref ref="SSteel304"/>
+      <materialref ref="Steel"/>
       <solidref ref="solCryoLgFT"/>
     </volume>
     <volume name="volCryoLeg">

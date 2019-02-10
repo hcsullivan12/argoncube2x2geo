@@ -9,7 +9,6 @@
 #include "DetectorConstruction.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
-#include "Utilities.h"
 
 #include "G4SDManager.hh"
 #include "G4Box.hh"
@@ -65,12 +64,11 @@ void DetectorConstruction::ConstructDetector()
   // Get instance of material manager and configuration
   MaterialManager* materialManager = MaterialManager::Instance();
   Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
 
   //**** 
   // World
   //****
-  std::vector<G4double> worldDim = config->WorldDim(); util.ConvertToUnits(worldDim);
+  std::vector<G4double> worldDim = config->WorldDim(); 
 
   G4Box* solWorld = new G4Box("solWorld", 
                               worldDim[0]/2.,

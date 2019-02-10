@@ -6,4 +6,4 @@ rm $filePath
 cd build
 make
 
-./construct ../Configuration.json $filePath && (cd ../ && source drawDetector.sh)
+./construct $filePath && (cd ../ && source drawDetector.sh)
