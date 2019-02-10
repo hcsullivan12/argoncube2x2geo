@@ -56,7 +56,7 @@ void CryostatFT::ConstructSubVolumes()
                                        volModuleWall->GetZHalfLength(),
                                        moduleTopWallThickness/2. );
   fVolModuleTopWall = new G4LogicalVolume(solModuleTopWall,
-                                           matMan->FindMaterial("SSteel304"),
+                                           matMan->FindMaterial("Steel"),
                                            "volModuleTopWall");
 
   // Container for feedthroughs
@@ -71,6 +71,9 @@ void CryostatFT::ConstructSubVolumes()
   // Medium sized feethrough
   Feedthrough ft;
   fVolModuleMedFT = ft.ConstructVolume("ModuleFT", innerR, outerR, 2*solModuleFTContainer->GetZHalfLength(), "Steel");
+
+  // Small feedthrough
+  fVolModuleSmallFT = ft.ConstructVolume("ModuleSmallFT", 3*cm, 3.5*cm, 2*solModuleFTContainer->GetZHalfLength(), "Steel");
 
   // Container for wall and FTs
   G4Box* solModuleFlange = new G4Box("solModuleFlange", 
@@ -106,15 +109,16 @@ void CryostatFT::PlaceSubVolumes()
   G4double xBound = volModuleWall->GetXHalfLength();
   G4double yBound = volModuleWall->GetZHalfLength();
   G4double x1 = xBound - 12*cm;
-  G4double x2 = x1 - 10*cm;
+  G4double x2 = x1 - 6*cm;
   G4double z2 = x1;
-  G4RotationMatrix* xRot2 = new G4RotationMatrix;
-  xRot2->rotateX(pi/2);
+
   new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
   new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
   new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 3);
   new G4PVPlacement(0, G4ThreeVector(0,-x1,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 4);
+
+  new G4PVPlacement(0, G4ThreeVector(0,z2,0), fVolModuleSmallFT, fVolModuleSmallFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
 
   // Place top wall and FT container in Module flange
   std::vector<G4LogicalVolume*> geoms = {fVolModuleTopWall,

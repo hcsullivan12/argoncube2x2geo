@@ -47,7 +47,12 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
       TGeoBBox* tubs = (TGeoBBox*)volume->GetShape();
       moduleHeight = 2*tubs->GetDY();
     }
+
+   //if (TString(volume->GetName()) == TString("volCryostatFlange")) volume->Draw("ogl");
+   auto s = volume->GetShape();
+   //if (TString(s->GetName()) == TString("solModuleFastener")) s->Draw("ogl");
  
+    cout << volume->GetName() << endl;
     volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
   }
 
@@ -62,6 +67,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
   Double_t refPos[3] = {0,0,0};
   v->SetGuideState(TGLUtil::kAxesOrigin, kTRUE, kTRUE, refPos);
   v->DrawGuides();
+
 }
 
 void checkOverlaps( TGeoManager *geo )

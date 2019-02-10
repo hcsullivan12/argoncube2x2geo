@@ -44,7 +44,7 @@ void Configuration::Initialize(const std::string& gdmlPath)
   fModuleWallThickness     = 1.0*cm;
   fModuleTopWallThickness  = 1.0*cm;
   fModuleClearance         = 0.1*cm;
-  fModuleMedFTDim          = {0*cm, 5*cm, 10*cm};
+  fModuleMedFTDim          = {6*cm, 6.5*cm, 10*cm};
   fFieldShellThickness     = 0.005*cm;
   fCathodeThickness        = 0.5*cm;
   fPixelPlaneThickness     = 0.3*cm;
