@@ -329,12 +329,19 @@
 
   <solids>
     <box lunit="mm" name="solModuleTopWall" x="671" y="618.1" z="10"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="solModuleFTTub1_" rmax="50" rmin="0" startphi="0" z="100"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="solModuleFTTub2_" rmax="70" rmin="0" startphi="0" z="40"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solModuleFTTub1_" rmax="65" rmin="60" startphi="0" z="100"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solModuleFTTub2_" rmax="85" rmin="0" startphi="0" z="40"/>
     <union name="solModuleFT">
       <first ref="solModuleFTTub1_"/>
       <second ref="solModuleFTTub2_"/>
       <position name="solModuleFT_pos" unit="mm" x="0" y="0" z="30"/>
+    </union>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solModuleSmallFTTub1_" rmax="35" rmin="30" startphi="0" z="100"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solModuleSmallFTTub2_" rmax="55" rmin="0" startphi="0" z="40"/>
+    <union name="solModuleSmallFT">
+      <first ref="solModuleSmallFTTub1_"/>
+      <second ref="solModuleSmallFTTub2_"/>
+      <position name="solModuleSmallFT_pos" unit="mm" x="0" y="0" z="30"/>
     </union>
     <box lunit="mm" name="solModuleFTContainer" x="671" y="618.1" z="100"/>
     <box lunit="mm" name="solModuleFlange" x="671" y="618.1" z="110"/>
@@ -406,15 +413,15 @@
       <second ref="solCryoOuterWallCap"/>
       <position name="solCryoOuterWall_pos" unit="mm" x="0" y="0" z="767.576396401454"/>
     </union>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoMedFTTub1_" rmax="50" rmin="0" startphi="0" z="100"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoMedFTTub2_" rmax="70" rmin="0" startphi="0" z="40"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoMedFTTub1_" rmax="65" rmin="60" startphi="0" z="100"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoMedFTTub2_" rmax="85" rmin="0" startphi="0" z="40"/>
     <union name="solCryoMedFT">
       <first ref="solCryoMedFTTub1_"/>
       <second ref="solCryoMedFTTub2_"/>
       <position name="solCryoMedFT_pos" unit="mm" x="0" y="0" z="30"/>
     </union>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoLgFTTub1_" rmax="70" rmin="20" startphi="0" z="100"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoLgFTTub2_" rmax="90" rmin="0" startphi="0" z="40"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoLgFTTub1_" rmax="85" rmin="80" startphi="0" z="100"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="solCryoLgFTTub2_" rmax="105" rmin="0" startphi="0" z="40"/>
     <union name="solCryoLgFT">
       <first ref="solCryoLgFTTub1_"/>
       <second ref="solCryoLgFTTub2_"/>
@@ -440,6 +447,10 @@
       <materialref ref="Steel"/>
       <solidref ref="solModuleFT"/>
     </volume>
+    <volume name="volModuleSmallFT">
+      <materialref ref="Steel"/>
+      <solidref ref="solModuleSmallFT"/>
+    </volume>
     <volume name="volModuleFTContainer">
       <materialref ref="Air"/>
       <solidref ref="solModuleFTContainer"/>
@@ -453,15 +464,19 @@
       </physvol>
       <physvol copynumber="2" name="volModuleFT_pos3">
         <volumeref ref="volModuleFT"/>
-        <position name="volModuleFT_pos3_pos" unit="mm" x="115.5" y="215.5" z="0"/>
+        <position name="volModuleFT_pos3_pos" unit="mm" x="155.5" y="215.5" z="0"/>
       </physvol>
       <physvol copynumber="3" name="volModuleFT_pos4">
         <volumeref ref="volModuleFT"/>
-        <position name="volModuleFT_pos4_pos" unit="mm" x="-115.5" y="215.5" z="0"/>
+        <position name="volModuleFT_pos4_pos" unit="mm" x="-155.5" y="215.5" z="0"/>
       </physvol>
       <physvol copynumber="4" name="volModuleFT_pos4">
         <volumeref ref="volModuleFT"/>
         <position name="volModuleFT_pos4_pos" unit="mm" x="0" y="-215.5" z="0"/>
+      </physvol>
+      <physvol name="volModuleSmallFT_pos1">
+        <volumeref ref="volModuleSmallFT"/>
+        <position name="volModuleSmallFT_pos1_pos" unit="mm" x="0" y="215.5" z="0"/>
       </physvol>
     </volume>
     <volume name="volModuleFlange">
@@ -759,35 +774,35 @@
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoMedFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="1000" y="100" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="1000" y="150" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoLgFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="1000" y="-100" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="1000" y="-150" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoMedFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="-1000" y="-100" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="-1000" y="-150" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoLgFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="-1000" y="100" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="-1000" y="150" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoMedFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="100" y="-1000" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="150" y="-1000" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoLgFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="-100" y="-1000" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="-150" y="-1000" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoMedFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="-100" y="1000" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="-150" y="1000" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoMedFT_pos">
         <volumeref ref="volCryoLgFT"/>
-        <position name="volCryoMedFT_pos_pos" unit="mm" x="100" y="1000" z="1403.71180179927"/>
+        <position name="volCryoMedFT_pos_pos" unit="mm" x="150" y="1000" z="1403.71180179927"/>
       </physvol>
       <physvol name="volCryoLeg_pos1">
         <volumeref ref="volCryoLeg"/>

@@ -5,7 +5,7 @@ double cryoHeight   = 0;
 
 void checkOverlaps( TGeoManager *geo );
 
-void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
+void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
 {  
   std::map<TString,Int_t> color;
   color["Steel"]     = kWhite;
@@ -48,6 +48,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
       moduleHeight = 2*tubs->GetDY();
     }
  
+    cout << volume->GetName() << endl;
     volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
   }
 

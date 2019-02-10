@@ -127,7 +127,7 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   new G4PVPlacement(0, G4ThreeVector(0,0,shift[3]), fCryostatBody->GetLV(), fCryostatBody->GetLV()->GetName()+"_pos", fVolCryostatContainer, false, 0);
   // Place cryo FTs 
   G4double x = 1*m;
-  G4double y = 10*cm;
+  G4double y = 15*cm;
   G4double z = shift[1]+geomsDim[1]+fCryoFTHeight/2.;
   new G4PVPlacement(0, G4ThreeVector(   x,   y,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryostatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(   x,-1*y,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryostatContainer, false, 0);

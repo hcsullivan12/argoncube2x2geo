@@ -10,7 +10,6 @@
 #include "G4LogicalVolume.hh"
 
 #include "Geometry/Detector/Detector.h"
-#include "Geometry/Module/ModuleFlange.h"
 #include "Geometry/Cryostat/CryostatBody.h"
 #include "Geometry/Cryostat/CryostatLeg.h"
 #include "Geometry/Cryostat/CryostatFT.h"
