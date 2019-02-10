@@ -111,8 +111,7 @@ void CryostatFT::PlaceSubVolumes()
   G4double x1 = xBound - 12*cm;
   G4double x2 = x1 - 6*cm;
   G4double z2 = x1;
-  G4RotationMatrix* xRot2 = new G4RotationMatrix;
-  xRot2->rotateX(pi/2);
+
   new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
   new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);

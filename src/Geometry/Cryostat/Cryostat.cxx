@@ -99,6 +99,10 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
   fVolCryoLgFt  = ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "Steel");
   fCryoFTHeight = height;
 
+  // Get the module fasteners 
+  ModuleFastener modFast;
+  fVolModFastener = modFast.ConstructVolume("ModuleFastener", "SSteel304");
+
   // Container for entire cryostat
   G4Tubs* solCryostatContainer = new G4Tubs("solCryostatContainer",
                                             0,
@@ -152,6 +156,9 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   new G4PVPlacement(0, G4ThreeVector(-1*y,-1*x,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryostatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(-1*y,   x,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryostatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(   y,   x,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryostatContainer, false, 0);
+
+  // Place module fasteners
+  //new G4PVPlacement(0, G4ThreeVector(0,70*cm,z), fVolModFastener, fVolModFastener->GetName()+"_pos",  fVolCryostatContainer, false, 0);
 
   // Place all legs 
   unsigned nLegs(5);
