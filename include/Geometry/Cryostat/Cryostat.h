@@ -10,11 +10,11 @@
 #include "G4LogicalVolume.hh"
 
 #include "Geometry/Detector/Detector.h"
-#include "Geometry/Module/ModuleFlange.h"
 #include "Geometry/Cryostat/CryostatBody.h"
 #include "Geometry/Cryostat/CryostatLeg.h"
 #include "Geometry/Cryostat/CryostatFT.h"
 #include "Geometry/Auxiliary/Feedthrough.h"
+#include "Geometry/Auxiliary/ModuleFastener.h"
 
 namespace geo
 {
@@ -41,8 +41,10 @@ class Cryostat
     G4LogicalVolume* fVolCryostatFlange;
     G4LogicalVolume* fVolCryoMedFt;
     G4LogicalVolume* fVolCryoLgFt;
+    G4LogicalVolume* fVolModFastener;
 
     G4double fCryoFTHeight;
+    G4double fCryostatFlangeThickness;
 
 };
 }

@@ -14,6 +14,8 @@
 #include "G4PhysicalConstants.hh"
 #include "G4PVPlacement.hh"
 #include "G4Box.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SubtractionSolid.hh"
 
 namespace geo
 {
@@ -44,6 +46,7 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
 
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration* config = Configuration::Instance();
+  G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
   // Get the config parameters 
   G4double cryoLegOffset = config->CryostatLegOffset();
@@ -68,21 +71,37 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
                                               "volCryotatFlangeWrap");
 
   // Thin plate for the top of the cryostat
+  // Let's subtract out the module's top wall
+  G4Box*  solModTopContainer = (G4Box*)lvStore->GetVolume("volTopContainer")->GetSolid();
   G4Tubs* solCryostatFlange = new G4Tubs("solCryostatFlange",
-                                     0*m,
-                                     solCryotatFlangeWrap->GetRMax(),
-                                     0.5*cm,
-                                     0*degree, 360*degree);
-  fVolCryostatFlange = new G4LogicalVolume(solCryostatFlange,
+                                          0*m,
+                                          solCryotatFlangeWrap->GetRMax(),
+                                          0.5*cm,
+                                          0*degree, 360*degree);
+  G4Box*  solCryostatFlangeGap = new G4Box("solCryostatFlangeGap",
+                                           solModTopContainer->GetXHalfLength(),
+                                           solModTopContainer->GetYHalfLength(),
+                                           5*cm);                                     
+  G4SubtractionSolid* solCryostatFlangeSub = new G4SubtractionSolid("solCryostatFlangeSub",
+                                                                     solCryostatFlange,
+                                                                     solCryostatFlangeGap,
+                                                                     0,
+                                                                     G4ThreeVector());
+  fCryostatFlangeThickness = solCryostatFlange->GetZHalfLength();                                                               
+  fVolCryostatFlange = new G4LogicalVolume(solCryostatFlangeSub,
                                            matMan->FindMaterial("SSteel304"),
-                                           "volCryostatFlange");                                       
-
+                                           "volCryostatFlange");                                      
+  
   
   // It's easier to put cryostat feedthroughs here
   Feedthrough ft;
   fVolCryoMedFt = ft.ConstructVolume("CryoMedFT", innerR, outerR, height, "Steel"); 
   fVolCryoLgFt  = ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "Steel");
   fCryoFTHeight = height;
+
+  // Get the module fasteners 
+  ModuleFastener modFast;
+  fVolModFastener = modFast.ConstructVolume("ModuleFastener", "SSteel304");
 
   // Container for entire cryostat
   G4Tubs* solCryostatContainer = new G4Tubs("solCryostatContainer",
@@ -109,14 +128,14 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   G4double motherHDim = ((G4Tubs*)fVolCryostatContainer->GetSolid())->GetZHalfLength();
 
   std::vector<G4double> geomsDim = { ((G4Box*)volCryoFT->GetSolid())->GetZHalfLength(),
-                                     ((G4Tubs*)fVolCryostatFlange->GetSolid())->GetZHalfLength(),
+                                     fCryostatFlangeThickness,
                                      ((G4Tubs*)fVolCryostatFlangeWrap->GetSolid())->GetZHalfLength(),
                                      fCryostatBody->GetOuterWallTubDepth()/2.,
                                      fCryostatLeg->GetHeight()/2. };
   std::vector<G4double> shift = { motherHDim -   geomsDim[0],
-                                  motherHDim - 2*geomsDim[0] -   geomsDim[1],
-                                  motherHDim - 2*geomsDim[0] - 2*geomsDim[1] - geomsDim[2],
-                                  motherHDim - 2*geomsDim[0] - 2*geomsDim[1] - geomsDim[3],
+                                  motherHDim - 2*geomsDim[0] +   geomsDim[1],
+                                  motherHDim - 2*geomsDim[0] /*- 2*geomsDim[1]*/ - geomsDim[2],
+                                  motherHDim - 2*geomsDim[0] /*- 2*geomsDim[1]*/ - geomsDim[3],
                                -1*motherHDim + geomsDim[4] };
 
   // Place flange
@@ -127,7 +146,7 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   new G4PVPlacement(0, G4ThreeVector(0,0,shift[3]), fCryostatBody->GetLV(), fCryostatBody->GetLV()->GetName()+"_pos", fVolCryostatContainer, false, 0);
   // Place cryo FTs 
   G4double x = 1*m;
-  G4double y = 10*cm;
+  G4double y = 15*cm;
   G4double z = shift[1]+geomsDim[1]+fCryoFTHeight/2.;
   new G4PVPlacement(0, G4ThreeVector(   x,   y,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryostatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(   x,-1*y,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryostatContainer, false, 0);
@@ -137,6 +156,9 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   new G4PVPlacement(0, G4ThreeVector(-1*y,-1*x,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryostatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(-1*y,   x,z), fVolCryoMedFt, fVolCryoMedFt->GetName()+"_pos", fVolCryostatContainer, false, 0);
   new G4PVPlacement(0, G4ThreeVector(   y,   x,z), fVolCryoLgFt, fVolCryoMedFt->GetName()+"_pos",  fVolCryostatContainer, false, 0);
+
+  // Place module fasteners
+  //new G4PVPlacement(0, G4ThreeVector(0,70*cm,z), fVolModFastener, fVolModFastener->GetName()+"_pos",  fVolCryostatContainer, false, 0);
 
   // Place all legs 
   unsigned nLegs(5);
@@ -158,4 +180,5 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volWorld)
   xRot2->rotateX(pi/2);
   new G4PVPlacement(xRot2, G4ThreeVector(), fVolCryostatContainer, fVolCryostatContainer->GetName()+"_pos", volWorld, false, 0);
 }
+
 }
