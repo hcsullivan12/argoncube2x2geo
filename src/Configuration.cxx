@@ -33,182 +33,43 @@ Configuration::Configuration()
 Configuration::~Configuration()
 {}
 
-void Configuration::Initialize(const std::string& configPath, const std::string& gdmlPath)
+void Configuration::Initialize(const std::string& gdmlPath)
 {
-  fConfigPath = configPath;
   fGDMLOutputPath = gdmlPath;
-  // Read json file
-  FILE *configFile = fopen(fConfigPath.c_str(), "r");
-  char readBuffer[65536];
-  rapidjson::FileReadStream jsonStream(configFile, readBuffer, sizeof(readBuffer));
 
-  fJSONDoc.ParseStream(jsonStream);
-  fclose(configFile);
+  // World
+  fWorldDim = {10*m, 10*m, 10*m};
 
-  if (fJSONDoc.HasParseError() || !fJSONDoc.IsObject())
-  {
-    std::cerr << "Error. Failed to parse config file " << fConfigPath << "!" << std::endl;
-    std::exit(1);
-  }
+  // Module
+  fModuleWallThickness     = 1.0*cm;
+  fModuleTopWallThickness  = 1.0*cm;
+  fModuleClearance         = 0.1*cm;
+  fModuleMedFTDim          = {0*cm, 5*cm, 10*cm};
+  fFieldShellThickness     = 0.005*cm;
+  fCathodeThickness        = 0.5*cm;
+  fPixelPlaneThickness     = 0.3*cm;
+  fActiveLArDim            = {65*cm, 120*cm, 60*cm};
+  fLightDetDim             = {10*cm, 50*cm, 0.4*cm};
+  fModuleLegDim            = {6.*cm, 8*cm, 2*cm};
+  fModuleLegFootDim        = {8.*cm, 2*cm, 4*cm};
+  fBottomDummyFlangeDim    = {0.*cm, 2*cm, 0*cm};
+  fModuleLegPosition       = {25*cm, 0*cm, 25*cm};
+  fTopLArDim               = {0.*cm, 20*cm, 0.*cm};
+  fTopGArDim               = {0.*cm, 20*cm, 0.*cm};
 
-  // Save the configuration
-  ReadJSONFile();
-  // Safety checks
-  CheckConfiguration();
-  // Output to terminal
-  PrintConfiguration();
-}
+  // Cryostat
+  fCryostatDim             = {105*cm, 200*cm, 1.*cm, 5.*cm, 110*cm, 230*cm, 1.*cm};
+  fCryostatLegDim          = {0.*cm, 5.*cm, 70*cm};
+  fCryostatLegFootDim      = {0.*cm, 10*cm, 5.*cm};
+  fCryostatLegOffset       = 50*cm;
+  fCryostatFlangeDim       = {0,0,0};
 
-void Configuration::ReadJSONFile()
-{
-  fModuleWallThickness = GetJSONMember("moduleWallThickness", rapidjson::kNumberType).GetDouble();
-  fModuleClearance = GetJSONMember("moduleClearance", rapidjson::kNumberType).GetDouble();
-  fFieldShellThickness = GetJSONMember("fieldShellThickness", rapidjson::kNumberType).GetDouble();
-  fCathodeThickness = GetJSONMember("cathodeThickness", rapidjson::kNumberType).GetDouble();
-  fPixelPlaneThickness = GetJSONMember("pixelPlaneThickness", rapidjson::kNumberType).GetDouble();
-  fModuleTopWallThickness = GetJSONMember("moduleTopWallThickness", rapidjson::kNumberType).GetDouble();
-  fCryostatLegOffset = GetJSONMember("cryostatLegOffset", rapidjson::kNumberType).GetDouble();
-  
-  fWorldDim  = std::vector<double>(3, 0);
-  auto jsonArrayItr = GetJSONMember("worldDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fWorldDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
- 
-  fCryostatDim  = std::vector<double>(7, 0);
-  jsonArrayItr = GetJSONMember("cryostatDim", rapidjson::kArrayType, 7, rapidjson::kNumberType).Begin();
-  for (auto& d : fCryostatDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fCryostatLegDim  = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("cryostatLegDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fCryostatLegDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fCryostatLegFootDim  = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("cryostatLegFootDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fCryostatLegFootDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fCryostatFlangeDim  = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("cryostatFlangeDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fCryostatFlangeDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
- 
-  fModuleDim  = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("moduleDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fModuleDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fModuleMedFTDim  = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("moduleMedFTDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fModuleMedFTDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fActiveLArDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("activeLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fActiveLArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fLightDetDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("lightDetDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fLightDetDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fModuleLegDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("moduleLegDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fModuleLegDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fModuleLegFootDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("moduleLegFootDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fModuleLegFootDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fBottomDummyFlangeDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("bottomDummyFlangeDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fBottomDummyFlangeDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fModuleLegPosition = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("moduleLegPosition", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fModuleLegPosition) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fTopLArDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("topLArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fTopLArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-
-  fTopGArDim = std::vector<double>(3, 0);
-  jsonArrayItr = GetJSONMember("topGArDim", rapidjson::kArrayType, 3, rapidjson::kNumberType).Begin();
-  for (auto& d : fTopGArDim) {d = jsonArrayItr->GetDouble(); jsonArrayItr++;}
-}
-
-const rapidjson::Value& Configuration::GetJSONMember(const std::string&     memberName,
-                                                     rapidjson::Type        memberType,
-                                                     const unsigned&        arraySize,
-                                                     const rapidjson::Type& arrayType)
-{
-   // Check to see if the document has memberName
-   if (!fJSONDoc.HasMember(memberName.c_str())) 
-   {
-     std::cerr << "ERROR: \"" << memberName << "\" in config file not found!" << std::endl;
-     exit(1);
-   }
-
-   // Get the value specified for memberName
-   rapidjson::Value& member = fJSONDoc[memberName.c_str()];
-
-   // Make sure the types match
-   if ( ((memberType       == rapidjson::kTrueType) || (memberType       == rapidjson::kFalseType)) &&
-       !((member.GetType() == rapidjson::kTrueType) || (member.GetType() == rapidjson::kFalseType)) ) 
-   {
-     std::cerr << "ERROR: \"" << memberName << "\" in config file has wrong type!"<< std::endl;
-     std::cerr << "Expected " << fJSONTypes.at(rapidjson::kTrueType)
-               << " or " << fJSONTypes.at(rapidjson::kFalseType)
-               << ", got " << fJSONTypes.at(member.GetType()) << "." << std::endl;
-     exit(1);
-   }
-   // Handle boolean
-   if ( (memberType == rapidjson::kTrueType) || (memberType == rapidjson::kFalseType) )
-   {
-     memberType = member.GetType();
-   }
-
-   if (member.GetType() != memberType) 
-   {
-     std::cerr << "ERROR: \"" << memberName << "\" in run config file has wrong type!"<< std::endl;
-     std::cerr << "Expected " << fJSONTypes.at(memberType) << ", got " << fJSONTypes.at(member.GetType())
-               << "." << std::endl;
-     exit(1);
-   }
-
-   if (member.GetType() == rapidjson::kArrayType) 
-   {
-     if (member.Size() != arraySize) 
-     {
-       std::cerr << "ERROR: Size mismatch for array \"" << memberName << "\" in config file!" << std::endl;
-       std::cerr << "Expected " << arraySize << ", got " << member.Size() << "." << std::endl;
-       exit(1);
-     }
-     for (const auto& value : member.GetArray()) 
-     {
-       if (value.GetType() != arrayType) 
-       {
-         std::cerr << "ERROR: Type mismatch in array \"" << memberName << "\" in config file!" << std::endl;
-         std::cerr << "Expected " << fJSONTypes.at(arrayType) << ", got "
-                   << fJSONTypes.at(value.GetType()) << "." << std::endl;
-         exit(1);
-       }
-     }
-   }
-   return member;
-}
-
-void Configuration::CheckConfiguration()
-{
-  // Make sure the configuration makes sense
-}
-
-void Configuration::PrintConfiguration()
-{
-  // Hello there!
   std::cout << std::setfill('-') << std::setw(60) << "-" << std::setfill(' ')  << std::endl;
-  std::cout << "              geo " << version                                 << std::endl;
-  std::cout << "  ArgonCube2x2 detector construction software       "          << std::endl;
-  std::cout << "     Author: Hunter Sullivan (UT Arlington)         "          << std::endl;
-  std::cout                                                                    << std::endl;
-  std::cout << "geo Configuration:\n";
-  #ifdef G4_GDML
-  std::cout << "GDMLOutputPath     " << fGDMLOutputPath     << std::endl;
-  #endif
+  std::cout << "              ArgonCube2x2Geo " << version                << std::endl;
+  std::cout << "      ArgonCube2x2 detector construction software       " << std::endl;
+  std::cout                                                               << std::endl;
   std::cout << std::setfill('-') << std::setw(60) << "-" << std::setfill(' ')  << std::endl;
-}  
+
+}
 }
 

@@ -7,7 +7,6 @@
 #include "Geometry/Cryostat/CryostatBody.h"
 #include "Configuration.h"
 #include "MaterialManager.h"
-#include "Utilities.h"
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
@@ -36,7 +35,6 @@ void CryostatBody::ConstructSubVolumes()
   // Get material manager and config
   MaterialManager* matMan = MaterialManager::Instance();
   Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
 
   //**** 
   // 	Cryostat shape
@@ -49,7 +47,7 @@ void CryostatBody::ConstructSubVolumes()
   //     [4] --> outer radius
   //     [5] --> outer depth      
   //     [6] --> outer wall thickness
-  std::vector<G4double> cryostatDim = config->CryostatDim(); util.ConvertToUnits(cryostatDim);
+  std::vector<G4double> cryostatDim = config->CryostatDim();
   G4double cryoInnerR             = cryostatDim[0];
   G4double cryoInnerDepth         = cryostatDim[1];
   G4double cryoInnerWallThickness = cryostatDim[2];

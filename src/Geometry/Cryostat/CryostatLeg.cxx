@@ -33,11 +33,10 @@ void CryostatLeg::ConstructSubVolumes()
 {    
   // Get material manager and config
   MaterialManager* matMan = MaterialManager::Instance();
-  Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
+  Configuration* config   = Configuration::Instance();
 
-  std::vector<G4double> cryostatLegDim = config->CryostatLegDim(); util.ConvertToUnits(cryostatLegDim);
-  std::vector<G4double> cryostatLegFootDim = config->CryostatLegFootDim(); util.ConvertToUnits(cryostatLegFootDim);
+  std::vector<G4double> cryostatLegDim = config->CryostatLegDim(); 
+  std::vector<G4double> cryostatLegFootDim = config->CryostatLegFootDim(); 
 
   G4Tubs* solCryoLegShin = new G4Tubs("solCryoLegShin",
                                        0,
