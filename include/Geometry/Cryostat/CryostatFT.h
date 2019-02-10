@@ -31,6 +31,7 @@ class CryostatFT
     G4LogicalVolume* fVolModuleTopWall;
     G4LogicalVolume* fVolModuleFTContainer;
     G4LogicalVolume* fVolModuleMedFT;
+    G4LogicalVolume* fVolModuleSmallFT;
     G4LogicalVolume* fVolModuleFlange;
     G4LogicalVolume* fVolTopFlange;
 
