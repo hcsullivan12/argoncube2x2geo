@@ -38,17 +38,16 @@ void CryostatFT::ConstructVolume()
 void CryostatFT::ConstructSubVolumes()
 {
   // Get material manager and config
-  MaterialManager* matMan = MaterialManager::Instance();
-  Configuration* config = Configuration::Instance();
-  arcutil::Utilities util;
+  MaterialManager* matMan       = MaterialManager::Instance();
+  Configuration* config         = Configuration::Instance();
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
   // Get the parameters
-  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        util.ConvertToUnits(moduleMedFTDim);
+  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        
   G4double innerR = moduleMedFTDim[0];
   G4double outerR = moduleMedFTDim[1];
   G4double height = moduleMedFTDim[2];
-  G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); util.ConvertToUnits(moduleTopWallThickness);
+  G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); 
   G4Box* volModuleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
 
   // Top wall 
@@ -71,7 +70,7 @@ void CryostatFT::ConstructSubVolumes()
   
   // Medium sized feethrough
   Feedthrough ft;
-  fVolModuleMedFT = ft.ConstructVolume("ModuleFT", innerR, outerR, 2*solModuleFTContainer->GetZHalfLength(), "SSteel304");
+  fVolModuleMedFT = ft.ConstructVolume("ModuleFT", innerR, outerR, 2*solModuleFTContainer->GetZHalfLength(), "Steel");
 
   // Container for wall and FTs
   G4Box* solModuleFlange = new G4Box("solModuleFlange", 
@@ -132,7 +131,7 @@ void CryostatFT::PlaceSubVolumes()
   util.Place(geoms, positions, fVolModuleFlange);
   
   // Place module flanges in larger container
-  G4double modInsideGap = config->ModuleClearance(); util.ConvertToUnits(modInsideGap);
+  G4double modInsideGap = config->ModuleClearance();
   G4Box* solModContainer = (G4Box*)lvStore->GetVolume("volModuleContainer")->GetSolid();
   G4Box* solMod          = (G4Box*)lvStore->GetVolume("volModule")->GetSolid();
   G4double boundZ = -1*solModContainer->GetZHalfLength();

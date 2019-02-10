@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 
   // Initialize configuration
   geo::Configuration* config = geo::Configuration::Instance();
-  config->Initialize(std::string(argv[1]), std::string(argv[2]));
+  config->Initialize(std::string(argv[1]));
   
   // Start detector construction
   geo::G4Helper g4Helper;
@@ -28,9 +28,9 @@ int main(int argc, char **argv)
 
 void HandleArgs(int argc, char **argv)
 {
-  if (argc != 3) 
+  if (argc != 2) 
   {
-    std::cout << "\nUsage: ./construct PATH_TO_CONFIG GDML_OUTPUT_FILEPATH\n";
+    std::cout << "\nUsage: ./construct GDML_OUTPUT_FILEPATH\n";
     std::cout << std::endl;
     std::exit(1);
   }

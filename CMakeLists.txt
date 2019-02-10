@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(ArgonCube2x2Geo)
 
-add_definitions(-DVERSION="v04_00_00")
+add_definitions(-DVERSION="v04_01_00")
 set(CMAKE_CXX_STANDARD 11)
 
 # Geant4 dependencies
@@ -11,11 +11,6 @@ include_directories(${Geant4_INCLUDE_DIRS})
 add_definitions(${Geant4_DEFINITIONS})
 
 #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
-
-# RapidJSON dependencies
-set(RapidJSON_DIR $ENV{RapidJSON_CMAKEDIR})
-find_package(RapidJSON REQUIRED CONFIG)
-include_directories(${RapidJSON_INCLUDE_DIRS})
 
 # Project includes
 include_directories(${PROJECT_SOURCE_DIR}/include)
