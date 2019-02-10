@@ -42,6 +42,7 @@ class Cryostat
     G4LogicalVolume* fVolCryoLgFt;
 
     G4double fCryoFTHeight;
+    G4double fCryostatFlangeThickness;
 
 };
 }

@@ -56,7 +56,7 @@ void CryostatFT::ConstructSubVolumes()
                                        volModuleWall->GetZHalfLength(),
                                        moduleTopWallThickness/2. );
   fVolModuleTopWall = new G4LogicalVolume(solModuleTopWall,
-                                           matMan->FindMaterial("SSteel304"),
+                                           matMan->FindMaterial("Steel"),
                                            "volModuleTopWall");
 
   // Container for feedthroughs
