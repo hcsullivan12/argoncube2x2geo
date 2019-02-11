@@ -21,22 +21,9 @@ class MaterialManager
     void        ConstructMaterials();
     G4Material* FindMaterial(const G4String& name);
 
-    std::vector<float> GetPhotonEnergies() const { return fTPBEmissionE; };
-
   private:
     MaterialManager();
     static MaterialManager* instance;
-
-    void DefineAir();
-    void DefineAcrylic();
-    void DefineLAr();
- 
-    std::vector<float> fTPBEmissionE;
-    std::vector<float> fTPBEmissionSpect; 
-
-    G4Material* fAir;
-    G4Material* fAcrylic;
-    G4Material* fLAr;
 };
 }
 

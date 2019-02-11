@@ -81,7 +81,7 @@ void CryostatBody::ConstructSubVolumes()
                                           matMan->FindMaterial("SSteel304"),
                                           "volCryoInnerWall");
   fVolCryoOuterBath = new G4LogicalVolume(solCryoOuterBath,
-                                          matMan->FindMaterial("LAr"),
+                                          matMan->FindMaterial("Vacuum"),
                                           "volCryoOuterBath");
   fVolCryoOuterWall = new G4LogicalVolume(solCryoOuterWall,
                                           matMan->FindMaterial("SSteel304"),

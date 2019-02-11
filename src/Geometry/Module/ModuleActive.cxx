@@ -133,23 +133,39 @@ void ModuleActive::ConstructSubVolumes()
   fVolRightPixelPlane = new G4LogicalVolume(solRightPixelPlane,
                                            matMan->FindMaterial("FR4"),
                                            "volRightPixelPlane"); 
-  // Active module
+  // Active container
   G4double modDX = 2*solLeftSubModule->GetXHalfLength()+2*solLeftPixelPlane->GetXHalfLength()+solCathode->GetXHalfLength();
+  G4Box* solActiveContainer = new G4Box("solActiveContainer",
+                                         modDX,
+                                         solLeftSubModule->GetYHalfLength(),
+                                         solLeftSubModule->GetZHalfLength());
+  fVolActiveContainer = new G4LogicalVolume(solActiveContainer, 
+                                                  matMan->FindMaterial("LAr"),
+                                                  "volActiveContainer"); 
+
+  // Module wall, subtract out top and bottom walls
+  G4Box* solModuleWall_whole = new G4Box("solModuleWall_whole",
+                                          solActiveContainer->GetXHalfLength()+(moduleWallThickness/2.),
+                                          solActiveContainer->GetYHalfLength()+(moduleWallThickness/2.),
+                                          solActiveContainer->GetZHalfLength()+(moduleWallThickness/2.));
+  G4Box* solModuleWall_subtract = new G4Box("solModuleWall_subtract",
+                                             solActiveContainer->GetXHalfLength(),
+                                             2*solActiveContainer->GetYHalfLength(),
+                                             solActiveContainer->GetZHalfLength());
+  G4SubtractionSolid* solActiveModuleWall = new G4SubtractionSolid("solActiveModuleWall", solModuleWall_whole, solModuleWall_subtract);
+  fVolActiveModuleWall = new G4LogicalVolume(solActiveModuleWall,
+                                             matMan->FindMaterial("FR4"),
+                                             "volActiveModuleWall");
+
+  // Final container
   G4Box* solActiveModule = new G4Box("solActiveModule",
-                                      modDX,
-                                      solLeftSubModule->GetYHalfLength(),
-                                      solLeftSubModule->GetZHalfLength());
-  fVolActiveModule = new G4LogicalVolume(solActiveModule, 
-                                        matMan->FindMaterial("LAr"),
-                                        "volActiveModule"); 
-  // Module wall
-  G4Box* solModuleWall = new G4Box("solModuleWall", 
-                                    solActiveModule->GetXHalfLength()+(moduleWallThickness/2.),
-                                    solActiveModule->GetYHalfLength()+(moduleWallThickness/2.),
-                                    solActiveModule->GetZHalfLength()+(moduleWallThickness/2.));
-  fVolModuleWall = new G4LogicalVolume(solModuleWall,
-                                       matMan->FindMaterial("FR4"),
-                                       "volModuleWall");
+                                      solModuleWall_whole->GetXHalfLength(),
+                                      solModuleWall_whole->GetYHalfLength(),
+                                      solModuleWall_whole->GetZHalfLength());  
+
+  fVolActiveModule = new G4LogicalVolume(solActiveModule,
+                                         matMan->FindMaterial("LAr"),
+                                         "volActiveModule");                                       
 }
 
 void ModuleActive::PlaceSubVolumes()
@@ -200,17 +216,21 @@ void ModuleActive::PlaceSubVolumes()
                ((G4Box*)geoms[3]->GetSolid())->GetXHalfLength(),
                ((G4Box*)geoms[4]->GetSolid())->GetXHalfLength() };
 
-  steps = util.Stack(geomsDim, ((G4Box*)fVolActiveModule->GetSolid())->GetXHalfLength());
+  steps = util.Stack(geomsDim, ((G4Box*)fVolActiveContainer->GetSolid())->GetXHalfLength());
 
   positions.resize(steps.size());
   for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(steps[s],0,0); }
 
-  util.Place(geoms, positions, fVolActiveModule);
+  util.Place(geoms, positions, fVolActiveContainer);
   geoms.clear(); geomsDim.clear(); positions.clear();
 
-  // Active module
-  geoms = {fVolActiveModule};
+  // Active container
+  geoms = {fVolActiveContainer};
   positions = {zeroVec};
-  util.Place(geoms, positions, fVolModuleWall);
+  util.Place(geoms, positions, fVolActiveModuleWall);
+
+  // Wall
+  geoms = {fVolActiveModuleWall};
+  util.Place(geoms, positions, fVolActiveModule);
 }
 }

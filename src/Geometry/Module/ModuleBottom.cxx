@@ -67,11 +67,11 @@ void ModuleBottom::ConstructSubVolumes()
 
   // Place all four legs in container
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
-  G4Box* moduleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
+  G4Box* solActiveMod = (G4Box*)lvStore->GetVolume("volActiveModule")->GetSolid();
   G4Box* solModuleLegContainer = new G4Box("solModuleLegContainer",
-                                            moduleWall->GetXHalfLength(),
-                                           (modLegDim[1]/2.),
-                                            moduleWall->GetZHalfLength());
+                                            solActiveMod->GetXHalfLength(),
+                                             (modLegDim[1]/2.),
+                                            solActiveMod->GetZHalfLength());
   fVolModuleLegContainer = new G4LogicalVolume(solModuleLegContainer,
 	                                             matMan->FindMaterial("LAr"),
 	                                            "volModuleLegContainer");

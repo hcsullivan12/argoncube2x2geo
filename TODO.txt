@@ -1,0 +1,2 @@
+Remove G10 top wall
+Seperate module bottom wall
