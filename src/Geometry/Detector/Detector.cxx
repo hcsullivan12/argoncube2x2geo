@@ -44,13 +44,13 @@ void Detector::ConstructSubVolumes()
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 
   // Module container
-  G4Box* solModuleContainer = new G4Box("solModuleContainer",
-                                         2*solModule->GetXHalfLength()+(modInsideGap/2.),
-                                         solModule->GetYHalfLength(),
-                                         2*solModule->GetZHalfLength()+(modInsideGap/2.));
-  fVolModuleContainer = new G4LogicalVolume(solModuleContainer,
-                                            matMan->FindMaterial("LAr"),
-                                            "volModuleContainer");
+  G4Box* solDetector = new G4Box("solDetector",
+                                  2*solModule->GetXHalfLength()+(modInsideGap/2.),
+                                  solModule->GetYHalfLength(),
+                                  2*solModule->GetZHalfLength()+(modInsideGap/2.));
+  fVolDetector = new G4LogicalVolume(solDetector,
+                                     matMan->FindMaterial("LAr"),
+                                     "volDetector");
 }
 
 void Detector::PlaceSubVolumes()
@@ -62,8 +62,8 @@ void Detector::PlaceSubVolumes()
   G4LogicalVolume* volModule = fModule->GetLV();
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 
-  G4double boundZ = -1*((G4Box*)fVolModuleContainer->GetSolid())->GetZHalfLength();
-  G4double boundX = -1*((G4Box*)fVolModuleContainer->GetSolid())->GetXHalfLength();
+  G4double boundZ = -1*((G4Box*)fVolDetector->GetSolid())->GetZHalfLength();
+  G4double boundX = -1*((G4Box*)fVolDetector->GetSolid())->GetXHalfLength();
 
   std::vector<G4double> stepsX = {boundX + solModule->GetXHalfLength(),
                                   boundX + 3*solModule->GetXHalfLength() + modInsideGap};
@@ -75,10 +75,12 @@ void Detector::PlaceSubVolumes()
                                           G4ThreeVector(stepsX[1], 0, stepsZ[0]),
                                           G4ThreeVector(stepsX[1], 0, stepsZ[1])};
 
-  new G4PVPlacement(0, positions[0], volModule, volModule->GetName()+"_pos1", fVolModuleContainer, false, 1);
-  new G4PVPlacement(0, positions[1], volModule, volModule->GetName()+"_pos2", fVolModuleContainer, false, 2);
-  new G4PVPlacement(0, positions[2], volModule, volModule->GetName()+"_pos3", fVolModuleContainer, false, 3);
-  new G4PVPlacement(0, positions[3], volModule, volModule->GetName()+"_pos4", fVolModuleContainer, false, 4);
+  for (auto& p : positions) std::cout << p << std::endl;                                           
+
+  new G4PVPlacement(0, positions[0], volModule, volModule->GetName()+"_pos1", fVolDetector, false, 1);
+  new G4PVPlacement(0, positions[1], volModule, volModule->GetName()+"_pos2", fVolDetector, false, 2);
+  new G4PVPlacement(0, positions[2], volModule, volModule->GetName()+"_pos3", fVolDetector, false, 3);
+  new G4PVPlacement(0, positions[3], volModule, volModule->GetName()+"_pos4", fVolDetector, false, 4);
 }
 
 }

@@ -73,21 +73,21 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
   // Thin plate for the top of the cryostat
   // Let's subtract out the module's top wall
   G4Box*  solModTopContainer = (G4Box*)lvStore->GetVolume("volTopContainer")->GetSolid();
-  G4Tubs* solCryostatFlange = new G4Tubs("solCryostatFlange",
+  G4Tubs* solCryostatFlange_whole = new G4Tubs("solCryostatFlange_whole",
                                           0*m,
                                           solCryotatFlangeWrap->GetRMax(),
                                           0.5*cm,
                                           0*degree, 360*degree);
-  G4Box*  solCryostatFlangeGap = new G4Box("solCryostatFlangeGap",
+  G4Box*  solCryostatFlange_subtract = new G4Box("solCryostatFlange_subtract",
                                            solModTopContainer->GetXHalfLength(),
                                            solModTopContainer->GetYHalfLength(),
                                            5*cm);                                     
   G4SubtractionSolid* solCryostatFlangeSub = new G4SubtractionSolid("solCryostatFlangeSub",
-                                                                     solCryostatFlange,
-                                                                     solCryostatFlangeGap,
+                                                                     solCryostatFlange_whole,
+                                                                     solCryostatFlange_subtract,
                                                                      0,
                                                                      G4ThreeVector());
-  fCryostatFlangeThickness = solCryostatFlange->GetZHalfLength();                                                               
+  fCryostatFlangeThickness = solCryostatFlange_whole->GetZHalfLength();                                                               
   fVolCryostatFlange = new G4LogicalVolume(solCryostatFlangeSub,
                                            matMan->FindMaterial("SSteel304"),
                                            "volCryostatFlange");                                      
@@ -107,7 +107,7 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
   G4Tubs* solCryostatContainer = new G4Tubs("solCryostatContainer",
                                             0,
                                             1.5*m,
-                                            (bodyH+legH+2*solCryostatFlange->GetZHalfLength()+ftH-cryoLegOffset)/2.,
+                                            (bodyH+legH+2*solCryostatFlange_whole->GetZHalfLength()+ftH-cryoLegOffset)/2.,
                                             0*degree, 360*degree);
 
   fVolCryostatContainer = new G4LogicalVolume(solCryostatContainer,

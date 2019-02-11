@@ -27,9 +27,6 @@ MaterialManager* MaterialManager::Instance()
 }
 
 MaterialManager::MaterialManager()
- : fAir(NULL),
-   fAcrylic(NULL),
-   fLAr(NULL)
 {}
 
 MaterialManager::~MaterialManager()
@@ -246,7 +243,7 @@ void MaterialManager::ConstructMaterials()
 
   // Scintillator:
   G4Material* Scintillator  = new G4Material("Scintillator", 1.05*g/cm3, 2);
-  Scintillator->AddElement(c,   0.916);
+  Scintillator->AddElement(c, 0.916);
   Scintillator->AddElement(h, 0.084);
 
   // Lead:
@@ -258,6 +255,10 @@ void MaterialManager::ConstructMaterials()
   LArTarget->AddElement(ar,1);
   G4Material* GArTarget = new G4Material("GAr", 1.784*0.001*g/cm3, 1);
   GArTarget->AddElement(ar,1);
+
+  // Vacuum
+  G4Material* vacuum =  new G4Material("Vacuum", 1.0E-25*g/cm3, 1);
+  vacuum->AddMaterial(air, 1);
 }
 
 G4Material* MaterialManager::FindMaterial(const G4String& name)

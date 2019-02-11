@@ -5,7 +5,7 @@ double cryoHeight   = 0;
 
 void checkOverlaps( TGeoManager *geo );
 
-void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
+void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
 {  
   std::map<TString,Int_t> color;
   color["Steel"]     = kWhite;
@@ -45,14 +45,28 @@ void detectorView(TString filename,Bool_t checkoverlaps=kTRUE)
     if (TString(volume->GetName()) == TString("volModule"))
     {  
       TGeoBBox* tubs = (TGeoBBox*)volume->GetShape();
-      moduleHeight = 2*tubs->GetDY();
+      moduleHeight = moduleHeight + 2*tubs->GetDY();
+    }
+    if (TString(volume->GetName()) == TString("volModuleTopWall"))
+    {
+      // This is a boolean!
+      moduleHeight = moduleHeight+1.0;
+      volume->SetLineColor(kRed+2);
+      continue;
+    }
+    if (TString(volume->GetName()) == TString("volModuleBottom"))
+    {  
+      TGeoBBox* tubs = (TGeoBBox*)volume->GetShape();
+      cout << "Bottom height = " << 2*tubs->GetDY() << endl;
     }
 
-   //if (TString(volume->GetName()) == TString("volCryostatFlange")) volume->Draw("ogl");
+
+   //if (TString(volume->GetName()) == TString("volDetector")) volume->Draw("ogl");
    auto s = volume->GetShape();
-   //if (TString(s->GetName()) == TString("solModuleFastener")) s->Draw("ogl");
+   //cout << s->GetName() << endl;
+   //if (TString(s->GetName()) == TString("solModuleMiddleFrame")) s->Draw("ogl");
  
-    cout << volume->GetName() << endl;
+    //cout << volume->GetName() << endl;
     volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
   }
 
