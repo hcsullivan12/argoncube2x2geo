@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(ArgonCube2x2Geo)
 
-add_definitions(-DVERSION="v04_02_00")
+add_definitions(-DVERSION="v04_03_00")
 set(CMAKE_CXX_STANDARD 11)
 
 # Geant4 dependencies
