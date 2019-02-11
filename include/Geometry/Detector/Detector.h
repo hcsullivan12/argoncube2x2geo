@@ -22,14 +22,14 @@ class Detector
 
     void ConstructVolume();
 
-    G4LogicalVolume* GetLV() { return fVolModuleContainer; };
+    G4LogicalVolume* GetLV() { return fVolDetector; };
 
   private: 
     void ConstructSubVolumes();
     void PlaceSubVolumes();
 
     Module*          fModule;
-    G4LogicalVolume* fVolModuleContainer;
+    G4LogicalVolume* fVolDetector;
 
 };
 }

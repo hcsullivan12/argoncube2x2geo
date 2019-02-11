@@ -20,7 +20,7 @@ class ModuleActive
 
     void ConstructVolume();
 
-    G4LogicalVolume* GetLV() { return fVolModuleWall; };
+    G4LogicalVolume* GetLV() { return fVolActiveModule; };
 
   private: 
     void ConstructSubVolumes();
@@ -37,14 +37,13 @@ class ModuleActive
     G4LogicalVolume* fVolCathode;
     G4LogicalVolume* fVolLeftPixelPlane;
     G4LogicalVolume* fVolRightPixelPlane;
+    G4LogicalVolume* fVolActiveContainer;
+    G4LogicalVolume* fVolActiveModuleWall;
     G4LogicalVolume* fVolActiveModule;
-    G4LogicalVolume* fVolModuleWall;
+
     G4LogicalVolume* fVolModuleLeg;
     G4LogicalVolume* fVolBottomDummyFlange;
     G4LogicalVolume* fVolModuleLegContainer;
-    G4LogicalVolume* fVolTopModule;
-    G4LogicalVolume* fVolTopLAr;
-    G4LogicalVolume* fVolTopGAr;
 };
 }
 

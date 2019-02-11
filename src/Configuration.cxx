@@ -41,6 +41,8 @@ void Configuration::Initialize(const std::string& gdmlPath)
   fWorldDim = {10*m, 10*m, 10*m};
 
   // Module
+  // Many of the dimensions are derived from other volumes,
+  // so zeros act as placeholders
   fModuleWallThickness     = 1.0*cm;
   fModuleTopWallThickness  = 1.0*cm;
   fModuleClearance         = 0.1*cm;
@@ -48,17 +50,19 @@ void Configuration::Initialize(const std::string& gdmlPath)
   fFieldShellThickness     = 0.005*cm;
   fCathodeThickness        = 0.5*cm;
   fPixelPlaneThickness     = 0.3*cm;
-  fActiveLArDim            = {65*cm, 120*cm, 60*cm};
+
+  fActiveLArDim            = {64.9*cm, 1215*mm, 65.19*cm}; // adjusted to get 67 x 67 foot
   fLightDetDim             = {10*cm, 50*cm, 0.4*cm};
-  fModuleLegDim            = {6.*cm, 8*cm, 2*cm};
+  fTopLArDim               = {0.*cm, 182.5*mm, 0.*cm};
+  fTopGArDim               = {0.*cm, 182.5*mm, 0.*cm};
+
+  fModuleLegDim            = {6.*cm, 140*mm, 2*cm};
   fModuleLegFootDim        = {8.*cm, 2*cm, 4*cm};
-  fBottomDummyFlangeDim    = {0.*cm, 2*cm, 0*cm};
+  fBottomDummyFlangeDim    = {0.*cm, 20*mm, 0*cm};
   fModuleLegPosition       = {25*cm, 0*cm, 25*cm};
-  fTopLArDim               = {0.*cm, 20*cm, 0.*cm};
-  fTopGArDim               = {0.*cm, 20*cm, 0.*cm};
 
   // Cryostat
-  fCryostatDim             = {105*cm, 200*cm, 1.*cm, 5.*cm, 110*cm, 230*cm, 1.*cm};
+  fCryostatDim             = {(198/2.)*cm, 205*cm, 1.*cm, 5.*cm, (210/2.)*cm, 250*cm, 1.*cm};
   fCryostatLegDim          = {0.*cm, 5.*cm, 70*cm};
   fCryostatLegFootDim      = {0.*cm, 10*cm, 5.*cm};
   fCryostatLegOffset       = 50*cm;

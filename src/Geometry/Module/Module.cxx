@@ -13,6 +13,7 @@
 #include "G4UnionSolid.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4SubtractionSolid.hh"
 
 namespace geo
 {
@@ -52,15 +53,45 @@ void Module::ConstructSubVolumes()
   G4Box* solModActive = (G4Box*)fModuleActive->GetLV()->GetSolid(); 
   G4Box* solModBottom = (G4Box*)fModuleBottom->GetLV()->GetSolid(); 
   G4Box* solModTop    = (G4Box*)fModuleTop->GetLV()->GetSolid(); 
-  G4double yLen = solModActive->GetYHalfLength()+solModBottom->GetYHalfLength()+solModTop->GetYHalfLength();
-  std::vector<G4double> moduleDim = { solModActive->GetXHalfLength(),
-                                      yLen, 
-                                      solModActive->GetZHalfLength()};
 
+  // Add extra G10 layers
+  G4Box* solModuleMiddleFrame_whole = new G4Box("solModuleMiddleFrame_whole",
+                                                 solModActive->GetXHalfLength(),
+                                                 (30/2.)*mm,
+                                                 solModActive->GetZHalfLength());
+  G4Box* solModuleMiddleFrame_subtract = new G4Box("solModuleMiddleFrame_subtract",
+                                                    solModActive->GetXHalfLength() - 5.0*cm,
+                                                    2*(30/2.)*mm,
+                                                    solModActive->GetZHalfLength() - 5.0*cm);
+  fModuleMiddleFrameYHalfL = solModuleMiddleFrame_whole->GetYHalfLength();                                                   
+  G4SubtractionSolid* solModuleMiddleFrame = new G4SubtractionSolid("solModuleMiddleFrame",
+                                                                     solModuleMiddleFrame_whole,
+                                                                     solModuleMiddleFrame_subtract,
+                                                                     0,
+                                                                     G4ThreeVector()); 
+  fVolModuleMiddleFrame = new G4LogicalVolume(solModuleMiddleFrame,
+                                              matMan->FindMaterial("FR4"),
+                                              "volModuleMiddleFrame"); 
+
+  G4Box* solModuleBottomWall = new G4Box("solModuleBottomWall",
+                                          solModActive->GetXHalfLength(),
+                                          (20/2.)*mm,
+                                          solModActive->GetZHalfLength());
+  fVolModuleBottomWall = new G4LogicalVolume(solModuleBottomWall,
+                                             matMan->FindMaterial("FR4"),
+                                             "volModuleBottomWall");                                          
+
+  // Module container
+  G4double yLen =   solModBottom->GetYHalfLength()
+                  + solModuleBottomWall->GetYHalfLength()
+                  + solModActive->GetYHalfLength()
+                  + fModuleMiddleFrameYHalfL
+                  + fModuleTop->GetYDim();
+  
   G4Box* solModule = new G4Box("solModule",
-                                moduleDim[0],
-                                moduleDim[1],
-                                moduleDim[2]);
+                                solModActive->GetXHalfLength(),
+                                yLen,
+                                solModActive->GetZHalfLength());
   fVolModule = new G4LogicalVolume(solModule,
                                    matMan->FindMaterial("LAr"),
                                    "volModule");
@@ -73,16 +104,20 @@ void Module::PlaceSubVolumes()
 
   // Complete Module 
   std::vector<G4LogicalVolume*> geoms = { fModuleBottom->GetLV(),
+                                          fVolModuleBottomWall,
                                           fModuleActive->GetLV(),
+                                          fVolModuleMiddleFrame,
                                           fModuleTop->GetLV() };
 
   std::vector<G4double> geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetYHalfLength(),
-                                      ((G4Box*)geoms[1]->GetSolid())->GetYHalfLength(),
-                                      ((G4Box*)geoms[2]->GetSolid())->GetYHalfLength() };
+                                     ((G4Box*)geoms[1]->GetSolid())->GetYHalfLength(),
+                                     ((G4Box*)geoms[2]->GetSolid())->GetYHalfLength(),
+                                     fModuleMiddleFrameYHalfL,
+                                     fModuleTop->GetYDim() };                                    
 
-  std::vector<G4double> moduleDim = {((G4Box*)geoms[2]->GetSolid())->GetXHalfLength(),
-                                     geomsDim[0]+geomsDim[1]+geomsDim[2]+geomsDim[3], 
-                                     ((G4Box*)geoms[2]->GetSolid())->GetZHalfLength()};
+  std::vector<G4double> moduleDim = {((G4Box*)fVolModule->GetSolid())->GetXHalfLength(),
+                                     ((G4Box*)fVolModule->GetSolid())->GetYHalfLength(),
+                                     ((G4Box*)fVolModule->GetSolid())->GetZHalfLength()};
   
   std::vector<G4double> steps = util.Stack(geomsDim, moduleDim[1]);
   std::vector<G4ThreeVector> positions;

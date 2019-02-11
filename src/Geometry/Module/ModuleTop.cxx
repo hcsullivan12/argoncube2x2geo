@@ -13,6 +13,7 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4LogicalVolumeStore.hh"
+#include "G4SubtractionSolid.hh"
 
 namespace geo
 {
@@ -38,25 +39,25 @@ void ModuleTop::ConstructSubVolumes()
   Configuration*   config       = Configuration::Instance();
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
-  G4Box* activeMod = (G4Box*)lvStore->GetVolume("volActiveModule")->GetSolid();
-  G4Box* moduleWall = (G4Box*)lvStore->GetVolume("volModuleWall")->GetSolid();
+  G4Box* solActiveContainer = (G4Box*)lvStore->GetVolume("volActiveContainer")->GetSolid();
+  G4Box* solActiveMod       = (G4Box*)lvStore->GetVolume("volActiveModule")->GetSolid();
   std::vector<G4double> topLArDim  = config->TopLArDim();
   std::vector<G4double> topGArDim  = config->TopGArDim();
   
   // LAr
   G4Box* solTopLAr = new G4Box("solTopLAr", 
-                               activeMod->GetXHalfLength(), 
+                               solActiveContainer->GetXHalfLength(), 
                                (topLArDim[1]/2.0), 
-                               activeMod->GetZHalfLength());
+                               solActiveContainer->GetZHalfLength());
   fVolTopLAr = new G4LogicalVolume(solTopLAr, 
                                    matMan->FindMaterial("LAr"),
                                   "volTopLAr");
 
   // GAr
   G4Box* solTopGAr = new G4Box("solTopGAr", 
-                                activeMod->GetXHalfLength(), 
+                                solActiveContainer->GetXHalfLength(), 
                                 (topGArDim[1]/2.), 
-                                activeMod->GetZHalfLength());
+                                solActiveContainer->GetZHalfLength());
   fVolTopGAr = new G4LogicalVolume(solTopGAr, 
                                    matMan->FindMaterial("GAr"),
                                   "volTopGAr");   
@@ -68,13 +69,24 @@ void ModuleTop::ConstructSubVolumes()
   // Top container
   // this will get rid of walls on top and bottom
   G4double dimY = solTopLAr->GetYHalfLength()+solTopGAr->GetYHalfLength();
-  G4Box* solTopModule = new G4Box("solTopModule", 
-                                  moduleWall->GetXHalfLength(), 
-                                  dimY, 
-                                  moduleWall->GetZHalfLength());
+
+  G4Box* solTopModule_whole = new G4Box("solTopModule_whole",
+                                         solActiveMod->GetXHalfLength(),
+                                         dimY,
+                                         solActiveMod->GetZHalfLength());
+  fTopModuleYHalfL = solTopModule_whole->GetYHalfLength();
+  G4Box* solTopModule_subtract = new G4Box("solTopModule_subtract",
+                                            solActiveContainer->GetXHalfLength(),
+                                            2*dimY,
+                                            solActiveContainer->GetZHalfLength()); 
+  G4SubtractionSolid* solTopModule = new G4SubtractionSolid("solTopModule",
+                                                             solTopModule_whole,
+                                                             solTopModule_subtract,
+                                                             0,
+                                                             G4ThreeVector()); 
   fVolModuleTop = new G4LogicalVolume(solTopModule, 
                                       matMan->FindMaterial("FR4"),
-                                     "volTopModule");      
+                                      "volTopModule");      
 }
 
 void ModuleTop::PlaceSubVolumes()
