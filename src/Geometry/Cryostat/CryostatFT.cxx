@@ -112,12 +112,12 @@ void CryostatFT::PlaceSubVolumes()
   G4double x2 = x1 - 6*cm;
   G4double z2 = x1;
 
-  new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos2", fVolModuleFTContainer, false, 1);
-  new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos3", fVolModuleFTContainer, false, 2);
-  new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 3);
-  new G4PVPlacement(0, G4ThreeVector(0,-x1,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"_pos4", fVolModuleFTContainer, false, 4);
-  new G4PVPlacement(0, G4ThreeVector(0,z2,0), fVolModuleSmallFT, fVolModuleSmallFT->GetName()+"_pos1", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 1);
+  new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 2);
+  new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 3);
+  new G4PVPlacement(0, G4ThreeVector(0,-x1,0),  fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 4);
+  new G4PVPlacement(0, G4ThreeVector(0,z2,0), fVolModuleSmallFT, fVolModuleSmallFT->GetName(), fVolModuleFTContainer, false, 0);
 
   //******************
   // Place top wall and FT container in Module flange
@@ -128,17 +128,16 @@ void CryostatFT::PlaceSubVolumes()
 
   G4double zLen = ((G4Box*)fVolModuleFlange->GetSolid())->GetZHalfLength();
   std::vector<G4double> steps = util.Stack(geomsDim, zLen);
-  std::vector<G4ThreeVector> positions;
+  std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
+  std::vector<G4int>             copyIDs;
 
   positions.resize(steps.size());
-  rotations.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) 
-  { 
-    positions[s] = G4ThreeVector(0,0,steps[s]); 
-    rotations[s] = 0;
-  }
-  util.Place(geoms, positions, rotations, fVolModuleFlange);
+  rotations.resize(steps.size(), 0);
+  copyIDs.resize(steps.size(), 0);
+  for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
+  util.Place(geoms, positions, rotations, copyIDs, fVolModuleFlange);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
   
   //******************
   // Place module flanges in larger container
@@ -157,9 +156,9 @@ void CryostatFT::PlaceSubVolumes()
                G4ThreeVector(stepsX[1], stepsY[0], 0),
                G4ThreeVector(stepsX[1], stepsY[1], 0)};              
 
-  new G4PVPlacement(0, positions[0], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos1", fVolTopContainer, false, 0);
-  new G4PVPlacement(0, positions[1], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos2", fVolTopContainer, false, 1);
-  new G4PVPlacement(0, positions[2], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos3", fVolTopContainer, false, 2);
-  new G4PVPlacement(0, positions[3], fVolModuleFlange, fVolModuleFlange->GetName()+"_pos4", fVolTopContainer, false, 3);
+  new G4PVPlacement(0, positions[0], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 0);
+  new G4PVPlacement(0, positions[1], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 1);
+  new G4PVPlacement(0, positions[2], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 2);
+  new G4PVPlacement(0, positions[3], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 3);
 }
 }
