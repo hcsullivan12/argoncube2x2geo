@@ -124,20 +124,20 @@ void ModuleActive::ConstructSubVolumes()
                                     "volCathode"); 
   // Pixel planes
   PixelPlane pp;
-  fVolLeftPixelPlane = pp.ConstructVolume("LeftPixelPlane",
-                                           solLeftSubModule->GetYHalfLength(),
-                                           solLeftSubModule->GetZHalfLength(),
-                                           pixelPlaneThickness/2.,
-                                           pixelSpacing,
-                                           pixelRMax);
+  fVolPixelPlane = pp.ConstructVolume("PixelPlane",
+                                       solLeftSubModule->GetYHalfLength(),
+                                       solLeftSubModule->GetZHalfLength(),
+                                       pixelPlaneThickness/2.,
+                                       pixelSpacing,
+                                       pixelRMax);
 
-  fVolRightPixelPlane = pp.ConstructVolume("RightPixelPlane",
+  /*fVolRightPixelPlane = pp.ConstructVolume("RightPixelPlane",
                                            solRightSubModule->GetYHalfLength(),
                                            solRightSubModule->GetZHalfLength(),
                                            pixelPlaneThickness/2.,
                                            pixelSpacing,
                                            pixelRMax);
-
+*/
   // Active container
   G4double modDX = 2*solLeftSubModule->GetXHalfLength()+2*(pixelPlaneThickness/2.)+solCathode->GetXHalfLength();
   G4Box* solActiveContainer = new G4Box("solActiveContainer",
@@ -175,10 +175,13 @@ void ModuleActive::ConstructSubVolumes()
 
 void ModuleActive::PlaceSubVolumes()
 {
+  // Reusable containers
+  // BE SURE TO CLEAR
   std::vector<G4LogicalVolume*>  geoms;
   std::vector<G4double>          geomsDim;
   std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
+  std::vector<G4int>             copyIDs;
   std::vector<G4double>          steps;
   arcutil::Utilities util;
 
@@ -193,15 +196,12 @@ void ModuleActive::PlaceSubVolumes()
 
   steps = util.Stack(geomsDim, ((G4Box*)fVolActiveLight->GetSolid())->GetZHalfLength());
   positions.resize(steps.size());
-  rotations.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) 
-  { 
-    positions[s] = G4ThreeVector(0,0,steps[s]); 
-    rotations[s] = 0;
-  }
+  rotations.resize(steps.size(), 0);
+  copyIDs.resize(steps.size(), 0);
+  for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
 
-  util.Place(geoms, positions, rotations, fVolActiveLight);
-  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
+  util.Place(geoms, positions, rotations, copyIDs, fVolActiveLight);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
 
   //*******************************************
   // LAr active light and field shell
@@ -211,18 +211,19 @@ void ModuleActive::PlaceSubVolumes()
               ((G4Box*)geoms[1]->GetSolid())->GetZHalfLength()};
 
   positions = {G4ThreeVector(), G4ThreeVector()};
-  rotations = {0, 0};
-  util.Place(geoms, positions, rotations, fVolLeftSubModule);
-  util.Place(geoms, positions, rotations, fVolRightSubModule);
-  geoms.clear(); geomsDim.clear(); positions.clear();
+  rotations.resize(positions.size(), 0);
+  copyIDs.resize(positions.size(), 0);
+  util.Place(geoms, positions, rotations, copyIDs, fVolLeftSubModule);
+  util.Place(geoms, positions, rotations, copyIDs, fVolRightSubModule);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
 
   //***********************************************
   // Sub modules, pixel plane, and cathode
-  geoms = { fVolLeftPixelPlane, 
+  geoms = { fVolPixelPlane, 
             fVolLeftSubModule, 
             fVolCathode, 
             fVolRightSubModule, 
-            fVolRightPixelPlane };
+            fVolPixelPlane };
   geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(),
                ((G4Box*)geoms[1]->GetSolid())->GetXHalfLength(),
                ((G4Box*)geoms[2]->GetSolid())->GetXHalfLength(),
@@ -232,8 +233,11 @@ void ModuleActive::PlaceSubVolumes()
   steps = util.Stack(geomsDim, ((G4Box*)fVolActiveContainer->GetSolid())->GetXHalfLength());
 
   positions.resize(steps.size());
-  rotations.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(steps[s],0,0); }
+  rotations.resize(steps.size(), 0);
+  copyIDs.resize(steps.size(), 0);
+  for (unsigned s = 0; s < steps.size(); s++) positions[s]   = G4ThreeVector(steps[s],0,0); 
+  copyIDs[4] = 1; // pixel plane
+  
   G4RotationMatrix* rot1 = new G4RotationMatrix;
   G4RotationMatrix* rot2 = new G4RotationMatrix;
   rot1->rotateX(pi/2);
@@ -243,19 +247,24 @@ void ModuleActive::PlaceSubVolumes()
   rotations[0] = rot1;
   rotations[4] = rot2;
 
-  util.Place(geoms, positions, rotations, fVolActiveContainer);
-  geoms.clear(); geomsDim.clear(); positions.clear();
+  util.Place(geoms, positions, rotations, copyIDs, fVolActiveContainer);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
 
   //**********************************************
   // Active container
   geoms = {fVolActiveContainer};
   positions = {G4ThreeVector()};
-  rotations = {0};
-  util.Place(geoms, positions, rotations, fVolActiveModuleWall);
+  rotations.resize(positions.size(), 0);
+  copyIDs.resize(positions.size(), 0);
+  util.Place(geoms, positions, rotations, copyIDs, fVolActiveModuleWall);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
 
   //***********************************************
   // Wall
   geoms = {fVolActiveModuleWall};
-  util.Place(geoms, positions, rotations, fVolActiveModule);
+  positions = {G4ThreeVector()};
+  rotations.resize(positions.size(), 0);
+  copyIDs.resize(positions.size(), 0);
+  util.Place(geoms, positions, rotations, copyIDs, fVolActiveModule);
 }
 }

@@ -27,12 +27,12 @@ G4LogicalVolume* Feedthrough::ConstructVolume(const std::string& name,
                                               const std::string& material)
 {
   MaterialManager* matMan = MaterialManager::Instance();
-  G4Tubs* ftTub1 = new G4Tubs("sol"+name+"Tub1_",
+  G4Tubs* ftTub1 = new G4Tubs("sol"+name+"Tub1",
                               minR,
                               maxR,
                               height/2.,
                               0*degree, 360*degree);
-  G4Tubs* ftTub2 = new G4Tubs("sol"+name+"Tub2_",
+  G4Tubs* ftTub2 = new G4Tubs("sol"+name+"Tub2",
                                0,
                                maxR+2*cm,
                                2*cm,

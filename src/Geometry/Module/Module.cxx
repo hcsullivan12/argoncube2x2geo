@@ -120,16 +120,15 @@ void Module::PlaceSubVolumes()
                                      ((G4Box*)fVolModule->GetSolid())->GetZHalfLength()};
   
   std::vector<G4double> steps = util.Stack(geomsDim, moduleDim[1]);
-  std::vector<G4ThreeVector> positions;
+
+  std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
+  std::vector<G4int>             copyIDs;
+
   positions.resize(steps.size());
-  rotations.resize(steps.size());
-  
-  for (unsigned s = 0; s < steps.size(); s++) 
-  { 
-    positions[s] = G4ThreeVector(0,steps[s],0); 
-    rotations[s] = 0;
-  }
-  util.Place(geoms, positions, rotations, fVolModule);
+  rotations.resize(steps.size(), 0);
+  copyIDs.resize(steps.size(), 0);
+  for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,steps[s],0); 
+  util.Place(geoms, positions, rotations, copyIDs, fVolModule);
 }
 }
