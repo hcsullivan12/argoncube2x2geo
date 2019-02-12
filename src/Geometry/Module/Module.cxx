@@ -121,9 +121,15 @@ void Module::PlaceSubVolumes()
   
   std::vector<G4double> steps = util.Stack(geomsDim, moduleDim[1]);
   std::vector<G4ThreeVector> positions;
+  std::vector<G4RotationMatrix*> rotations;
   positions.resize(steps.size());
+  rotations.resize(steps.size());
   
-  for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
-  util.Place(geoms, positions, fVolModule);
+  for (unsigned s = 0; s < steps.size(); s++) 
+  { 
+    positions[s] = G4ThreeVector(0,steps[s],0); 
+    rotations[s] = 0;
+  }
+  util.Place(geoms, positions, rotations, fVolModule);
 }
 }

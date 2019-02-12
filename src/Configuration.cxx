@@ -49,7 +49,11 @@ void Configuration::Initialize(const std::string& gdmlPath)
   fModuleMedFTDim          = {6*cm, 6.5*cm, 10*cm};
   fFieldShellThickness     = 0.005*cm;
   fCathodeThickness        = 0.5*cm;
+
   fPixelPlaneThickness     = 0.3*cm;
+  fPixelSpacing            = 5*mm;
+  fPixelRadius             = 1.5*mm; // spacing > 2*radius
+  //fPixelActiveDim          = {0,0,0};
 
   fActiveLArDim            = {64.9*cm, 1215*mm, 65.19*cm}; // adjusted to get 67 x 67 foot
   fLightDetDim             = {10*cm, 50*cm, 0.4*cm};

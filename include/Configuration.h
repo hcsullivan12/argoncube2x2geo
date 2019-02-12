@@ -32,6 +32,8 @@ class Configuration
     const G4double       FieldShellThickness()          const { return fFieldShellThickness; };
     const G4double       CathodeThickness()             const { return fCathodeThickness; };
     const G4double       PixelPlaneThickness()          const { return fPixelPlaneThickness; };
+    const G4double       PixelSpacing()                 const { return fPixelSpacing; };
+    const G4double       PixelRadius()                  const { return fPixelRadius; };
     const G4double       ModuleClearance()              const { return fModuleClearance; };
     const G4double       CryostatLegOffset()            const { return fCryostatLegOffset; };
     const std::vector<G4double>& WorldDim()             const { return fWorldDim; };
@@ -60,6 +62,8 @@ class Configuration
     G4double      fFieldShellThickness;
     G4double      fCathodeThickness;
     G4double      fPixelPlaneThickness;
+    G4double      fPixelSpacing;
+    G4double      fPixelRadius;
     G4double      fModuleTopWallThickness;
     G4double      fCryostatLegOffset;
     std::vector<G4double> fWorldDim;

@@ -28,6 +28,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
 
   if (checkoverlaps==kTRUE) checkOverlaps(geo);
 
+  cout << endl;
   for ( int i = 0; i < nvolumes; i++ )
   {
     volume = (TGeoVolume*)volumes->At(i);
@@ -36,7 +37,7 @@ void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
     if (TString(volume->GetMaterial()->GetName()).Contains("Air")) volume->SetInvisible();
     if (TString(volume->GetMaterial()->GetName()).Contains("LAr")) volume->SetTransparency(80);
 
-    if (TString(volume->GetName()).Contains("volModuleWall")) 
+    if (TString(volume->GetName()).Contains("volModule")) 
     {  
       TGeoBBox* tubs = (TGeoBBox*)volume->GetShape();
       moduleFootX  = 2*tubs->GetDX();
@@ -61,13 +62,14 @@ void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
     }
 
 
-   //if (TString(volume->GetName()) == TString("volDetector")) volume->Draw("ogl");
    auto s = volume->GetShape();
    //cout << s->GetName() << endl;
    //if (TString(s->GetName()) == TString("solModuleMiddleFrame")) s->Draw("ogl");
  
     //cout << volume->GetName() << endl;
     volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
+
+    //if (TString(volume->GetName()) == TString("volModule")) volume->Draw("ogl");
   }
 
   cout << endl;

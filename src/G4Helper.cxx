@@ -46,10 +46,13 @@ void G4Helper::ConstructDetector()
   // Construct detector
   fDetector = new DetectorConstruction();
   UselessInfo();
+
+  G4cout << "Building detector... \n" << G4endl;
+
   fRunManager->Initialize(); 
  
-  G4cout << "Detector construction finished!" << G4endl;
-  G4cout << "\nDone! Press enter to exit..." << G4endl;
+  G4cout << "\nDetector construction finished!" << G4endl;
+  G4cout << "Press enter to exit..." << G4endl;
   std::cin.get();
 
   // Output GDML
