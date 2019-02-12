@@ -77,16 +77,16 @@ void ModuleBottom::ConstructSubVolumes()
 	                                            "volModuleLegContainer");
 
   G4ThreeVector pos(legPosition[0], 0, legPosition[2]);
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos1", fVolModuleLegContainer, false, 0);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 0);
 
   pos = {-1*legPosition[0], 0, legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos2", fVolModuleLegContainer, false, 1);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 1);
 
   pos = {-1*legPosition[0], 0, -1*legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos3", fVolModuleLegContainer, false, 2);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 2);
 
   pos = {legPosition[0], 0, -1*legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"_pos4", fVolModuleLegContainer, false, 3);                                      
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 3);                                      
 
   // Dummy flange
   G4Box* solBottomDummyFlange = new G4Box("solBottomDummyFlange", 
@@ -114,6 +114,7 @@ void ModuleBottom::PlaceSubVolumes()
   std::vector<G4double>          steps;
   std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
+  std::vector<G4int>             copyIDs;
   arcutil::Utilities util;
 
   geoms    = { fVolBottomDummyFlange, 
@@ -125,13 +126,11 @@ void ModuleBottom::PlaceSubVolumes()
   steps = util.Stack(geomsDim, yLen);
 
   positions.resize(steps.size());
-  rotations.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) 
-  { 
-    positions[s] = G4ThreeVector(0,steps[s],0); 
-    rotations[s] = 0;
-  }
+  rotations.resize(steps.size(), 0);
+  copyIDs.resize(steps.size(), 0);
+  for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,steps[s],0); 
+
   
-  util.Place(geoms, positions, rotations, fVolModuleBottom);
+  util.Place(geoms, positions, rotations, copyIDs, fVolModuleBottom);
 }
 }

@@ -35,7 +35,7 @@ class ModuleActive
     G4LogicalVolume* fVolRightSubModule;
     G4LogicalVolume* fVolLeftSubModule;
     G4LogicalVolume* fVolCathode;
-    G4LogicalVolume* fVolLeftPixelPlane;
+    G4LogicalVolume* fVolPixelPlane;
     G4LogicalVolume* fVolRightPixelPlane;
     G4LogicalVolume* fVolActiveContainer;
     G4LogicalVolume* fVolActiveModuleWall;

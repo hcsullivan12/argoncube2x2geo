@@ -136,7 +136,7 @@ void CryostatBody::PlaceSubVolumes(Detector* detector)
   G4double modHeight = ((G4Box*)volMod->GetSolid())->GetYHalfLength();
   G4double shift = fCryoInnerBathTubDepth/2.0 - modHeight;
   G4ThreeVector transl(0, 0, shift);
-  new G4PVPlacement(xRot1, transl, volMod, volMod->GetName()+"_pos1", fVolCryoInnerBath, false, 0); 
+  new G4PVPlacement(xRot1, transl, volMod, volMod->GetName(), fVolCryoInnerBath, false, 0); 
 
   //****
   // Cryostat layers
@@ -145,8 +145,8 @@ void CryostatBody::PlaceSubVolumes(Detector* detector)
                                    fCryoOuterBathTubDepth/2.0 - fCryoInnerWallTubDepth/2.0,
                                    fCryoOuterWallTubDepth/2.0 - fCryoOuterBathTubDepth/2.0 };
                                    
-  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[0]), fVolCryoInnerBath, fVolCryoInnerBath->GetName()+"_pos", fVolCryoInnerWall, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[1]), fVolCryoInnerWall, fVolCryoInnerWall->GetName()+"_pos", fVolCryoOuterBath, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[2]), fVolCryoOuterBath, fVolCryoOuterBath->GetName()+"_pos", fVolCryoOuterWall, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[0]), fVolCryoInnerBath, fVolCryoInnerBath->GetName(), fVolCryoInnerWall, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[1]), fVolCryoInnerWall, fVolCryoInnerWall->GetName(), fVolCryoOuterBath, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shifts[2]), fVolCryoOuterBath, fVolCryoOuterBath->GetName(), fVolCryoOuterWall, false, 0);
 }
 }
