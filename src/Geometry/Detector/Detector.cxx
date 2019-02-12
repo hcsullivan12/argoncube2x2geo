@@ -73,9 +73,7 @@ void Detector::PlaceSubVolumes()
   std::vector<G4ThreeVector> positions = {G4ThreeVector(stepsX[0], 0, stepsZ[0]),
                                           G4ThreeVector(stepsX[0], 0, stepsZ[1]),
                                           G4ThreeVector(stepsX[1], 0, stepsZ[0]),
-                                          G4ThreeVector(stepsX[1], 0, stepsZ[1])};
-
-  for (auto& p : positions) std::cout << p << std::endl;                                           
+                                          G4ThreeVector(stepsX[1], 0, stepsZ[1])};                                         
 
   new G4PVPlacement(0, positions[0], volModule, volModule->GetName()+"_pos1", fVolDetector, false, 1);
   new G4PVPlacement(0, positions[1], volModule, volModule->GetName()+"_pos2", fVolDetector, false, 2);

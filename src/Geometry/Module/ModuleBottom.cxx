@@ -109,10 +109,11 @@ void ModuleBottom::ConstructSubVolumes()
 
 void ModuleBottom::PlaceSubVolumes()
 {
-  std::vector<G4LogicalVolume*> geoms;
-  std::vector<G4double>         geomsDim;
-  std::vector<G4double>         steps;
-  std::vector<G4ThreeVector>    positions;
+  std::vector<G4LogicalVolume*>  geoms;
+  std::vector<G4double>          geomsDim;
+  std::vector<G4double>          steps;
+  std::vector<G4ThreeVector>     positions;
+  std::vector<G4RotationMatrix*> rotations;
   arcutil::Utilities util;
 
   geoms    = { fVolBottomDummyFlange, 
@@ -124,8 +125,13 @@ void ModuleBottom::PlaceSubVolumes()
   steps = util.Stack(geomsDim, yLen);
 
   positions.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) {positions[s] = G4ThreeVector(0,steps[s],0); }
+  rotations.resize(steps.size());
+  for (unsigned s = 0; s < steps.size(); s++) 
+  { 
+    positions[s] = G4ThreeVector(0,steps[s],0); 
+    rotations[s] = 0;
+  }
   
-  util.Place(geoms, positions, fVolModuleBottom);
+  util.Place(geoms, positions, rotations, fVolModuleBottom);
 }
 }
