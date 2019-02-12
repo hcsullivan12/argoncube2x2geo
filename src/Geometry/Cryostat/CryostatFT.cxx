@@ -129,9 +129,16 @@ void CryostatFT::PlaceSubVolumes()
   G4double zLen = ((G4Box*)fVolModuleFlange->GetSolid())->GetZHalfLength();
   std::vector<G4double> steps = util.Stack(geomsDim, zLen);
   std::vector<G4ThreeVector> positions;
+  std::vector<G4RotationMatrix*> rotations;
+
   positions.resize(steps.size());
-  for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
-  util.Place(geoms, positions, fVolModuleFlange);
+  rotations.resize(steps.size());
+  for (unsigned s = 0; s < steps.size(); s++) 
+  { 
+    positions[s] = G4ThreeVector(0,0,steps[s]); 
+    rotations[s] = 0;
+  }
+  util.Place(geoms, positions, rotations, fVolModuleFlange);
   
   //******************
   // Place module flanges in larger container
