@@ -5,7 +5,7 @@
 //
 
 #include "Geometry/Cryostat/CryostatBody.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 
 #include "G4Box.hh"
@@ -32,9 +32,9 @@ void CryostatBody::ConstructVolume(Detector* detector)
 
 void CryostatBody::ConstructSubVolumes()
 {
-  // Get material manager and config
+  // Get material manager and qStore
   MaterialManager* matMan = MaterialManager::Instance();
-  Configuration* config = Configuration::Instance();
+  QuantityStore* qStore = QuantityStore::Instance();
 
   //**** 
   // 	Cryostat shape
@@ -47,7 +47,7 @@ void CryostatBody::ConstructSubVolumes()
   //     [4] --> outer radius
   //     [5] --> outer depth      
   //     [6] --> outer wall thickness
-  std::vector<G4double> cryostatDim = config->CryostatDim();
+  std::vector<G4double> cryostatDim = qStore->kCryostatDim;
   G4double cryoInnerR             = cryostatDim[0];
   G4double cryoInnerDepth         = cryostatDim[1];
   G4double cryoInnerWallThickness = cryostatDim[2];
@@ -69,10 +69,10 @@ void CryostatBody::ConstructSubVolumes()
   fCryoOuterBathTubDepth = cryoOuterDepth;
   G4UnionSolid* solCryoOuterBath = GetShape("solCryoOuterBath", cryoOuterR, fCryoOuterBathTubDepth, totalDepth);
 
-  fCryoOuterWallTubDepth = cryoOuterDepth+cryoOuterWallThickness;
-  fVolCryoOuterWallR  = cryoOuterR+cryoOuterWallThickness;
-  G4UnionSolid* solCryoOuterWall = GetShape("solCryoOuterWall", fVolCryoOuterWallR, fCryoOuterWallTubDepth, totalDepth);
-  fCryoDepth = totalDepth;
+  qStore->kCryoOuterWallTubDepth = cryoOuterDepth+cryoOuterWallThickness;
+  qStore->kCryoOuterWallR     = cryoOuterR+cryoOuterWallThickness;
+  qStore->kCryoDepth             = totalDepth;
+  G4UnionSolid* solCryoOuterWall = GetShape("solCryoOuterWall", qStore->kCryoOuterWallR, qStore->kCryoOuterWallTubDepth, qStore->kCryoDepth);
 
   fVolCryoInnerBath = new G4LogicalVolume(solCryoInnerBath,
                                           matMan->FindMaterial("LAr"),
@@ -126,6 +126,8 @@ G4UnionSolid* CryostatBody::GetShape(const G4String& name,
 
 void CryostatBody::PlaceSubVolumes(Detector* detector)
 {
+  QuantityStore* qStore = QuantityStore::Instance();
+
   //****
   // Place our detector
   //****
@@ -141,9 +143,9 @@ void CryostatBody::PlaceSubVolumes(Detector* detector)
   //****
   // Cryostat layers
   //****
-  std::vector<G4double> shifts  = {fCryoInnerWallTubDepth/2.0 - fCryoInnerBathTubDepth/2.0,
-                                   fCryoOuterBathTubDepth/2.0 - fCryoInnerWallTubDepth/2.0,
-                                   fCryoOuterWallTubDepth/2.0 - fCryoOuterBathTubDepth/2.0 };
+  std::vector<G4double> shifts  = {fCryoInnerWallTubDepth/2.0         - fCryoInnerBathTubDepth/2.0,
+                                   fCryoOuterBathTubDepth/2.0         - fCryoInnerWallTubDepth/2.0,
+                                   qStore->kCryoOuterWallTubDepth/2.0 - fCryoOuterBathTubDepth/2.0 };
                                    
   new G4PVPlacement(0, G4ThreeVector(0,0,shifts[0]), fVolCryoInnerBath, fVolCryoInnerBath->GetName(), fVolCryoInnerWall, false, 0);
   new G4PVPlacement(0, G4ThreeVector(0,0,shifts[1]), fVolCryoInnerWall, fVolCryoInnerWall->GetName(), fVolCryoOuterBath, false, 0);

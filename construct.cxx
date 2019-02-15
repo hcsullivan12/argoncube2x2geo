@@ -3,12 +3,11 @@
 #include <string>
 
 // Geo includes
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "G4Helper.h"
 
 // Prototypes
 void HandleArgs(int argc, char **argv);
-void InitializeFiles(const geo::Configuration*);
 
 int main(int argc, char **argv)
 {
@@ -16,11 +15,12 @@ int main(int argc, char **argv)
   HandleArgs(argc, argv); 
 
   // Initialize configuration
-  geo::Configuration* config = geo::Configuration::Instance();
-  config->Initialize(std::string(argv[1]));
+  geo::QuantityStore* qStore = geo::QuantityStore::Instance();
+  qStore->Initialize();
   
   // Start detector construction
-  geo::G4Helper g4Helper;
+  std::string filepath = std::string(argv[1]);
+  geo::G4Helper g4Helper(filepath);
   g4Helper.ConstructDetector();
 
   return 0;

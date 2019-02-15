@@ -24,9 +24,6 @@ class CryostatBody
     void ConstructVolume(Detector* detector);
 
     G4LogicalVolume* GetLV() { return fVolCryoOuterWall; };
-    G4double         GetOuterWallTubDepth() const { return fCryoOuterWallTubDepth; };
-    G4double         GetDepth()   const { return fCryoDepth; }
-    G4double         GetOuterWallR() const { return fVolCryoOuterWallR; }
 
   private: 
     void ConstructSubVolumes();
@@ -44,13 +41,10 @@ class CryostatBody
     G4LogicalVolume* fVolCryoFlangeWall;
     G4LogicalVolume* fVolCryoFlangeBath;
     G4LogicalVolume* fVolCryoBodyContainer;
-   
+
     G4double fCryoInnerBathTubDepth;
     G4double fCryoInnerWallTubDepth;
     G4double fCryoOuterBathTubDepth;
-    G4double fCryoOuterWallTubDepth;
-    G4double fVolCryoOuterWallR;
-    G4double fCryoDepth;
 
 };
 }

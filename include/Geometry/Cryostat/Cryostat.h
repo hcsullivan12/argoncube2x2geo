@@ -25,18 +25,18 @@ class Cryostat
     Cryostat();
     ~Cryostat();
 
-    void ConstructVolume(G4LogicalVolume* volWorld, 
-                         Detector*          module);
+    void ConstructVolume(G4LogicalVolume* volDetEnclosure, 
+                         Detector*        module);
 
   private: 
     void ConstructSubVolumes(Detector* detector);
-    void PlaceSubVolumes(G4LogicalVolume* volWorld);
+    void PlaceSubVolumes(G4LogicalVolume* volDetEnclosure);
     
     CryostatLeg*  fCryostatLeg;
     CryostatBody* fCryostatBody;
     CryostatFT*   fCryostatFT;
 
-    G4LogicalVolume* fVolCryostatContainer;
+    G4LogicalVolume* fVolCryostat;
     G4LogicalVolume* fVolCryostatFlangeWrap;
     G4LogicalVolume* fVolCryostatFlange;
     G4LogicalVolume* fVolCryoMedFt;
