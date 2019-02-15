@@ -25,18 +25,16 @@ Utilities::~Utilities()
 void Utilities::Place(const std::vector<G4LogicalVolume*>&  geoms,
                       const std::vector<G4ThreeVector>&     positions,
                       const std::vector<G4RotationMatrix*>& rotations,
-                      const std::vector<G4int>&             copyIDs,
                       G4LogicalVolume*                      motherLV)
 {
   // vecs must be same size
   unsigned size = geoms.size();
   assert(positions.size() == size);
   assert(rotations.size() == size);  
-  assert(copyIDs.size()   == size);
 
   for (unsigned g = 0; g < geoms.size(); g++)
   {
-    new G4PVPlacement(rotations[g], positions[g], geoms[g], geoms[g]->GetName(), motherLV, false, copyIDs[g]);
+    new G4PVPlacement(rotations[g], positions[g], geoms[g], geoms[g]->GetName(), motherLV, false, 0);
   }
 }
 

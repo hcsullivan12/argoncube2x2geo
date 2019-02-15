@@ -6,7 +6,7 @@
 
 #include "Geometry/Module/ModuleActive.h"
 #include "Geometry/Auxiliary/PixelPlane.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -37,47 +37,47 @@ void ModuleActive::ConstructSubVolumes()
   // Build from inside out
   //****
   MaterialManager* matMan = MaterialManager::Instance();
-  Configuration*   config = Configuration::Instance();
+  QuantityStore*   qStore = QuantityStore::Instance();
 
   // Get variables
-  std::vector<G4double> activeLArDim = config->ActiveLArDim();        
-  std::vector<G4double> lightDetDim  = config->LightDetDim();         
-  G4double fieldShellThickness       = config->FieldShellThickness(); 
-  G4double cathodeThickness          = config->CathodeThickness();    
-  G4double pixelPlaneThickness       = config->PixelPlaneThickness(); 
-  G4double pixelSpacing              = config->PixelSpacing();
-  G4double pixelRMax                 = config->PixelRadius();
-  G4double moduleWallThickness       = config->ModuleWallThickness(); 
+  std::vector<G4double> activeLArDim = qStore->kActiveLArDim;        
+  std::vector<G4double> lightDetDim  = qStore->kLightDetDim;         
+  G4double fieldShellThickness       = qStore->kFieldShellThickness; 
+  G4double cathodeThickness          = qStore->kCathodeThickness;    
+  G4double pixelPlaneThickness       = qStore->kPixelPlaneThickness; 
+  G4double pixelSpacing              = qStore->kPixelSpacing;
+  G4double pixelRMax                 = qStore->kPixelRadius;
+  G4double moduleWallThickness       = qStore->kModuleWallThickness; 
   
   // Active LAr
-  G4Box* solActiveLAr = new G4Box("solActiveLAr", 
+  G4Box* solTPCActive = new G4Box("solTPCActive", 
                                   (activeLArDim[0]/4.), 
                                   (activeLArDim[1]/2.), 
                                   (activeLArDim[2]/2.));
-  fVolActiveLAr = new G4LogicalVolume(solActiveLAr, 
+  fVolTPCActive = new G4LogicalVolume(solTPCActive, 
                                       matMan->FindMaterial("LAr"),
-                                      "volActiveLAr"); 
+                                      "volTPCActive"); 
   // Light US plane
   G4Box* solLightUSPlane = new G4Box("solLightUSPlane", 
-                                     solActiveLAr->GetXHalfLength(),
-                                     solActiveLAr->GetYHalfLength(), 
+                                     solTPCActive->GetXHalfLength(),
+                                     solTPCActive->GetYHalfLength(), 
                                      (lightDetDim[2]/2.));
   fVolLightUSPlane = new G4LogicalVolume(solLightUSPlane, 
                                          matMan->FindMaterial("PVT"),
                                          "volLightUSPlane"); 
   // Light DS plane
   G4Box* solLightDSPlane = new G4Box("solLightDSPlane", 
-                                     solActiveLAr->GetXHalfLength(), 
-                                     solActiveLAr->GetYHalfLength(), 
+                                     solTPCActive->GetXHalfLength(), 
+                                     solTPCActive->GetYHalfLength(), 
                                      (lightDetDim[2]/2.));
   fVolLightDSPlane = new G4LogicalVolume(solLightDSPlane, 
                                          matMan->FindMaterial("PVT"),
                                          "volLightDSPlane"); 
   // Active light
   G4Box* solActiveLight = new G4Box("solActiveLight", 
-                                    solActiveLAr->GetXHalfLength(),
-                                    solActiveLAr->GetYHalfLength(),
-                                    2*solLightDSPlane->GetZHalfLength()+solActiveLAr->GetZHalfLength());
+                                    solTPCActive->GetXHalfLength(),
+                                    solTPCActive->GetYHalfLength(),
+                                    2*solLightDSPlane->GetZHalfLength()+solTPCActive->GetZHalfLength());
   fVolActiveLight = new G4LogicalVolume(solActiveLight, 
                                         matMan->FindMaterial("LAr"),
                                         "volActiveLight"); 
@@ -96,57 +96,55 @@ void ModuleActive::ConstructSubVolumes()
   fVolFieldShell = new G4LogicalVolume(solFieldShell, 
                                        matMan->FindMaterial("Kapton"),
                                       "volFieldShell"); 
-  // Right sub module
+  // Sub module
   G4double subModuleDY = solActiveLight->GetYHalfLength()+2*(solResistFieldShell_whole->GetYHalfLength()-solResistFieldShell_subtract->GetYHalfLength());
   G4double subModuleDZ = solActiveLight->GetZHalfLength()+2*(solResistFieldShell_whole->GetZHalfLength()-solResistFieldShell_subtract->GetZHalfLength());
-  G4Box* solRightSubModule = new G4Box("solRightSubModule",
-                                        solActiveLight->GetXHalfLength(),
-                                        subModuleDY,
-                                        subModuleDZ);
-  fVolRightSubModule = new G4LogicalVolume(solRightSubModule, 
-                                           matMan->FindMaterial("LAr"),
-                                           "volRightSubModule"); 
-  // Left sub module
-  G4Box* solLeftSubModule = new G4Box("solLeftSubModule",
-                                       solActiveLight->GetXHalfLength(),
-                                       subModuleDY,
-                                       subModuleDZ);
-  fVolLeftSubModule = new G4LogicalVolume(solLeftSubModule, 
-                                          matMan->FindMaterial("LAr"),
-                                          "volLeftSubModule"); 
+  G4Box* solSubModule = new G4Box("solSubModule",
+                                   solResistFieldShell_whole->GetXHalfLength(),
+                                   subModuleDY,
+                                   subModuleDZ);
+  fVolSubModule = new G4LogicalVolume(solSubModule, 
+                                      matMan->FindMaterial("LAr"),
+                                      "volSubModule"); 
+
   // Cathode
   G4Box* solCathode = new G4Box("solCathode",
                                 (cathodeThickness/2.),
-                                solLeftSubModule->GetYHalfLength(),
-                                solLeftSubModule->GetZHalfLength());
+                                solSubModule->GetYHalfLength(),
+                                solSubModule->GetZHalfLength());
   fVolCathode = new G4LogicalVolume(solCathode, 
                                     matMan->FindMaterial("Copper"),
                                     "volCathode"); 
-  // Pixel planes
+  // Pixel plane
   PixelPlane pp;
   fVolPixelPlane = pp.ConstructVolume("PixelPlane",
-                                       solLeftSubModule->GetYHalfLength(),
-                                       solLeftSubModule->GetZHalfLength(),
+                                       solSubModule->GetYHalfLength(),
+                                       solSubModule->GetZHalfLength(),
                                        pixelPlaneThickness/2.,
                                        pixelSpacing,
                                        pixelRMax);
 
-  /*fVolRightPixelPlane = pp.ConstructVolume("RightPixelPlane",
-                                           solRightSubModule->GetYHalfLength(),
-                                           solRightSubModule->GetZHalfLength(),
-                                           pixelPlaneThickness/2.,
-                                           pixelSpacing,
-                                           pixelRMax);
-*/
+  // TPCs
+  G4Box* solTPC = new G4Box("solTPC",
+                            solSubModule->GetXHalfLength()+pixelPlaneThickness/2.,
+                            solSubModule->GetYHalfLength(),
+                            solSubModule->GetZHalfLength());
+  fVolTPCR = new G4LogicalVolume(solTPC,
+                                 matMan->FindMaterial("LAr"),
+                                 "volTPCR");            
+  fVolTPCL = new G4LogicalVolume(solTPC,
+                                 matMan->FindMaterial("LAr"),
+                                 "volTPCL");                                                 
+
   // Active container
-  G4double modDX = 2*solLeftSubModule->GetXHalfLength()+2*(pixelPlaneThickness/2.)+solCathode->GetXHalfLength();
+  G4double modDX = 2*solTPC->GetXHalfLength()+solCathode->GetXHalfLength();
   G4Box* solActiveContainer = new G4Box("solActiveContainer",
                                          modDX,
-                                         solLeftSubModule->GetYHalfLength(),
-                                         solLeftSubModule->GetZHalfLength());
+                                         solTPC->GetYHalfLength(),
+                                         solTPC->GetZHalfLength());
   fVolActiveContainer = new G4LogicalVolume(solActiveContainer, 
-                                                  matMan->FindMaterial("LAr"),
-                                                  "volActiveContainer"); 
+                                            matMan->FindMaterial("LAr"),
+                                            "volActiveContainer"); 
 
   // Module wall, subtract out top and bottom walls
   G4Box* solModuleWall_whole = new G4Box("solModuleWall_whole",
@@ -161,6 +159,8 @@ void ModuleActive::ConstructSubVolumes()
   fVolActiveModuleWall = new G4LogicalVolume(solActiveModuleWall,
                                              matMan->FindMaterial("FR4"),
                                              "volActiveModuleWall");
+
+  std::cout << "      " << 2*solModuleWall_whole->GetXHalfLength()/cm << std::endl;
 
   // Final container
   G4Box* solActiveModule = new G4Box("solActiveModule",
@@ -181,14 +181,13 @@ void ModuleActive::PlaceSubVolumes()
   std::vector<G4double>          geomsDim;
   std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
-  std::vector<G4int>             copyIDs;
   std::vector<G4double>          steps;
   arcutil::Utilities util;
 
   //****************************************
-  // LAr active and light planes
+  // LAr active and light planes in active light
   geoms    = { fVolLightUSPlane, 
-               fVolActiveLAr, 
+               fVolTPCActive, 
                fVolLightDSPlane };
   geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), 
                ((G4Box*)geoms[1]->GetSolid())->GetZHalfLength(), 
@@ -197,14 +196,14 @@ void ModuleActive::PlaceSubVolumes()
   steps = util.Stack(geomsDim, ((G4Box*)fVolActiveLight->GetSolid())->GetZHalfLength());
   positions.resize(steps.size());
   rotations.resize(steps.size(), 0);
-  copyIDs.resize(steps.size(), 0);
+
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
 
-  util.Place(geoms, positions, rotations, copyIDs, fVolActiveLight);
-  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
+  util.Place(geoms, positions, rotations, fVolActiveLight);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
 
   //*******************************************
-  // LAr active light and field shell
+  // LAr active light and field shell in sub module
   geoms = { fVolActiveLight, 
             fVolFieldShell };
   geomsDim = {((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), 
@@ -212,59 +211,78 @@ void ModuleActive::PlaceSubVolumes()
 
   positions = {G4ThreeVector(), G4ThreeVector()};
   rotations.resize(positions.size(), 0);
-  copyIDs.resize(positions.size(), 0);
-  util.Place(geoms, positions, rotations, copyIDs, fVolLeftSubModule);
-  util.Place(geoms, positions, rotations, copyIDs, fVolRightSubModule);
-  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
+
+  util.Place(geoms, positions, rotations, fVolSubModule);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
+
+  //***********************************************
+  // Sub module and pixel plane in tpc
+  geoms    = { fVolPixelPlane,
+               fVolSubModule };
+  geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), // planes are built with normal in z direction
+               ((G4Box*)geoms[1]->GetSolid())->GetXHalfLength() }; 
+
+  steps = util.Stack(geomsDim, ((G4Box*)fVolTPCR->GetSolid())->GetXHalfLength());  
+  
+  positions.resize(steps.size());
+  rotations.resize(steps.size(), 0);
+
+  for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(steps[s],0,0);     
+  
+  // For the pixel plane
+  G4RotationMatrix* rot1 = new G4RotationMatrix;
+  rot1->rotateX(pi/2);
+  rot1->rotateY(pi/2);
+  rotations[0] = rot1;
+
+  util.Place(geoms, positions, rotations, fVolTPCR);
+  // We have to rotate the sub module to have light detectors in correct position
+  G4RotationMatrix* rot2 = new G4RotationMatrix;
+  rot2->rotateY(pi);
+  rotations[1] = rot2;
+
+  util.Place(geoms, positions, rotations, fVolTPCL);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();         
 
   //***********************************************
   // Sub modules, pixel plane, and cathode
-  geoms = { fVolPixelPlane, 
-            fVolLeftSubModule, 
+  geoms = { fVolTPCR, 
             fVolCathode, 
-            fVolRightSubModule, 
-            fVolPixelPlane };
-  geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(),
+            fVolTPCL };
+  geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetXHalfLength(),
                ((G4Box*)geoms[1]->GetSolid())->GetXHalfLength(),
-               ((G4Box*)geoms[2]->GetSolid())->GetXHalfLength(),
-               ((G4Box*)geoms[3]->GetSolid())->GetXHalfLength(),
-               ((G4Box*)geoms[4]->GetSolid())->GetZHalfLength() }; // planes are built with normal in z direction
+               ((G4Box*)geoms[2]->GetSolid())->GetXHalfLength() }; 
 
   steps = util.Stack(geomsDim, ((G4Box*)fVolActiveContainer->GetSolid())->GetXHalfLength());
 
   positions.resize(steps.size());
   rotations.resize(steps.size(), 0);
-  copyIDs.resize(steps.size(), 0);
-  for (unsigned s = 0; s < steps.size(); s++) positions[s]   = G4ThreeVector(steps[s],0,0); 
-  copyIDs[4] = 1; // pixel plane
-  
-  G4RotationMatrix* rot1 = new G4RotationMatrix;
-  G4RotationMatrix* rot2 = new G4RotationMatrix;
-  rot1->rotateX(pi/2);
-  rot1->rotateY(pi/2);
-  rot2->rotateX(pi/2);
-  rot2->rotateY(pi/2);
-  rotations[0] = rot1;
-  rotations[4] = rot2;
 
-  util.Place(geoms, positions, rotations, copyIDs, fVolActiveContainer);
-  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
+  for (unsigned s = 0; s < steps.size(); s++) positions[s]   = G4ThreeVector(steps[s],0,0); 
+
+  // Rotate the other TPC
+  rotations[2] = rot2;
+
+  new G4PVPlacement(rotations[0], positions[0], geoms[0], geoms[0]->GetName()+"1", fVolActiveContainer, false, 0);
+  new G4PVPlacement(rotations[1], positions[1], geoms[1], geoms[1]->GetName(),     fVolActiveContainer, false, 0);
+  new G4PVPlacement(rotations[2], positions[2], geoms[2], geoms[2]->GetName()+"2", fVolActiveContainer, false, 0);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
 
   //**********************************************
   // Active container
   geoms = {fVolActiveContainer};
   positions = {G4ThreeVector()};
   rotations.resize(positions.size(), 0);
-  copyIDs.resize(positions.size(), 0);
-  util.Place(geoms, positions, rotations, copyIDs, fVolActiveModuleWall);
-  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
+
+  util.Place(geoms, positions, rotations, fVolActiveModuleWall);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
 
   //***********************************************
   // Wall
   geoms = {fVolActiveModuleWall};
   positions = {G4ThreeVector()};
   rotations.resize(positions.size(), 0);
-  copyIDs.resize(positions.size(), 0);
-  util.Place(geoms, positions, rotations, copyIDs, fVolActiveModule);
+
+  util.Place(geoms, positions, rotations, fVolActiveModule);
 }
 }

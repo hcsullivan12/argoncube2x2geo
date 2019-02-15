@@ -21,7 +21,6 @@ class ModuleTop
     void ConstructVolume();
 
     G4LogicalVolume* GetLV() { return fVolModuleTop; };
-    G4double         GetYDim() { return fTopModuleYHalfL; };
 
   private: 
     void ConstructSubVolumes();
@@ -30,8 +29,6 @@ class ModuleTop
     G4LogicalVolume* fVolModuleTop;
     G4LogicalVolume* fVolTopGAr;
     G4LogicalVolume* fVolTopLAr;
-
-    G4double fTopModuleYHalfL;
 };
 }
 

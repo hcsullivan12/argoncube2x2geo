@@ -39,8 +39,6 @@ class Module
     G4LogicalVolume* fVolModuleMiddleFrame;
     G4LogicalVolume* fVolModuleBottomWall;
 
-    G4double fModuleMiddleFrameYHalfL;
-
 };
 }
 

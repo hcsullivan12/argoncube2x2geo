@@ -7,7 +7,7 @@
 //
 
 #include "Geometry/Detector/Detector.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -36,10 +36,10 @@ void Detector::ConstructSubVolumes()
   fModule = new Module();
   fModule->ConstructVolume();
 
-  Configuration* config   = Configuration::Instance();
+  QuantityStore* qStore   = QuantityStore::Instance();
   MaterialManager* matMan = MaterialManager::Instance();
 
-  G4double modInsideGap = config->ModuleClearance(); 
+  G4double modInsideGap = qStore->kModuleClearance; 
   G4LogicalVolume* volModule = fModule->GetLV();
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 
@@ -51,14 +51,16 @@ void Detector::ConstructSubVolumes()
   fVolDetector = new G4LogicalVolume(solDetector,
                                      matMan->FindMaterial("LAr"),
                                      "volDetector");
+
+  std::cout << solDetector->GetXHalfLength()/cm << " " << solDetector->GetZHalfLength()/cm << std::endl;                                     
 }
 
 void Detector::PlaceSubVolumes()
 {
   // Placement in z
   arcutil::Utilities util;
-  Configuration* config = Configuration::Instance();
-  G4double modInsideGap = config->ModuleClearance(); 
+  QuantityStore* qStore = QuantityStore::Instance();
+  G4double modInsideGap = qStore->kModuleClearance; 
   G4LogicalVolume* volModule = fModule->GetLV();
   G4Box* solModule = (G4Box*)volModule->GetSolid();
 

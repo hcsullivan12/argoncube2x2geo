@@ -5,7 +5,7 @@
 //
 
 #include "Geometry/Module/ModuleBottom.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -33,13 +33,13 @@ void ModuleBottom::ConstructVolume()
 void ModuleBottom::ConstructSubVolumes()
 {
   MaterialManager* matMan = MaterialManager::Instance();
-  Configuration*   config = Configuration::Instance();
+  QuantityStore*   qStore = QuantityStore::Instance();
 
   // Get variables
-  std::vector<G4double> modLegDim      = config->ModuleLegDim();         
-  std::vector<G4double> modLegFootDim  = config->ModuleLegFootDim();     
-  std::vector<G4double> dummyFlangeDim = config->BottomDummyFlangeDim(); 
-  std::vector<G4double> legPosition    = config->ModuleLegPosition();    
+  std::vector<G4double> modLegDim      = qStore->kModuleLegDim;         
+  std::vector<G4double> modLegFootDim  = qStore->kModuleLegFootDim;     
+  std::vector<G4double> dummyFlangeDim = qStore->kBottomDummyFlangeDim; 
+  std::vector<G4double> legPosition    = qStore->kModuleLegPosition;    
  
   // Legs
   G4Box* solModuleLegShin = new G4Box("solModuleLegShin", 
@@ -114,7 +114,6 @@ void ModuleBottom::PlaceSubVolumes()
   std::vector<G4double>          steps;
   std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
-  std::vector<G4int>             copyIDs;
   arcutil::Utilities util;
 
   geoms    = { fVolBottomDummyFlange, 
@@ -127,10 +126,10 @@ void ModuleBottom::PlaceSubVolumes()
 
   positions.resize(steps.size());
   rotations.resize(steps.size(), 0);
-  copyIDs.resize(steps.size(), 0);
+
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,steps[s],0); 
 
   
-  util.Place(geoms, positions, rotations, copyIDs, fVolModuleBottom);
+  util.Place(geoms, positions, rotations, fVolModuleBottom);
 }
 }

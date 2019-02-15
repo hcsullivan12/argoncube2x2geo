@@ -7,7 +7,7 @@
 //
 
 #include "G4Helper.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "ActionInitialization.h"
 
 #include "G4PhysListFactory.hh"
@@ -18,18 +18,18 @@
 namespace geo
 {
 
-G4Helper::G4Helper() 
+G4Helper::G4Helper(const std::string& gdmlFilePath) 
  : fRunManager(NULL),
    fDetector(NULL)
 {
-  // Get config
-  Configuration* config = Configuration::Instance();
-  if (!config)
+  // Get qStore
+  QuantityStore* qStore = QuantityStore::Instance();
+  if (!qStore)
   {
-    G4cout << "Error! Configuration not initialized!" << G4endl;
+    G4cout << "Error! QuantityStore not initialized!" << G4endl;
     std::exit(1);
   }
-  fGDMLOutputPath     = config->GDMLOutputPath();
+  fGDMLOutputPath     = gdmlFilePath;
 }
 
 G4Helper::~G4Helper()

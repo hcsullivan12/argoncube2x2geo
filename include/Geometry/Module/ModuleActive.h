@@ -27,16 +27,18 @@ class ModuleActive
     void PlaceSubVolumes();
 
     // solids
-    G4LogicalVolume* fVolActiveLAr;
+    G4LogicalVolume* fVolTPCActive;
     G4LogicalVolume* fVolLightUSPlane;
     G4LogicalVolume* fVolLightDSPlane;
     G4LogicalVolume* fVolActiveLight;
     G4LogicalVolume* fVolFieldShell;
-    G4LogicalVolume* fVolRightSubModule;
-    G4LogicalVolume* fVolLeftSubModule;
+    G4LogicalVolume* fVolSubModule;
+    //G4LogicalVolume* fVolLeftSubModule;
     G4LogicalVolume* fVolCathode;
     G4LogicalVolume* fVolPixelPlane;
-    G4LogicalVolume* fVolRightPixelPlane;
+    //G4LogicalVolume* fVolRightPixelPlane;
+    G4LogicalVolume* fVolTPCR;
+    G4LogicalVolume* fVolTPCL;
     G4LogicalVolume* fVolActiveContainer;
     G4LogicalVolume* fVolActiveModuleWall;
     G4LogicalVolume* fVolActiveModule;

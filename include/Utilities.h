@@ -24,7 +24,6 @@ class Utilities
     void Place(const std::vector<G4LogicalVolume*>&  geoms, 
                const std::vector<G4ThreeVector>&     positions,
                const std::vector<G4RotationMatrix*>& rotations,
-               const std::vector<G4int>&             copyIDs,
                G4LogicalVolume*                      motherLV);
 
     std::vector<G4double> Stack(const std::vector<G4double>& geomsDim,
