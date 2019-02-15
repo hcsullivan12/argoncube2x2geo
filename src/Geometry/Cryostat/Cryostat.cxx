@@ -111,7 +111,7 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
                                     0*degree, 360*degree);
 
   fVolCryostat = new G4LogicalVolume(solCryostat,
-                                     matMan->FindMaterial("LAr"),
+                                     matMan->FindMaterial("Air"),
                                      "volCryostat"); 
 }
 

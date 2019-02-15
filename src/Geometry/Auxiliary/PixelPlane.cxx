@@ -73,7 +73,7 @@ G4LogicalVolume* PixelPlane::ConstructVolume(const std::string&   name,
   {
     while (pos.getX() < (xHalfL-pixelRMax))
     {
-      //new G4PVPlacement(0, pos, volPixelPad, volPixelPad->GetName()+std::to_string(pixelID), volPixelPlane, false, pixelID-1);
+      new G4PVPlacement(0, pos, volPixelPad, volPixelPad->GetName()+std::to_string(pixelID), volPixelPlane, false, pixelID-1);
       pixelID++;
 
       // next position
