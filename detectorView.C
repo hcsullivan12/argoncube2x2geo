@@ -64,12 +64,12 @@ void detectorView(TString filename,Bool_t checkoverlaps=kFALSE)
 
    auto s = volume->GetShape();
    //cout << s->GetName() << endl;
-   //if (TString(s->GetName()) == TString("solModuleMiddleFrame")) s->Draw("ogl");
+   //if (TString(volume->GetName()) == TString("volTPC")) s->Draw("ogl");
  
     //cout << volume->GetName() << endl;
     volume->SetLineColor(color[volume->GetMaterial()->GetName()]);
 
-    //if (TString(volume->GetName()) == TString("volModule")) volume->Draw("ogl");
+    //if (TString(volume->GetName()) == TString("volTPC")) volume->Draw("ogl");
   }
 
   cout << endl;

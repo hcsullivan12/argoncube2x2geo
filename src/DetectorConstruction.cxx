@@ -7,7 +7,7 @@
 //
 
 #include "DetectorConstruction.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 
 #include "G4SDManager.hh"
@@ -49,42 +49,56 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 void DetectorConstruction::ConstructMaterials()
 {
   // Get the material manager
-  MaterialManager* materialManager = MaterialManager::Instance();
+  MaterialManager* matMan = MaterialManager::Instance();
 
-  if (!materialManager) 
+  if (!matMan) 
   {
     G4cerr << "DetectorConstruction::InitializeMaterials() "
            << "Error! Material manager not initialized!" << G4endl;
   }
-  materialManager->ConstructMaterials();
+  matMan->ConstructMaterials();
 }
 
 void DetectorConstruction::ConstructDetector()
 {
-  // Get instance of material manager and configuration
-  MaterialManager* materialManager = MaterialManager::Instance();
-  Configuration* config = Configuration::Instance();
+  // Get instance of material manager and qStoreuration
+  MaterialManager* matMan = MaterialManager::Instance();
+  QuantityStore* qStore = QuantityStore::Instance();
 
   //**** 
   // World
   //****
-  std::vector<G4double> worldDim = config->WorldDim(); 
+  std::vector<G4double> worldDim = qStore->kWorldDim; 
 
   G4Box* solWorld = new G4Box("solWorld", 
                               worldDim[0]/2.,
                               worldDim[1]/2., 
                               worldDim[2]/2.);
   fVolWorld    = new G4LogicalVolume(solWorld, 
-                                    materialManager->FindMaterial("Air"), 
-                                    "volWorld");
-  fPVWorld = new G4PVPlacement(0, 
-                               G4ThreeVector(), 
-                               fVolWorld, 
-                               "World", 
-                               0, 
-                               false, 
-                               0); 
-  
+                                    matMan->FindMaterial("Air"), 
+                                    "volWorld"); 
+  //****
+  // Placement
+  //****
+  fPVWorld = new G4PVPlacement(0,
+                               G4ThreeVector(),
+                               fVolWorld,
+                               fVolWorld->GetName(),
+                               0,
+                               false,
+                               0);   
+
+  //****
+  // DetEnclosure
+  //****
+  G4Box* solDetEnclosure = new G4Box("solDetEnclosure", 
+                                      worldDim[0]/4.,
+                                      worldDim[1]/4., 
+                                      worldDim[2]/4.);
+  fVolDetEnclosure    = new G4LogicalVolume(solDetEnclosure, 
+                                            matMan->FindMaterial("Air"), 
+                                            "volDetEnclosure");
+
   //****
   // Detector 
   //****
@@ -95,7 +109,9 @@ void DetectorConstruction::ConstructDetector()
   // Cryostat
   //****
   fCryostat = new Cryostat();
-  fCryostat->ConstructVolume(fVolWorld, fDetector);
+  fCryostat->ConstructVolume(fVolDetEnclosure, fDetector); 
+
+  std::cout << "HErer\n";    
 }
 
 void DetectorConstruction::ConstructSDandField()

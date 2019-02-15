@@ -5,7 +5,7 @@
 //
 
 #include "Geometry/Module/ModuleTop.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -36,13 +36,13 @@ void ModuleTop::ConstructSubVolumes()
   // Build from inside out
   //****
   MaterialManager* matMan       = MaterialManager::Instance();
-  Configuration*   config       = Configuration::Instance();
+  QuantityStore*   qStore       = QuantityStore::Instance();
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
   G4Box* solActiveContainer = (G4Box*)lvStore->GetVolume("volActiveContainer")->GetSolid();
   G4Box* solActiveMod       = (G4Box*)lvStore->GetVolume("volActiveModule")->GetSolid();
-  std::vector<G4double> topLArDim  = config->TopLArDim();
-  std::vector<G4double> topGArDim  = config->TopGArDim();
+  std::vector<G4double> topLArDim  = qStore->kTopLArDim;
+  std::vector<G4double> topGArDim  = qStore->kTopGArDim;
   
   // LAr
   G4Box* solTopLAr = new G4Box("solTopLAr", 
@@ -74,7 +74,7 @@ void ModuleTop::ConstructSubVolumes()
                                          solActiveMod->GetXHalfLength(),
                                          dimY,
                                          solActiveMod->GetZHalfLength());
-  fTopModuleYHalfL = solTopModule_whole->GetYHalfLength();
+  qStore->kTopModuleYHalfL = solTopModule_whole->GetYHalfLength();
   G4Box* solTopModule_subtract = new G4Box("solTopModule_subtract",
                                             solActiveContainer->GetXHalfLength(),
                                             2*dimY,
@@ -96,7 +96,6 @@ void ModuleTop::PlaceSubVolumes()
   std::vector<G4double>           steps;
   std::vector<G4ThreeVector>      positions;
   std::vector<G4RotationMatrix*>  rotations;
-  std::vector<G4int>              copyIDs;
   arcutil::Utilities util;
 
   geoms = { fVolTopLAr, 
@@ -108,9 +107,9 @@ void ModuleTop::PlaceSubVolumes()
 
   positions.resize(steps.size());
   rotations.resize(steps.size(), 0);
-  copyIDs.resize(steps.size(), 0);
+  
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,steps[s],0); 
 
-  util.Place(geoms, positions, rotations, copyIDs, fVolModuleTop);
+  util.Place(geoms, positions, rotations, fVolModuleTop);
 }
 }

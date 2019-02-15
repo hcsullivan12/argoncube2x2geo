@@ -20,7 +20,7 @@ namespace geo
 class G4Helper 
 {
   public:
-    G4Helper();
+    G4Helper(const std::string& gdmlFilePath);
     ~G4Helper();
 
     void ConstructDetector();

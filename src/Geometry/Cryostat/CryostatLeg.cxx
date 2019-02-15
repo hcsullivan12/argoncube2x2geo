@@ -5,7 +5,7 @@
 //
 
 #include "Geometry/Cryostat/CryostatLeg.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -31,12 +31,12 @@ void CryostatLeg::ConstructVolume()
 
 void CryostatLeg::ConstructSubVolumes()
 {    
-  // Get material manager and config
+  // Get material manager and qStore
   MaterialManager* matMan = MaterialManager::Instance();
-  Configuration* config   = Configuration::Instance();
+  QuantityStore* qStore   = QuantityStore::Instance();
 
-  std::vector<G4double> cryostatLegDim = config->CryostatLegDim(); 
-  std::vector<G4double> cryostatLegFootDim = config->CryostatLegFootDim(); 
+  std::vector<G4double> cryostatLegDim = qStore->kCryostatLegDim; 
+  std::vector<G4double> cryostatLegFootDim = qStore->kCryostatLegFootDim; 
 
   G4Tubs* solCryoLegShin = new G4Tubs("solCryoLegShin",
                                        0,
@@ -61,7 +61,7 @@ void CryostatLeg::ConstructSubVolumes()
                                     matMan->FindMaterial("SSteel304"),
                                     "volCryoLeg");
 
-  fLegHeight = cryostatLegDim[2];
-  fShinR     = cryostatLegDim[1];
+  qStore->kCryoLegHeight = cryostatLegDim[2];
+  qStore->kCryoLegShinR  = cryostatLegDim[1];
 }
 }
