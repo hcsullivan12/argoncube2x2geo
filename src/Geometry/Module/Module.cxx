@@ -55,8 +55,6 @@ void Module::ConstructSubVolumes()
   G4Box* solModBottom = (G4Box*)fModuleBottom->GetLV()->GetSolid(); 
   G4Box* solModTop    = (G4Box*)fModuleTop->GetLV()->GetSolid(); 
 
-  std::cout << "  " << 2*solModActive->GetXHalfLength()/cm << std::endl;
-
   // Add extra G10 layers
   G4Box* solModuleMiddleFrame_whole = new G4Box("solModuleMiddleFrame_whole",
                                                  solModActive->GetXHalfLength(),

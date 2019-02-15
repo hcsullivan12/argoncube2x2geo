@@ -83,7 +83,7 @@ G4LogicalVolume* PixelPlane::ConstructVolume(const std::string&   name,
     pos.setY(pos.getY() - pixelSpacing);
   }
 
-  std::cout << "Pixel plane named " << name << " has " << pixelID-1 << " pixels." << std::endl;
+  std::cout << "Pixel plane has " << pixelID-1 << " pixels." << std::endl;
 
   return volPixelPlane;
 }

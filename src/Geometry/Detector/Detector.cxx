@@ -51,8 +51,6 @@ void Detector::ConstructSubVolumes()
   fVolDetector = new G4LogicalVolume(solDetector,
                                      matMan->FindMaterial("LAr"),
                                      "volDetector");
-
-  std::cout << solDetector->GetXHalfLength()/cm << " " << solDetector->GetZHalfLength()/cm << std::endl;                                     
 }
 
 void Detector::PlaceSubVolumes()

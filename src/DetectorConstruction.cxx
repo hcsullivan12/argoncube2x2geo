@@ -110,8 +110,6 @@ void DetectorConstruction::ConstructDetector()
   //****
   fCryostat = new Cryostat();
   fCryostat->ConstructVolume(fVolDetEnclosure, fDetector); 
-
-  std::cout << "HErer\n";    
 }
 
 void DetectorConstruction::ConstructSDandField()

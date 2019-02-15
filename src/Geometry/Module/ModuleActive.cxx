@@ -160,8 +160,6 @@ void ModuleActive::ConstructSubVolumes()
                                              matMan->FindMaterial("FR4"),
                                              "volActiveModuleWall");
 
-  std::cout << "      " << 2*solModuleWall_whole->GetXHalfLength()/cm << std::endl;
-
   // Final container
   G4Box* solActiveModule = new G4Box("solActiveModule",
                                       solModuleWall_whole->GetXHalfLength(),
