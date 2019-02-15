@@ -6,7 +6,7 @@
 
 #include "Geometry/Cryostat/CryostatFT.h"
 #include "Geometry/Auxiliary/Feedthrough.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -37,17 +37,17 @@ void CryostatFT::ConstructVolume()
 
 void CryostatFT::ConstructSubVolumes()
 {
-  // Get material manager and config
+  // Get material manager and qStore
   MaterialManager* matMan       = MaterialManager::Instance();
-  Configuration* config         = Configuration::Instance();
+  QuantityStore* qStore         = QuantityStore::Instance();
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
 
   // Get the parameters
-  std::vector<G4double> moduleMedFTDim = config->ModuleMedFTDim();        
+  std::vector<G4double> moduleMedFTDim = qStore->kModuleMedFTDim;        
   G4double innerR = moduleMedFTDim[0];
   G4double outerR = moduleMedFTDim[1];
   G4double height = moduleMedFTDim[2];
-  G4double moduleTopWallThickness      = config->ModuleTopWallThickness(); 
+  G4double moduleTopWallThickness      = qStore->kModuleTopWallThickness; 
   G4Box* solActiveMod = (G4Box*)lvStore->GetVolume("volActiveModule")->GetSolid();
 
   // Top wall 
@@ -94,13 +94,13 @@ void CryostatFT::ConstructSubVolumes()
                                          matMan->FindMaterial("Air"),
                                          "volTopContainer");
 
-  fHeight = 2*solTopContainer->GetZHalfLength();
+  qStore->kCryoFTHeight = 2*solTopContainer->GetZHalfLength();
 }
 
 void CryostatFT::PlaceSubVolumes()
 {
   G4LogicalVolumeStore* lvStore = G4LogicalVolumeStore::GetInstance();
-  Configuration* config = Configuration::Instance();
+  QuantityStore* qStore = QuantityStore::Instance();
   arcutil::Utilities util;
 
   //*******************
@@ -130,18 +130,17 @@ void CryostatFT::PlaceSubVolumes()
   std::vector<G4double> steps = util.Stack(geomsDim, zLen);
   std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
-  std::vector<G4int>             copyIDs;
 
   positions.resize(steps.size());
   rotations.resize(steps.size(), 0);
-  copyIDs.resize(steps.size(), 0);
+
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,0,steps[s]); 
-  util.Place(geoms, positions, rotations, copyIDs, fVolModuleFlange);
-  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); copyIDs.clear(); steps.clear();
+  util.Place(geoms, positions, rotations, fVolModuleFlange);
+  geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
   
   //******************
   // Place module flanges in larger container
-  G4double modInsideGap = config->ModuleClearance();
+  G4double modInsideGap = qStore->kModuleClearance;
 
   G4double boundZ = -1*((G4Box*)fVolTopContainer->GetSolid())->GetYHalfLength();
   G4double boundX = -1*((G4Box*)fVolTopContainer->GetSolid())->GetXHalfLength();

@@ -21,7 +21,6 @@ class CryostatFT
     void ConstructVolume();
 
     G4LogicalVolume* GetLV() { return fVolTopContainer; };
-    G4double         GetHeight() { return fHeight; }
 
   private: 
     void ConstructSubVolumes();
@@ -34,8 +33,6 @@ class CryostatFT
     G4LogicalVolume* fVolModuleSmallFT;
     G4LogicalVolume* fVolModuleFlange;
     G4LogicalVolume* fVolTopFlange;
-
-    G4double fHeight;
 
 };
 }

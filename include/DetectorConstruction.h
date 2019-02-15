@@ -32,6 +32,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
  
     G4LogicalVolume*   fVolWorld;
     G4VPhysicalVolume* fPVWorld; 
+    G4LogicalVolume*   fVolDetEnclosure;
+
     Module*            fModule;
     Detector*          fDetector;
     Cryostat*          fCryostat;

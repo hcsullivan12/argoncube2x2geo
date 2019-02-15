@@ -7,7 +7,7 @@
 //
 
 #include "PrimaryGeneratorAction.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 
 #include "G4PrimaryVertex.hh"
 #include "G4SystemOfUnits.hh"

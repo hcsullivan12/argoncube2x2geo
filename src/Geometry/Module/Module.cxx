@@ -5,7 +5,7 @@
 //
 
 #include "Geometry/Module/Module.h"
-#include "Configuration.h"
+#include "QuantityStore.h"
 #include "MaterialManager.h"
 #include "Utilities.h"
 
@@ -40,6 +40,7 @@ void Module::ConstructVolume()
 void Module::ConstructSubVolumes()
 {
   MaterialManager* matMan = MaterialManager::Instance(); 
+  QuantityStore*   qStore = QuantityStore::Instance();
 
   fModuleActive = new ModuleActive();
   fModuleActive->ConstructVolume();
@@ -54,6 +55,8 @@ void Module::ConstructSubVolumes()
   G4Box* solModBottom = (G4Box*)fModuleBottom->GetLV()->GetSolid(); 
   G4Box* solModTop    = (G4Box*)fModuleTop->GetLV()->GetSolid(); 
 
+  std::cout << "  " << 2*solModActive->GetXHalfLength()/cm << std::endl;
+
   // Add extra G10 layers
   G4Box* solModuleMiddleFrame_whole = new G4Box("solModuleMiddleFrame_whole",
                                                  solModActive->GetXHalfLength(),
@@ -63,7 +66,7 @@ void Module::ConstructSubVolumes()
                                                     solModActive->GetXHalfLength() - 5.0*cm,
                                                     2*(30/2.)*mm,
                                                     solModActive->GetZHalfLength() - 5.0*cm);
-  fModuleMiddleFrameYHalfL = solModuleMiddleFrame_whole->GetYHalfLength();                                                   
+  qStore->kModuleMiddleFrameYHalfL = solModuleMiddleFrame_whole->GetYHalfLength();                                                   
   G4SubtractionSolid* solModuleMiddleFrame = new G4SubtractionSolid("solModuleMiddleFrame",
                                                                      solModuleMiddleFrame_whole,
                                                                      solModuleMiddleFrame_subtract,
@@ -85,8 +88,8 @@ void Module::ConstructSubVolumes()
   G4double yLen =   solModBottom->GetYHalfLength()
                   + solModuleBottomWall->GetYHalfLength()
                   + solModActive->GetYHalfLength()
-                  + fModuleMiddleFrameYHalfL
-                  + fModuleTop->GetYDim();
+                  + qStore->kModuleMiddleFrameYHalfL
+                  + qStore->kTopModuleYHalfL;
   
   G4Box* solModule = new G4Box("solModule",
                                 solModActive->GetXHalfLength(),
@@ -101,6 +104,7 @@ void Module::PlaceSubVolumes()
 {
   arcutil::Utilities util;
   MaterialManager* matMan = MaterialManager::Instance(); 
+  QuantityStore*   qStore = QuantityStore::Instance();
 
   // Complete Module 
   std::vector<G4LogicalVolume*> geoms = { fModuleBottom->GetLV(),
@@ -112,8 +116,8 @@ void Module::PlaceSubVolumes()
   std::vector<G4double> geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetYHalfLength(),
                                      ((G4Box*)geoms[1]->GetSolid())->GetYHalfLength(),
                                      ((G4Box*)geoms[2]->GetSolid())->GetYHalfLength(),
-                                     fModuleMiddleFrameYHalfL,
-                                     fModuleTop->GetYDim() };                                    
+                                     qStore->kModuleMiddleFrameYHalfL,
+                                     qStore->kTopModuleYHalfL };                                                                         
 
   std::vector<G4double> moduleDim = {((G4Box*)fVolModule->GetSolid())->GetXHalfLength(),
                                      ((G4Box*)fVolModule->GetSolid())->GetYHalfLength(),
@@ -123,12 +127,11 @@ void Module::PlaceSubVolumes()
 
   std::vector<G4ThreeVector>     positions;
   std::vector<G4RotationMatrix*> rotations;
-  std::vector<G4int>             copyIDs;
 
   positions.resize(steps.size());
   rotations.resize(steps.size(), 0);
-  copyIDs.resize(steps.size(), 0);
+
   for (unsigned s = 0; s < steps.size(); s++) positions[s] = G4ThreeVector(0,steps[s],0); 
-  util.Place(geoms, positions, rotations, copyIDs, fVolModule);
+  util.Place(geoms, positions, rotations, fVolModule);
 }
 }
