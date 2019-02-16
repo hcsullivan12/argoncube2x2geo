@@ -41,14 +41,11 @@ G4LogicalVolume* PixelPlane::ConstructVolume(const std::string&   name,
   // Pad 
   // Set the via length to the plane thickness
   //pixelRMax = 2*cm < pixelSpacing/2.0 ? pixelRMax : pixelSpacing/4.0;
-  G4Tubs* solPixelPad = new G4Tubs("solPixelPad",
+  G4Tubs* solTPCPixel = new G4Tubs("solTPCPixel",
                                     0,
                                     pixelRMax,
                                     halfThickness,
-                                    0*deg, 360*deg);
-  G4LogicalVolume* volPixelPad = new G4LogicalVolume(solPixelPad,
-                                                     matMan->FindMaterial("Copper"),
-                                                     "volPixelPad");                                    
+                                    0*deg, 360*deg);                                    
 
   // Placement
   // Reference point is center of plane
@@ -57,7 +54,7 @@ G4LogicalVolume* PixelPlane::ConstructVolume(const std::string&   name,
   // First compute boundaries (perhaps there is a better way, but this will work for now)
   G4double thisX = pixelSpacing/2.;
   G4double thisY = pixelSpacing/2.;
-  G4double startZ = 0; //solPixelPlane->GetZHalfLength() - solPixelPad->GetZHalfLength();
+  G4double startZ = 0; //solPixelPlane->GetZHalfLength() - solTPCPixel->GetZHalfLength();
   
   while ((thisX+pixelRMax) < xHalfL) thisX = thisX+pixelSpacing;
   while ((thisY+pixelRMax) < yHalfL) thisY = thisY+pixelSpacing;
@@ -73,7 +70,11 @@ G4LogicalVolume* PixelPlane::ConstructVolume(const std::string&   name,
   {
     while (pos.getX() < (xHalfL-pixelRMax))
     {
-      new G4PVPlacement(0, pos, volPixelPad, volPixelPad->GetName()+std::to_string(pixelID), volPixelPlane, false, pixelID-1);
+      // Instead of using copyIDs, create a unique LV
+      G4LogicalVolume* volTPCPixel = new G4LogicalVolume(solTPCPixel,
+                                                         matMan->FindMaterial("Copper"),
+                                                         "volTPCPixel"+std::to_string(pixelID));
+      new G4PVPlacement(0, pos, volTPCPixel, volTPCPixel->GetName(), volPixelPlane, false, 0);
       pixelID++;
 
       // next position

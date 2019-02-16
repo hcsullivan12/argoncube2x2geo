@@ -28,14 +28,14 @@ class ModuleActive
 
     // solids
     G4LogicalVolume* fVolTPCActive;
-    G4LogicalVolume* fVolLightUSPlane;
-    G4LogicalVolume* fVolLightDSPlane;
+    G4LogicalVolume* fVolOpDetSensitiveUS;
+    G4LogicalVolume* fVolOpDetSensitiveDS;
     G4LogicalVolume* fVolActiveLight;
     G4LogicalVolume* fVolFieldShell;
     G4LogicalVolume* fVolSubModule;
     //G4LogicalVolume* fVolLeftSubModule;
     G4LogicalVolume* fVolCathode;
-    G4LogicalVolume* fVolPixelPlane;
+    G4LogicalVolume* fVolTPCPlane;
     //G4LogicalVolume* fVolRightPixelPlane;
     G4LogicalVolume* fVolTPCR;
     G4LogicalVolume* fVolTPCL;

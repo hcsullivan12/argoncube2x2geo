@@ -58,26 +58,21 @@ void ModuleActive::ConstructSubVolumes()
                                       matMan->FindMaterial("LAr"),
                                       "volTPCActive"); 
   // Light US plane
-  G4Box* solLightUSPlane = new G4Box("solLightUSPlane", 
-                                     solTPCActive->GetXHalfLength(),
-                                     solTPCActive->GetYHalfLength(), 
-                                     (lightDetDim[2]/2.));
-  fVolLightUSPlane = new G4LogicalVolume(solLightUSPlane, 
-                                         matMan->FindMaterial("PVT"),
-                                         "volLightUSPlane"); 
-  // Light DS plane
-  G4Box* solLightDSPlane = new G4Box("solLightDSPlane", 
-                                     solTPCActive->GetXHalfLength(), 
-                                     solTPCActive->GetYHalfLength(), 
-                                     (lightDetDim[2]/2.));
-  fVolLightDSPlane = new G4LogicalVolume(solLightDSPlane, 
-                                         matMan->FindMaterial("PVT"),
-                                         "volLightDSPlane"); 
+  G4Box* solOpDetSensitive = new G4Box("solOpDetSensitive", 
+                                        solTPCActive->GetXHalfLength(),
+                                        solTPCActive->GetYHalfLength(), 
+                                        (lightDetDim[2]/2.));
+  fVolOpDetSensitiveUS = new G4LogicalVolume(solOpDetSensitive, 
+                                             matMan->FindMaterial("PVT"),
+                                             "volOpDetSensitiveUS"); 
+  fVolOpDetSensitiveDS = new G4LogicalVolume(solOpDetSensitive, 
+                                             matMan->FindMaterial("PVT"),
+                                             "volOpDetSensitiveDS"); 
   // Active light
   G4Box* solActiveLight = new G4Box("solActiveLight", 
                                     solTPCActive->GetXHalfLength(),
                                     solTPCActive->GetYHalfLength(),
-                                    2*solLightDSPlane->GetZHalfLength()+solTPCActive->GetZHalfLength());
+                                    2*solOpDetSensitive->GetZHalfLength()+solTPCActive->GetZHalfLength());
   fVolActiveLight = new G4LogicalVolume(solActiveLight, 
                                         matMan->FindMaterial("LAr"),
                                         "volActiveLight"); 
@@ -117,12 +112,12 @@ void ModuleActive::ConstructSubVolumes()
                                     "volCathode"); 
   // Pixel plane
   PixelPlane pp;
-  fVolPixelPlane = pp.ConstructVolume("PixelPlane",
-                                       solSubModule->GetYHalfLength(),
-                                       solSubModule->GetZHalfLength(),
-                                       pixelPlaneThickness/2.,
-                                       pixelSpacing,
-                                       pixelRMax);
+  fVolTPCPlane = pp.ConstructVolume("TPCPlane1",
+                                    solSubModule->GetYHalfLength(),
+                                    solSubModule->GetZHalfLength(),
+                                    pixelPlaneThickness/2.,
+                                    pixelSpacing,
+                                    pixelRMax);
 
   // TPCs
   G4Box* solTPC = new G4Box("solTPC",
@@ -184,9 +179,9 @@ void ModuleActive::PlaceSubVolumes()
 
   //****************************************
   // LAr active and light planes in active light
-  geoms    = { fVolLightUSPlane, 
+  geoms    = { fVolOpDetSensitiveUS, 
                fVolTPCActive, 
-               fVolLightDSPlane };
+               fVolOpDetSensitiveDS };
   geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), 
                ((G4Box*)geoms[1]->GetSolid())->GetZHalfLength(), 
                ((G4Box*)geoms[2]->GetSolid())->GetZHalfLength() };
@@ -215,7 +210,7 @@ void ModuleActive::PlaceSubVolumes()
 
   //***********************************************
   // Sub module and pixel plane in tpc
-  geoms    = { fVolPixelPlane,
+  geoms    = { fVolTPCPlane,
                fVolSubModule };
   geomsDim = { ((G4Box*)geoms[0]->GetSolid())->GetZHalfLength(), // planes are built with normal in z direction
                ((G4Box*)geoms[1]->GetSolid())->GetXHalfLength() }; 
