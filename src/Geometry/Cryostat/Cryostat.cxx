@@ -95,8 +95,8 @@ void Cryostat::ConstructSubVolumes(Detector* detector)
   
   // It's easier to put cryostat feedthroughs here
   Feedthrough ft;
-  fVolCryoMedFt = ft.ConstructVolume("CryoMedFT", innerR, outerR, height, "Steel"); 
-  fVolCryoLgFt  = ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "Steel");
+  fVolCryoMedFT = ft.ConstructVolume("CryoMedFT", innerR, outerR, height, "Steel"); 
+  fVolCryoLgFT  = ft.ConstructVolume("CryoLgFT", innerR+2*cm, outerR+2*cm, height, "Steel");
   fCryoFTHeight = height;
 
   // Get the module fasteners 
@@ -139,23 +139,23 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volDetEnclosure)
                                -1*motherHDim + geomsDim[4] };
 
   // Place flange
-  new G4PVPlacement(0, G4ThreeVector(0,0,shift[0]), volCryoFT, volCryoFT->GetName(),                           fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(0,0,shift[1]), fVolCryostatFlange, fVolCryostatFlange->GetName(),         fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(0,0,shift[2]), fVolCryostatFlangeWrap, fVolCryostatFlangeWrap->GetName(), fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shift[0]), volCryoFT,              volCryoFT->GetName()+"pv",              fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shift[1]), fVolCryostatFlange,     fVolCryostatFlange->GetName()+"pv",     fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shift[2]), fVolCryostatFlangeWrap, fVolCryostatFlangeWrap->GetName()+"_pv", fVolCryostat, false, 0);
   // Place body
-  new G4PVPlacement(0, G4ThreeVector(0,0,shift[3]), fCryostatBody->GetLV(), fCryostatBody->GetLV()->GetName(), fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,shift[3]), fCryostatBody->GetLV(), fCryostatBody->GetLV()->GetName()+"pv", fVolCryostat, false, 0);
   // Place cryo FTs 
   G4double x = 1*m;
   G4double y = 15*cm;
   G4double z = shift[1]+geomsDim[1]+fCryoFTHeight/2.;
-  new G4PVPlacement(0, G4ThreeVector(   x,   y,z), fVolCryoMedFt, fVolCryoMedFt->GetName(), fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(   x,-1*y,z), fVolCryoLgFt, fVolCryoMedFt->GetName(),  fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-1*x,-1*y,z), fVolCryoMedFt, fVolCryoMedFt->GetName(), fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-1*x,   y,z), fVolCryoLgFt, fVolCryoMedFt->GetName(),  fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(   y,-1*x,z), fVolCryoMedFt, fVolCryoMedFt->GetName(), fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-1*y,-1*x,z), fVolCryoLgFt, fVolCryoMedFt->GetName(),  fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-1*y,   x,z), fVolCryoMedFt, fVolCryoMedFt->GetName(), fVolCryostat, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(   y,   x,z), fVolCryoLgFt, fVolCryoMedFt->GetName(),  fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   x,   y,z), fVolCryoMedFT, fVolCryoMedFT->GetName()+"1_pv", fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   x,-1*y,z), fVolCryoLgFT,  fVolCryoLgFT->GetName()+"1_pv",  fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*x,-1*y,z), fVolCryoMedFT, fVolCryoMedFT->GetName()+"2_pv", fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*x,   y,z), fVolCryoLgFT,  fVolCryoLgFT->GetName()+"2_pv",  fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   y,-1*x,z), fVolCryoMedFT, fVolCryoMedFT->GetName()+"3_pv", fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*y,-1*x,z), fVolCryoLgFT,  fVolCryoLgFT->GetName()+"3_pv",  fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-1*y,   x,z), fVolCryoMedFT, fVolCryoMedFT->GetName()+"4_pv", fVolCryostat, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(   y,   x,z), fVolCryoLgFT,  fVolCryoLgFT->GetName()+"4_pv",  fVolCryostat, false, 0);
 
   // Place module fasteners
   //new G4PVPlacement(0, G4ThreeVector(0,70*cm,z), fVolModFastener, fVolModFastener->GetName(),  fVolCryostat, false, 0);
@@ -173,7 +173,7 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volDetEnclosure)
 
     G4ThreeVector pos(x,y,shift[4]);
     // Instead of using copyID, add ID to name
-    new G4PVPlacement(0, pos, fCryostatLeg->GetLV(), fCryostatLeg->GetLV()->GetName()+std::to_string(l), fVolCryostat, false, 0);
+    new G4PVPlacement(0, pos, fCryostatLeg->GetLV(), fCryostatLeg->GetLV()->GetName()+std::to_string(l)+"_pv", fVolCryostat, false, 0);
   }
 
   // Place in detector enclosure
@@ -191,8 +191,8 @@ void Cryostat::PlaceSubVolumes(G4LogicalVolume* volDetEnclosure)
   G4ThreeVector detShift(0,0,solDetector->GetZHalfLength());
   G4RotationMatrix* xRot2 = new G4RotationMatrix;
   xRot2->rotateX(pi/2);
-  new G4PVPlacement(xRot2, detShift, fVolCryostat, fVolCryostat->GetName(), volDetEnclosure, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(), volDetEnclosure, volDetEnclosure->GetName(), volWorld, false, 0);
+  new G4PVPlacement(xRot2, detShift, fVolCryostat, fVolCryostat->GetName()+"_pv", volDetEnclosure, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(), volDetEnclosure, volDetEnclosure->GetName()+"_pv", volWorld, false, 0);
 }
 
 }

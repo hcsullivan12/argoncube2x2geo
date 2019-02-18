@@ -77,16 +77,16 @@ void ModuleBottom::ConstructSubVolumes()
 	                                            "volModuleLegContainer");
 
   G4ThreeVector pos(legPosition[0], 0, legPosition[2]);
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 0);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"1_pv", fVolModuleLegContainer, false, 0);
 
   pos = {-1*legPosition[0], 0, legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 1);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"2_pv", fVolModuleLegContainer, false, 0);
 
   pos = {-1*legPosition[0], 0, -1*legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 2);
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"3_pv", fVolModuleLegContainer, false, 0);
 
   pos = {legPosition[0], 0, -1*legPosition[2]};
-  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName(), fVolModuleLegContainer, false, 3);                                      
+  new G4PVPlacement(0, pos, fVolModuleLeg, fVolModuleLeg->GetName()+"4_pv", fVolModuleLegContainer, false, 0);                                      
 
   // Dummy flange
   G4Box* solBottomDummyFlange = new G4Box("solBottomDummyFlange", 

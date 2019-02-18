@@ -39,8 +39,8 @@ class Cryostat
     G4LogicalVolume* fVolCryostat;
     G4LogicalVolume* fVolCryostatFlangeWrap;
     G4LogicalVolume* fVolCryostatFlange;
-    G4LogicalVolume* fVolCryoMedFt;
-    G4LogicalVolume* fVolCryoLgFt;
+    G4LogicalVolume* fVolCryoMedFT;
+    G4LogicalVolume* fVolCryoLgFT;
     G4LogicalVolume* fVolModFastener;
 
     G4double fCryoFTHeight;

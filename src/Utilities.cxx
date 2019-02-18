@@ -34,7 +34,7 @@ void Utilities::Place(const std::vector<G4LogicalVolume*>&  geoms,
 
   for (unsigned g = 0; g < geoms.size(); g++)
   {
-    new G4PVPlacement(rotations[g], positions[g], geoms[g], geoms[g]->GetName(), motherLV, false, 0);
+    new G4PVPlacement(rotations[g], positions[g], geoms[g], geoms[g]->GetName()+"_pv", motherLV, false, 0);
   }
 }
 

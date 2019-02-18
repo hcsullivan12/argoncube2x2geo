@@ -233,13 +233,16 @@ void ModuleActive::PlaceSubVolumes()
   rot1->rotateY(pi/2);
   rotations[0] = rot1;
 
-  util.Place(geoms, positions, rotations, fVolTPCR);
+  new G4PVPlacement(rotations[0], positions[0], geoms[0], geoms[0]->GetName()+"R_pv", fVolTPCR, false, 0);
+  new G4PVPlacement(rotations[1], positions[1], geoms[1], geoms[1]->GetName()+"R_pv", fVolTPCR, false, 0);
+
   // We have to rotate the sub module to have light detectors in correct position
   G4RotationMatrix* rot2 = new G4RotationMatrix;
   rot2->rotateY(pi);
   rotations[1] = rot2;
 
-  util.Place(geoms, positions, rotations, fVolTPCL);
+  new G4PVPlacement(rotations[0], positions[0], geoms[0], geoms[0]->GetName()+"L_pv", fVolTPCL, false, 0);
+  new G4PVPlacement(rotations[1], positions[1], geoms[1], geoms[1]->GetName()+"L_pv", fVolTPCL, false, 0);
   geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();         
 
   //***********************************************
@@ -261,9 +264,9 @@ void ModuleActive::PlaceSubVolumes()
   // Rotate the other TPC
   rotations[2] = rot2;
 
-  new G4PVPlacement(rotations[0], positions[0], geoms[0], geoms[0]->GetName()+"1", fVolActiveContainer, false, 0);
-  new G4PVPlacement(rotations[1], positions[1], geoms[1], geoms[1]->GetName(),     fVolActiveContainer, false, 0);
-  new G4PVPlacement(rotations[2], positions[2], geoms[2], geoms[2]->GetName()+"2", fVolActiveContainer, false, 0);
+  new G4PVPlacement(rotations[0], positions[0], geoms[0], geoms[0]->GetName()+"1_pv", fVolActiveContainer, false, 0);
+  new G4PVPlacement(rotations[1], positions[1], geoms[1], geoms[1]->GetName()+"_pv",     fVolActiveContainer, false, 0);
+  new G4PVPlacement(rotations[2], positions[2], geoms[2], geoms[2]->GetName()+"2_pv", fVolActiveContainer, false, 0);
   geoms.clear(); geomsDim.clear(); positions.clear(); rotations.clear(); steps.clear();
 
   //**********************************************

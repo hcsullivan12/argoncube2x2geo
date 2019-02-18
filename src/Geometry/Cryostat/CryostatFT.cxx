@@ -112,12 +112,12 @@ void CryostatFT::PlaceSubVolumes()
   G4double x2 = x1 - 6*cm;
   G4double z2 = x1;
 
-  new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 0);
-  new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 1);
-  new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 2);
-  new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 3);
-  new G4PVPlacement(0, G4ThreeVector(0,-x1,0),  fVolModuleMedFT, fVolModuleMedFT->GetName(), fVolModuleFTContainer, false, 4);
-  new G4PVPlacement(0, G4ThreeVector(0,z2,0), fVolModuleSmallFT, fVolModuleSmallFT->GetName(), fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(x1,0,0),   fVolModuleMedFT, fVolModuleMedFT->GetName()+"1_pv", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-x1,0,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"2_pv", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(x2,z2,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"3_pv", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(-x2,z2,0), fVolModuleMedFT, fVolModuleMedFT->GetName()+"4_pv", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,-x1,0),  fVolModuleMedFT, fVolModuleMedFT->GetName()+"5_pv", fVolModuleFTContainer, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,z2,0), fVolModuleSmallFT, fVolModuleSmallFT->GetName()+"_pv", fVolModuleFTContainer, false, 0);
 
   //******************
   // Place top wall and FT container in Module flange
@@ -155,9 +155,9 @@ void CryostatFT::PlaceSubVolumes()
                G4ThreeVector(stepsX[1], stepsY[0], 0),
                G4ThreeVector(stepsX[1], stepsY[1], 0)};              
 
-  new G4PVPlacement(0, positions[0], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 0);
-  new G4PVPlacement(0, positions[1], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 1);
-  new G4PVPlacement(0, positions[2], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 2);
-  new G4PVPlacement(0, positions[3], fVolModuleFlange, fVolModuleFlange->GetName(), fVolTopContainer, false, 3);
+  new G4PVPlacement(0, positions[0], fVolModuleFlange, fVolModuleFlange->GetName()+"1_pv", fVolTopContainer, false, 0);
+  new G4PVPlacement(0, positions[1], fVolModuleFlange, fVolModuleFlange->GetName()+"2_pv", fVolTopContainer, false, 0);
+  new G4PVPlacement(0, positions[2], fVolModuleFlange, fVolModuleFlange->GetName()+"3_pv", fVolTopContainer, false, 0);
+  new G4PVPlacement(0, positions[3], fVolModuleFlange, fVolModuleFlange->GetName()+"4_pv", fVolTopContainer, false, 0);
 }
 }
